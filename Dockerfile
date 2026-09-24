@@ -40,12 +40,20 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Runtime libraries: deliberately the SAME set upstream's gui-base installs, so the
 # app's rendering behaves identically. Every entry below was taken from
 # northsea4/mdcx-docker gui-base/Dockerfile.gui-base.
-# fontconfig-config's post-install script runs `chown root:staff`, and the jlesage base
-# image has had the default `staff` group stripped — so the postinst fails with
-# "chown: invalid user: 'root:staff'", dpkg leaves fontconfig-config unconfigured, and the
-# whole apt transaction aborts (exit 100) taking libfontconfig1, fontconfig and
-# fonts-wqy-zenhei with it. Debian's staff group is GID 50; recreate it first.
-RUN groupadd -f -g 50 staff \
+# jlesage's base image keeps the user databases OUTSIDE the image:
+#     /etc/passwd -> /tmp/.passwd      /etc/group -> /tmp/.group
+# and those targets are only created when the container STARTS. So at build time no user or
+# group resolves at all, and fontconfig-config's post-install script — which runs
+# `chown root:staff` — fails with "chown: invalid user: 'root:staff'". Note the wording:
+# "invalid user", because it is *root* that cannot be resolved, not staff. dpkg then leaves
+# fontconfig-config unconfigured, which cascades to libfontconfig1, fontconfig and
+# fonts-wqy-zenhei, and the whole apt transaction aborts with exit code 100.
+#
+# Put real files in place for the duration of the install, then restore the symlinks so the
+# base image's runtime user management is unaffected.
+RUN rm -f /etc/passwd /etc/group \
+    && printf 'root:x:0:0:root:/root:/bin/bash\n' > /etc/passwd \
+    && printf 'root:x:0:\nstaff:x:50:\n' > /etc/group \
     && apt-get update -y && apt-get install -y --no-install-recommends \
       curl \
       ca-certificates \
@@ -83,7 +91,10 @@ RUN groupadd -f -g 50 staff \
       libxkbcommon0 \
       libxkbcommon-x11-0 \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && rm -f /etc/passwd /etc/group \
+    && ln -sf /tmp/.passwd /etc/passwd \
+    && ln -sf /tmp/.group /etc/group
 
 # Locale left exactly as upstream sets it. The interface language comes from the i18n
 # layer, NOT from the locale. Changing LC_ALL would shift date/number formatting through
