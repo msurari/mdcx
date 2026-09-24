@@ -112,10 +112,17 @@ ENV LC_ALL=zh_CN.UTF-8
 
 # uv, which also supplies the interpreter: pyproject requires >=3.13.4 (the code uses
 # os.path.ALLOW_MISSING and type-parameter defaults) and Ubuntu 24.04 only ships 3.12.
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh \
-    && mv /root/.local/bin/uv /usr/local/bin/uv \
-    && chmod 755 /usr/local/bin/uv \
-    && uv --version
+#
+# Take the binary from the official image instead of curl|sh. The installer finds its
+# target by resolving $HOME, and HOME is EMPTY in this base image — same root cause as the
+# apt failure: /etc/passwd is a dangling symlink, so the current user's home cannot be
+# looked up. It therefore printed "installing to //.local/bin" and the following mv failed
+# with "cannot stat '/root/.local/bin/uv'".
+#
+# HOME is set explicitly as well, because uv's cache path depends on it in later steps.
+ENV HOME=/root
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
+RUN uv --version
 ENV UV_PYTHON_INSTALL_DIR=/opt/python
 ENV UV_PROJECT_ENVIRONMENT=/opt/venv
 ENV UV_LINK_MODE=copy
