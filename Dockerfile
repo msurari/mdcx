@@ -69,6 +69,8 @@ RUN mkdir -p /config/log /config/var/tmp \
       libgl1 \
       libegl1 \
       libglu1-mesa \
+      fonts-dejavu-core \
+      fonts-liberation \
       fonts-wqy-zenhei \
       fonts-noto-color-emoji \
       libglib2.0-0 \

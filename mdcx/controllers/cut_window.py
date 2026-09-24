@@ -114,7 +114,7 @@ class CutWindow(QDialog):
                 color: {t["text"]};
                 background-color: rgba(76, 110, 255, 34);
                 border: 2px solid {t["accent"]};
-                font-size: 13px;
+                font-size: 12px;
                 font-weight: normal;
             }}
             QPushButton#pushButton_select_cutrange:hover {{
@@ -125,7 +125,7 @@ class CutWindow(QDialog):
         """)
         self.Ui.widget.setStyleSheet(f"""
             * {{
-                font-family: Consolas, 'PingFang SC', 'Microsoft YaHei UI', 'Noto Color Emoji', 'Segoe UI Emoji';
+                font-family: 'DejaVu Sans', 'Liberation Sans', 'WenQuanYi Zen Hei', 'Noto Color Emoji';
                 color: {t["text"]};
             }}
             QWidget{{
@@ -133,7 +133,7 @@ class CutWindow(QDialog):
             }}
             QPushButton{{
                 color:{t["text"]};
-                font-size:14px;
+                font-size:13px;
                 background-color:{t["surface"]};
                 border: 1px solid {t["border"]};
                 border-radius:20px;
@@ -151,7 +151,7 @@ class CutWindow(QDialog):
             }}
             QPushButton#pushButton_cut_close{{
                 color: white;
-                font-size:14px;
+                font-size:13px;
                 background-color:{t["accent"]};
                 border-radius:25px;
                 padding: 2px, 2px;

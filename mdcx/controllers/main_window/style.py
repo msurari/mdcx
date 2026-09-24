@@ -268,7 +268,7 @@ def set_style(self: "MyMAinWindow"):
             border-bottom-left-radius: {self.window_radius}px;
         }}
         QPushButton#pushButton_main,#pushButton_log,#pushButton_tool,#pushButton_setting,#pushButton_net,#pushButton_about{{
-            font-size: 14px;
+            font-size: 13px;
             color: black;
             border-width: 9px;
             border-color: gray;
@@ -278,7 +278,7 @@ def set_style(self: "MyMAinWindow"):
             padding-left: 20px;
         }}
         QLabel#label_show_version{{
-            font-size: 13px;
+            font-size: 12px;
             color: rgba(20, 20, 20, 250);
             border: 0px solid rgba(255, 255, 255, 80);
         }}
@@ -286,13 +286,13 @@ def set_style(self: "MyMAinWindow"):
     # 主界面
     self.Ui.page_main.setStyleSheet("""
         QLabel#label_number1,#label_actor1,#label_title1,#label_poster1,#label_number,#label_actor,#label_title,#label_poster1{
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             background-color: rgba(246, 246, 246, 0);
             border: 0px solid rgba(0, 0, 0, 80);
         }
         QLabel#label_file_path{
-            font-size: 16px;
+            font-size: 15px;
             color: black;
             background-color: rgba(246, 246, 246, 0);
             font-weight: bold;
@@ -311,7 +311,7 @@ def set_style(self: "MyMAinWindow"):
     # 工具页
     self.Ui.page_tool.setStyleSheet("""
         * {
-            font-size: 13px;
+            font-size: 12px;
         }
         QScrollArea{
             background-color: rgba(246, 246, 246, 0);
@@ -323,17 +323,17 @@ def set_style(self: "MyMAinWindow"):
         }
 
         QLabel{
-            font-size:13px;
+            font-size:12px;
             border: 0px solid rgba(0, 0, 0, 80);
         }
         QLineEdit{
-            font-size:13px;
+            font-size:12px;
             border:0px solid rgba(130, 30, 30, 20);
             border-radius: 15px;
         }
         QComboBox{
             combobox-popup: 0;
-            font-size: 13px;
+            font-size: 12px;
             color: black;
         }
         QGroupBox{
@@ -344,11 +344,11 @@ def set_style(self: "MyMAinWindow"):
     # 使用帮助页
     self.Ui.page_about.setStyleSheet("""
         * {
-            font-size: 13px;
+            font-size: 12px;
         }
         QTextBrowser{
-            font-family: Consolas, 'PingFang SC', 'Microsoft YaHei UI', 'Noto Color Emoji', 'Segoe UI Emoji';
-            font-size: 13px;
+            font-family: 'DejaVu Sans Mono', 'Liberation Mono', 'WenQuanYi Zen Hei Mono', 'Noto Color Emoji';
+            font-size: 12px;
             border: 0px solid #BEBEBE;
             background-color: rgba(246,246,246,0);
             padding: 2px, 2px;
@@ -358,7 +358,7 @@ def set_style(self: "MyMAinWindow"):
     self.Ui.page_setting.setStyleSheet(
         _qss_resources("""
         * {
-            font-size:13px;
+            font-size:12px;
         }
         QScrollArea{
             background-color: rgba(246, 246, 246, 0);
@@ -392,29 +392,29 @@ def set_style(self: "MyMAinWindow"):
             border-color: rgba(246, 246, 246, 255);
         }
         QLabel{
-            font-size:13px;
+            font-size:12px;
             border:0px solid rgba(0, 0, 0, 80);
         }
         QLabel#label_config{
-            font-size:13px;
+            font-size:12px;
             border:0px solid rgba(230, 230, 230, 80);
             background: rgba(246, 246, 246, 220);
         }
 
         QLineEdit{
-            font-size:13px;
+            font-size:12px;
             border:0px solid rgba(130, 30, 30, 20);
             border-radius: 15px;
         }
         QRadioButton{
-            font-size:13px;
+            font-size:12px;
         }
         QComboBox{
             combobox-popup: 0;
-            font-size:13px;
+            font-size:12px;
         }
         QCheckBox{
-            font-size:13px;
+            font-size:12px;
         }
         QCheckBox::indicator, QRadioButton::indicator{
             width: 14px;
@@ -442,7 +442,7 @@ def set_style(self: "MyMAinWindow"):
             border: 1px solid #4C6EFF;
         }
         QPlainTextEdit{
-            font-size:13px;
+            font-size:12px;
         }
         QGroupBox{
             background-color: rgba(245,245,246,220);
@@ -454,14 +454,14 @@ def set_style(self: "MyMAinWindow"):
     self.Ui.centralwidget.setStyleSheet(
         _qss_resources(f"""
         * {{
-            font-family: Consolas, 'PingFang SC', 'Microsoft YaHei UI', 'Noto Color Emoji', 'Segoe UI Emoji';
-            font-size:13px;
+            font-family: 'DejaVu Sans', 'Liberation Sans', 'WenQuanYi Zen Hei', 'Noto Color Emoji';
+            font-size:12px;
             color: black;
         }}
         QTreeWidget
         {{
             background-color: rgba(246, 246, 246, 0);
-            font-size: 12px;
+            font-size: 11px;
             border:0px solid rgb(120,120,120);
         }}
         QWidget#centralwidget{{
@@ -470,27 +470,27 @@ def set_style(self: "MyMAinWindow"):
             border-radius: {self.window_radius}px;
        }}
         QTextBrowser#textBrowser_log_main,#textBrowser_net_main{{
-            font-size:13px;
+            font-size:12px;
             border: 0px solid #BEBEBE;
             background-color: rgba(246,246,246,0);
             padding: 2px, 2px;
         }}
         QTextBrowser#textBrowser_log_main_2{{
-            font-size:13px;
+            font-size:12px;
             border-radius: 0px;
             border-top: 1px solid #BEBEBE;
             background-color: rgba(238,245,245,60);
             padding: 2px, 2px;
         }}
         QTextBrowser#textBrowser_log_main_3{{
-            font-size:13px;
+            font-size:12px;
             border-radius: 0px;
             border-right: 1px solid #EDEDED;
             background-color: rgba(239,255,252,240);
             padding: 2px, 2px;
         }}
         QTextBrowser#textBrowser_show_success_list,#textBrowser_show_tips{{
-            font-size: 13px;
+            font-size: 12px;
             background-color: rgba(240, 245, 240, 240);
             border: 1px solid #BEBEBE;
             padding: 2px;
@@ -505,7 +505,7 @@ def set_style(self: "MyMAinWindow"):
             border: 0px solid rgba(0,0,0,150);
         }}
         QLineEdit, QPlainTextEdit, QTextEdit, QDoubleSpinBox, QSpinBox{{
-            font-size:14px;
+            font-size:13px;
             background:white;
             border-radius:10px;
             border: 1px solid #D8DEE9;
@@ -517,7 +517,7 @@ def set_style(self: "MyMAinWindow"):
             background: #FFFFFF;
         }}
         QTextEdit#textEdit_nfo_outline,#textEdit_nfo_originalplot,#textEdit_nfo_tag{{
-            font-size:14px;
+            font-size:13px;
             background:white;
             border: 1px solid #D8DEE9;
             padding: 4px 8px;
@@ -627,7 +627,7 @@ def set_style(self: "MyMAinWindow"):
             border: 1px solid #3F5FE6;
         }}
         QPushButton#pushButton_save_new_config,#pushButton_init_config,#pushButton_success_list_close,#pushButton_success_list_save,#pushButton_success_list_clear,#pushButton_show_tips_close,#pushButton_nfo_close,#pushButton_nfo_save,#pushButton_show_pic_actor,#pushButton_add_actor_pic,#pushButton_add_actor_info,#pushButton_add_actor_pic_kodi,#pushButton_del_actor_folder,#pushButton_move_mp4,#pushButton_select_file,#pushButton_select_local_library,#pushButton_select_netdisk_path,#pushButton_select_localdisk_path,#pushButton_creat_symlink,#pushButton_find_missing_number,#pushButton_select_thumb,#pushButton_start_single_file,#pushButton_select_file_clear_info,#pushButton_add_sub_for_all_video,#pushButton_view_failed_list,#pushButton_select_media_folder,#pushButton_select_media_folder_setting_page,#pushButton_select_softlink_folder,#pushButton_select_sucess_folder,#pushButton_select_failed_folder,#pushButton_view_success_file,#pushButton_select_subtitle_folder,#pushButton_select_actor_photo_folder,#pushButton_select_actor_info_db,#pushButton_select_config_folder,#pushButton_add_all_extrafanart_copy,#pushButton_del_all_extrafanart_copy,#pushButton_add_all_extras,#pushButton_del_all_extras,#pushButton_add_all_theme_videos,#pushButton_del_all_theme_videos,#pushButton_check_and_clean_files,#pushButton_search_by_number,#pushButton_search_by_url{{
-            font-size:14px;
+            font-size:13px;
             background-color: rgba(220, 220,220, 255);
             border-color:black;
             border-width:8px;
@@ -647,7 +647,7 @@ def set_style(self: "MyMAinWindow"):
         }}
         QPushButton#pushButton_save_config{{
             color: white;
-            font-size:14px;
+            font-size:13px;
             background-color:#4C6EFF;
             border-radius:25px;
             padding: 2px, 2px;
@@ -665,7 +665,7 @@ def set_style(self: "MyMAinWindow"):
         }}
         QPushButton#pushButton_start_cap,#pushButton_start_cap2,#pushButton_check_net,#pushButton_scraper_failed_list{{
             color: white;
-            font-size:14px;
+            font-size:13px;
             background-color:#4C6EFF;
             border-radius:20px;
             padding: 2px, 2px;
@@ -731,7 +731,7 @@ def set_dark_style(self: "MyMAinWindow"):
             border-bottom-left-radius: {self.window_radius}px;
         }}
         QPushButton#pushButton_main,#pushButton_log,#pushButton_tool,#pushButton_setting,#pushButton_net,#pushButton_about{{
-            font-size: 14px;
+            font-size: 13px;
             color: white;
             border-width: 9px;
             border-color: gray;
@@ -741,7 +741,7 @@ def set_dark_style(self: "MyMAinWindow"):
             padding-left: 20px;
         }}
         QLabel#label_show_version{{
-            font-size: 13px;
+            font-size: 12px;
             color: rgba(210, 210, 210, 250);
             border: 0px solid rgba(255, 255, 255, 80);
         }}
@@ -749,13 +749,13 @@ def set_dark_style(self: "MyMAinWindow"):
     # 主界面
     self.Ui.page_main.setStyleSheet("""
         QLabel#label_number1,#label_actor1,#label_title1,#label_poster1,#label_number,#label_actor,#label_title,#label_poster1{
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             background-color: rgba(246, 246, 246, 0);
             border: 0px solid rgba(0, 0, 0, 80);
         }
         QLabel#label_file_path{
-            font-size: 16px;
+            font-size: 15px;
             color: white;
             background-color: rgba(246, 246, 246, 0);
             font-weight: bold;
@@ -774,7 +774,7 @@ def set_dark_style(self: "MyMAinWindow"):
     # 工具页
     self.Ui.page_tool.setStyleSheet("""
         * {
-            font-size: 13px;
+            font-size: 12px;
         }
         QScrollArea{
             background-color: rgba(246, 246, 246, 0);
@@ -786,7 +786,7 @@ def set_dark_style(self: "MyMAinWindow"):
         }
 
         QLabel{
-            font-size:13px;
+            font-size:12px;
             border: 0px solid rgba(0, 0, 0, 80);
         }
 
@@ -798,11 +798,11 @@ def set_dark_style(self: "MyMAinWindow"):
     # 使用帮助页
     self.Ui.page_about.setStyleSheet("""
         * {
-            font-size: 13px;
+            font-size: 12px;
         }
         QTextBrowser{
-            font-family: Consolas, 'PingFang SC', 'Microsoft YaHei UI', 'Noto Color Emoji', 'Segoe UI Emoji';
-            font-size: 13px;
+            font-family: 'DejaVu Sans Mono', 'Liberation Mono', 'WenQuanYi Zen Hei Mono', 'Noto Color Emoji';
+            font-size: 12px;
             border: 0px solid #BEBEBE;
             background-color: rgba(246,246,246,0);
             padding: 2px, 2px;
@@ -812,7 +812,7 @@ def set_dark_style(self: "MyMAinWindow"):
     self.Ui.page_setting.setStyleSheet(
         _qss_resources("""
         * {
-            font-size:13px;
+            font-size:12px;
         }
         QScrollArea{
             background-color: rgba(246, 246, 246, 0);
@@ -844,24 +844,24 @@ def set_dark_style(self: "MyMAinWindow"):
             border-color: rgba(246, 246, 246, 0);
         }
         QLabel{
-            font-size:13px;
+            font-size:12px;
             border:0px solid rgba(0, 0, 0, 80);
         }
         QLabel#label_config{
-            font-size:13px;
+            font-size:12px;
             border:0px solid rgba(0, 0, 0, 80);
             background: rgba(31,39,47,230);
         }
         QLineEdit{
-            font-size:13px;
+            font-size:12px;
             border:0px solid rgba(130, 30, 30, 20);
             border-radius: 15px;
         }
         QRadioButton{
-            font-size:13px;
+            font-size:12px;
         }
         QCheckBox{
-            font-size:13px;
+            font-size:12px;
         }
         QCheckBox::indicator, QRadioButton::indicator{
             width: 14px;
@@ -889,7 +889,7 @@ def set_dark_style(self: "MyMAinWindow"):
             border: 1px solid #8EA3FF;
         }
         QPlainTextEdit{
-            font-size:13px;
+            font-size:12px;
             background:#18222D;
             border-radius: 4px;
         }
@@ -923,14 +923,14 @@ def set_dark_style(self: "MyMAinWindow"):
     self.Ui.centralwidget.setStyleSheet(
         _qss_resources(f"""
         * {{
-            font-family: Consolas, 'PingFang SC', 'Microsoft YaHei UI', 'Noto Color Emoji', 'Segoe UI Emoji';
-            font-size:13px;
+            font-family: 'DejaVu Sans', 'Liberation Sans', 'WenQuanYi Zen Hei', 'Noto Color Emoji';
+            font-size:12px;
             color: white;
         }}
         QTreeWidget
         {{
             background-color: rgba(246, 246, 246, 0);
-            font-size: 12px;
+            font-size: 11px;
             border:0px solid rgb(120,120,120);
         }}
         QWidget#centralwidget{{
@@ -939,27 +939,27 @@ def set_dark_style(self: "MyMAinWindow"):
             border-radius: {self.window_radius}px;
        }}
         QTextBrowser#textBrowser_log_main,#textBrowser_net_main{{
-            font-size:13px;
+            font-size:12px;
             border: 0px solid #BEBEBE;
             background-color: rgba(246,246,246,0);
             padding: 2px, 2px;
         }}
         QTextBrowser#textBrowser_log_main_2{{
-            font-size:13px;
+            font-size:12px;
             border-radius: 0px;
             border-top: 1px solid #BEBEBE;
             background-color: #18222D;
             padding: 2px, 2px;
         }}
         QTextBrowser#textBrowser_log_main_3{{
-            font-size:13px;
+            font-size:12px;
             border-radius: 0px;
             border-right: 1px solid #20303F;
             background-color: #1F272F;
             padding: 2px, 2px;
         }}
         QTextBrowser#textBrowser_show_success_list,#textBrowser_show_tips{{
-            font-size: 13px;
+            font-size: 12px;
             border: 1px solid #BEBEBE;
             background-color: #18222D;
             padding: 2px;
@@ -974,7 +974,7 @@ def set_dark_style(self: "MyMAinWindow"):
             border: 0px solid rgba(0,0,0,150);
         }}
         QLineEdit, QPlainTextEdit, QTextEdit, QDoubleSpinBox, QSpinBox{{
-            font-size:13px;
+            font-size:12px;
             background:#18222D;
             border-radius:20px;
             border: 1px solid #2F3A46;
@@ -986,7 +986,7 @@ def set_dark_style(self: "MyMAinWindow"):
             background: #1D2834;
         }}
         QTextEdit#textEdit_nfo_outline,#textEdit_nfo_originalplot,#textEdit_nfo_tag{{
-            font-size:13px;
+            font-size:12px;
             background:#18222D;
             border: 1px solid #2F3A46;
             padding: 4px 8px;
@@ -1052,7 +1052,7 @@ def set_dark_style(self: "MyMAinWindow"):
             border: 1px solid #4C6EE0;
         }}
         QPushButton#pushButton_save_new_config,#pushButton_init_config,#pushButton_success_list_close,#pushButton_success_list_save,#pushButton_success_list_clear,#pushButton_show_tips_close,#pushButton_nfo_close,#pushButton_nfo_save,#pushButton_show_pic_actor,#pushButton_add_actor_pic,#pushButton_add_actor_info,#pushButton_add_actor_pic_kodi,#pushButton_del_actor_folder,#pushButton_move_mp4,#pushButton_select_file,#pushButton_select_local_library,#pushButton_select_netdisk_path,#pushButton_select_localdisk_path,#pushButton_creat_symlink,#pushButton_find_missing_number,#pushButton_select_thumb,#pushButton_start_single_file,#pushButton_select_file_clear_info,#pushButton_add_sub_for_all_video,#pushButton_view_failed_list,#pushButton_select_media_folder,#pushButton_select_media_folder_setting_page,#pushButton_select_softlink_folder,#pushButton_select_sucess_folder,#pushButton_select_failed_folder,#pushButton_view_success_file,#pushButton_select_subtitle_folder,#pushButton_select_actor_photo_folder,#pushButton_select_actor_info_db,#pushButton_select_config_folder,#pushButton_add_all_extrafanart_copy,#pushButton_del_all_extrafanart_copy,#pushButton_add_all_extras,#pushButton_del_all_extras,#pushButton_add_all_theme_videos,#pushButton_del_all_theme_videos,#pushButton_check_and_clean_files,#pushButton_search_by_number,#pushButton_search_by_url{{
-            font-size:14px;
+            font-size:13px;
             background-color: rgba(220, 220,220, 50);
             border-color:black;
             border-width:8px;
@@ -1072,7 +1072,7 @@ def set_dark_style(self: "MyMAinWindow"):
         }}
         QPushButton#pushButton_save_config{{
             color: white;
-            font-size:14px;
+            font-size:13px;
             background-color:#4C6EFF;
             border-radius:25px;
             padding: 2px, 2px;
@@ -1090,7 +1090,7 @@ def set_dark_style(self: "MyMAinWindow"):
         }}
         QPushButton#pushButton_start_cap,#pushButton_start_cap2,#pushButton_check_net,#pushButton_scraper_failed_list{{
             color: white;
-            font-size:14px;
+            font-size:13px;
             background-color:#4C6EFF;
             border-radius:20px;
             padding: 2px, 2px;
@@ -1134,7 +1134,7 @@ def set_dark_style(self: "MyMAinWindow"):
         }}
         QComboBox{{
             combobox-popup: 0;
-            font-size:13px;
+            font-size:12px;
             color: white;
             background:#18222D;
             border: 1px solid #2F3A46;
