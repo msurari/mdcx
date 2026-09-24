@@ -36,12 +36,37 @@ class NameRenderResult:
         return self.context.get(field)
 
 
+def _is_word_char(ch: str) -> bool:
+    """Latin letters and digits - the runs that must never be cut in half."""
+    return ch.isascii() and ch.isalnum()
+
+
+def _drop_partial_word(value: str, clipped: str, max_length: int) -> str:
+    """Remove a dangling fragment left by cutting inside a Latin/digit run.
+
+    Cutting "AVデビュー" after the "A" leaves a meaningless "A". If the
+    character just past the cut continues a word that the clip already
+    started, walk back to the start of that run and cut there instead.
+    Only applied when something meaningful survives.
+    """
+    if max_length >= len(value) or not clipped:
+        return clipped
+    if not _is_word_char(clipped[-1]) or not _is_word_char(value[max_length]):
+        return clipped
+    i = len(clipped)
+    while i > 0 and _is_word_char(clipped[i - 1]):
+        i -= 1
+    trimmed = clipped[:i].rstrip(" ,，、;；:：._+-")
+    return trimmed or clipped
+
+
 def _clip_text(value: str, max_length: int) -> str:
     if max_length <= 0:
         return ""
     if len(value) <= max_length:
         return value
-    return value[:max_length].rstrip(" ,，、;；:：._+-")
+    clipped = value[:max_length].rstrip(" ,，、;；:：._+-")
+    return _drop_partial_word(value, clipped, max_length)
 
 
 def _clip_list(value: str, max_length: int) -> str:
