@@ -40,7 +40,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Runtime libraries: deliberately the SAME set upstream's gui-base installs, so the
 # app's rendering behaves identically. Every entry below was taken from
 # northsea4/mdcx-docker gui-base/Dockerfile.gui-base.
-RUN apt-get update -y && apt-get install -y --no-install-recommends \
+# fontconfig-config's post-install script runs `chown root:staff`, and the jlesage base
+# image has had the default `staff` group stripped — so the postinst fails with
+# "chown: invalid user: 'root:staff'", dpkg leaves fontconfig-config unconfigured, and the
+# whole apt transaction aborts (exit 100) taking libfontconfig1, fontconfig and
+# fonts-wqy-zenhei with it. Debian's staff group is GID 50; recreate it first.
+RUN groupadd -f -g 50 staff \
+    && apt-get update -y && apt-get install -y --no-install-recommends \
       curl \
       ca-certificates \
       unrar \
