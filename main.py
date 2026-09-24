@@ -12,6 +12,7 @@ from mdcx.consts import IS_DOCKER, IS_MAC, IS_NFC, IS_PYINSTALLER, IS_WINDOWS, M
 from mdcx.controllers.main_window.main_window import MyMAinWindow
 from mdcx.i18n import install_translator
 from mdcx.i18n.tooltips import apply_tooltips
+from mdcx.controllers.main_window.responsive import make_window_scrollable
 from mdcx.controllers.main_window.style import apply_application_palette
 from mdcx.utils.video import VIDEO_BACKEND
 
@@ -54,6 +55,10 @@ ui = MyMAinWindow()
 # tools Zak had never used because the labels were Chinese. Applied after the
 # window exists; it only calls setToolTip, so nothing else is affected.
 apply_tooltips(ui)
+# Let the window be resized freely: the four pages whose content is absolutely
+# positioned get a scroll area, matching what page_tool and page_setting
+# already do. Without this, shrinking the window puts controls outside it.
+make_window_scrollable(ui)
 ui.show()
 app.installEventFilter(ui)
 # newWin2 = CutWindow()
