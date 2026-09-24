@@ -64,6 +64,7 @@ from mdcx.tools.emby_actor_image import update_emby_actor_photo
 from mdcx.tools.emby_actor_info import creat_kodi_actors, show_emby_actor_list, update_emby_actor_info
 from mdcx.tools.missing import check_missing_number
 from mdcx.tools.subtitle import add_sub_for_all_video
+from mdcx.i18n import tr
 from mdcx.utils import (
     add_html,
     add_html_plain_text,
@@ -552,7 +553,7 @@ class MyMAinWindow(QMainWindow):
         else:
             menu.addAction(QAction("请刮削后使用！", self))
             menu.addSeparator()
-            if self.Ui.pushButton_start_cap.text() != "开始":
+            if self.Ui.pushButton_start_cap.text() != tr("开始"):
                 menu.addAction(self.menu_stop)
             else:
                 menu.addAction(self.menu_start)
@@ -996,10 +997,10 @@ class MyMAinWindow(QMainWindow):
     # region 主界面
     # 开始刮削按钮
     def pushButton_start_scrape_clicked(self):
-        if self.Ui.pushButton_start_cap.text() == "开始":
+        if self.Ui.pushButton_start_cap.text() == tr("开始"):
             if not get_remain_list():
                 start_new_scrape(FileMode.Default)
-        elif self.Ui.pushButton_start_cap.text() == "■ 停止":
+        elif self.Ui.pushButton_start_cap.text() == tr("■ 停止"):
             self.pushButton_stop_scrape_clicked()
 
     # 停止确认弹窗
@@ -1007,20 +1008,20 @@ class MyMAinWindow(QMainWindow):
         if Switch.SHOW_DIALOG_STOP_SCRAPE in manager.config.switch_on:
             box = QMessageBox(QMessageBox.Icon.Warning, "停止刮削", "确定要停止刮削吗？")
             box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-            box.button(QMessageBox.StandardButton.Yes).setText("停止刮削")
+            box.button(QMessageBox.StandardButton.Yes).setText(tr("停止刮削"))
             box.button(QMessageBox.StandardButton.No).setText("取消")
             box.setDefaultButton(QMessageBox.StandardButton.No)
             reply = box.exec()
             if reply != QMessageBox.StandardButton.Yes:
                 return
-        if self.Ui.pushButton_start_cap.text() == "■ 停止":
+        if self.Ui.pushButton_start_cap.text() == tr("■ 停止"):
             Flags.stop_requested = True
             signal_qt.stop = True
             executor.run(save_success_list())
             Flags.rest_time_convert_ = Flags.rest_time_convert
             Flags.rest_time_convert = 0
-            self.Ui.pushButton_start_cap.setText(" ■ 停止中 ")
-            self.Ui.pushButton_start_cap2.setText(" ■ 停止中 ")
+            self.Ui.pushButton_start_cap.setText(tr(" ■ 停止中 "))
+            self.Ui.pushButton_start_cap2.setText(tr(" ■ 停止中 "))
             signal_qt.show_scrape_info("⛔️ 刮削停止中...")
             executor.cancel_async()  # 取消异步任务
             if not self.threads_list:
@@ -1849,7 +1850,7 @@ class MyMAinWindow(QMainWindow):
             if ok and text:
                 Flags.again_dic[file_path] = (text, "", "")
                 signal_qt.show_scrape_info(f"💡 已添加刮削！{get_current_time()}")
-                if self.Ui.pushButton_start_cap.text() == "开始":
+                if self.Ui.pushButton_start_cap.text() == tr("开始"):
                     again_search()
 
     def search_by_url_clicked(self):
@@ -1872,7 +1873,7 @@ class MyMAinWindow(QMainWindow):
                 if website:
                     Flags.again_dic[file_path] = ("", url, website)
                     signal_qt.show_scrape_info(f"💡 已添加刮削！{get_current_time()}")
-                    if self.Ui.pushButton_start_cap.text() == "开始":
+                    if self.Ui.pushButton_start_cap.text() == tr("开始"):
                         again_search()
                 else:
                     signal_qt.show_scrape_info(f"💡 不支持的网站！{get_current_time()}")
@@ -2264,7 +2265,7 @@ class MyMAinWindow(QMainWindow):
 
     # 日志页点一键刮削失败列表
     def pushButton_scraper_failed_list_clicked(self):
-        if len(Flags.failed_list) and self.Ui.pushButton_start_cap.text() == "开始":
+        if len(Flags.failed_list) and self.Ui.pushButton_start_cap.text() == tr("开始"):
             start_new_scrape(FileMode.Default, movie_list=[s[0] for s in Flags.failed_list])
             self.show_hide_failed_list(False)
 
@@ -2993,15 +2994,15 @@ class MyMAinWindow(QMainWindow):
         self.network_check_cancel_event = None
         self.network_check_future = None
         self.Ui.pushButton_check_net.setEnabled(True)
-        self.Ui.pushButton_check_net.setText("开始检测")
+        self.Ui.pushButton_check_net.setText(tr("开始检测"))
         self.Ui.pushButton_check_net.setStyleSheet(
             "QPushButton#pushButton_check_net{background-color:#4C6EFF}QPushButton:hover#pushButton_check_net{background-color: rgba(76,110,255,240)}QPushButton:pressed#pushButton_check_net{#4C6EE0}"
         )
 
     # 网络检查
     def pushButton_check_net_clicked(self):
-        if self.Ui.pushButton_check_net.text() == "开始检测":
-            self.Ui.pushButton_check_net.setText("停止检测")
+        if self.Ui.pushButton_check_net.text() == tr("开始检测"):
+            self.Ui.pushButton_check_net.setText(tr("停止检测"))
             self.Ui.pushButton_check_net.setStyleSheet(
                 "QPushButton#pushButton_check_net{color: white;background-color:#3758D8;}QPushButton:hover#pushButton_check_net{color: white;background-color:#4C6EFF;}QPushButton:pressed#pushButton_check_net{color: white;background-color:#2F49B8;}"
             )
@@ -3011,7 +3012,7 @@ class MyMAinWindow(QMainWindow):
             except Exception:
                 signal_qt.show_traceback_log(traceback.format_exc())
                 signal_qt.show_net_info(traceback.format_exc())
-        elif self.Ui.pushButton_check_net.text() == "停止检测":
+        elif self.Ui.pushButton_check_net.text() == tr("停止检测"):
             self.Ui.pushButton_check_net.setText(" 停止检测 ")
             self.Ui.pushButton_check_net.setText(" 停止检测 ")
             if self.network_check_cancel_event:
@@ -3020,7 +3021,7 @@ class MyMAinWindow(QMainWindow):
             self.Ui.pushButton_check_net.setStyleSheet(
                 "QPushButton#pushButton_check_net{color: white;background-color:#4C6EFF;}QPushButton:hover#pushButton_check_net{color: white;background-color: rgba(76,110,255,240)}QPushButton:pressed#pushButton_check_net{color: white;background-color:#4C6EE0}"
             )
-            self.Ui.pushButton_check_net.setText("开始检测")
+            self.Ui.pushButton_check_net.setText(tr("开始检测"))
         else:
             try:
                 if self.network_check_cancel_event:
@@ -3323,7 +3324,7 @@ class MyMAinWindow(QMainWindow):
 
     # region 自动刮削
     def auto_scrape(self):
-        if Switch.TIMED_SCRAPE in manager.config.switch_on and self.Ui.pushButton_start_cap.text() == "开始":
+        if Switch.TIMED_SCRAPE in manager.config.switch_on and self.Ui.pushButton_start_cap.text() == tr("开始"):
             time.sleep(0.1)
             timed_interval = manager.config.timed_interval
             self.atuo_scrape_count += 1

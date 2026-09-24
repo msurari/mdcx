@@ -16,6 +16,7 @@ from mdcx.signals import signal_qt
 
 from .site_priority_dialog import setup_site_priority_ui
 from .style import build_menu_style, build_tree_widget_style
+from mdcx.i18n import tr
 
 if TYPE_CHECKING:
     from .main_window import MyMAinWindow
@@ -361,7 +362,7 @@ def init_QTreeWidget(self: "MyMAinWindow"):
         signal_qt.show_traceback_log(traceback.format_exc())
     signal_qt.set_main_info()
     Flags.count_claw = 0  # 批量刮削次数
-    if self.Ui.pushButton_start_cap.text() != "开始":
+    if self.Ui.pushButton_start_cap.text() != tr("开始"):
         Flags.count_claw = 1  # 批量刮削次数
     else:
         self.label_result.emit(" 刮削中：0 成功：0 失败：0")
