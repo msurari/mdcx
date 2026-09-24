@@ -44,3 +44,21 @@ def test_migrated_template_reproduces_a_real_name():
     assert render_template(data["folder_name"], values) == "七ツ森りり/【七ツ森りり】(2020-08-19) SSNI-854"
     assert render_template(data["naming_file"], values) == "【SSNI-854】新人NO.1STYLE 芸能人 七ツ森りりAVデビュー"
     assert collect_template_fields(data["folder_name"]) == {"actor", "release", "number"}
+
+
+def test_v1_marker_flags_map_to_four_booleans():
+    """v1's show_4k/show_moword must drive the four v2 flags, not leave them at their defaults."""
+
+    data = {"show_4k": "folder,file,", "show_moword": "file,"}
+    migrate_config_data(data)
+    assert data["folder_hd"] is True
+    assert data["file_hd"] is True
+    assert data["folder_moword"] is False   # the one that would otherwise corrupt folder names
+    assert data["file_moword"] is True
+    assert "show_4k" not in data and "show_moword" not in data
+
+
+def test_marker_flags_absent_leaves_v2_defaults():
+    data = {}
+    migrate_config_data(data)
+    assert "folder_moword" not in data

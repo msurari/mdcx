@@ -164,6 +164,32 @@ def _bare_to_jinja(template: str) -> str:
     return "".join(parts)
 
 
+def _migrate_naming_marker_flags(data: dict[str, Any]) -> None:
+    """v1's show_4k / show_moword become four booleans in v2.
+
+    v1 stored each as a comma list naming the places the marker applies ("folder", "file").
+    v2 replaced them with ``folder_hd``/``file_hd`` and ``folder_moword``/``file_moword``, and
+    all four default to True — so without this mapping a v1 user who showed the version marker
+    in file names only would suddenly get it in folder names too.
+    """
+
+    for old, folder_new, file_new in (
+        ("show_4k", "folder_hd", "file_hd"),
+        ("show_moword", "folder_moword", "file_moword"),
+    ):
+        value = data.pop(old, None)
+        if value is None:
+            continue
+        if isinstance(value, str):
+            places = _str_to_list(value, ",")
+        elif isinstance(value, list | set | tuple):
+            places = [str(item).strip() for item in value]
+        else:
+            continue
+        data[folder_new] = "folder" in places
+        data[file_new] = "file" in places
+
+
 def migrate_config_data(data: dict[str, Any]) -> list[str]:
     """
     统一处理配置结构变更.
@@ -174,6 +200,7 @@ def migrate_config_data(data: dict[str, Any]) -> list[str]:
 
     data.pop("google_used", None)
     data.pop("google_exclude", None)
+    _migrate_naming_marker_flags(data)
     _migrate_builtin_naming_templates(data)
     _migrate_removed_hd_pic_sources(data)
 
