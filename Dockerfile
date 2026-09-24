@@ -13,8 +13,7 @@
 # requiring a re-freeze.
 #
 # Build:
-#   docker build -t mdcx-en:local \
-#     --build-arg GIT_REV=$(git rev-parse --short HEAD) .
+#   docker build -t mdcx-en:local --build-arg GIT_REV=$(git rev-parse --short HEAD) .
 #
 FROM jlesage/baseimage-gui:ubuntu-24.04-v4
 
