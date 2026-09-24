@@ -27,6 +27,16 @@ ENV ENABLE_CJK_FONT=1
 ENV DISPLAY_WIDTH=1200
 ENV DISPLAY_HEIGHT=750
 
+# fontconfig-config is configured through debconf, which is Perl. With no locale set, Perl
+# warns ("Setting locale failed") and debconf hits an uninitialised value, so dpkg fails to
+# configure fontconfig-config and the whole transaction aborts with "returned an error code
+# (1)" on fontconfig-config / libfontconfig1 / fontconfig / fonts-wqy-zenhei. C.UTF-8 is
+# built into glibc, so this needs no locale generation. DEBIAN_FRONTEND keeps debconf from
+# trying to prompt in a headless build.
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Runtime libraries: deliberately the SAME set upstream's gui-base installs, so the
 # app's rendering behaves identically. Every entry below was taken from
 # northsea4/mdcx-docker gui-base/Dockerfile.gui-base.
