@@ -11,6 +11,7 @@ from PyQt6.QtWidgets import QApplication
 from mdcx.consts import IS_DOCKER, IS_MAC, IS_NFC, IS_PYINSTALLER, IS_WINDOWS, MAIN_PATH
 from mdcx.controllers.main_window.main_window import MyMAinWindow
 from mdcx.i18n import install_translator
+from mdcx.i18n.tooltips import apply_tooltips
 from mdcx.controllers.main_window.style import apply_application_palette
 from mdcx.utils.video import VIDEO_BACKEND
 
@@ -49,6 +50,10 @@ if platform.system() != "Windows":
 # retranslateUi() picks it up. With no mapping for MDCX_LANG the app stays Chinese.
 install_translator(app)
 ui = MyMAinWindow()
+# Short hover descriptions so every function is discoverable, including the
+# tools Zak had never used because the labels were Chinese. Applied after the
+# window exists; it only calls setToolTip, so nothing else is affected.
+apply_tooltips(ui)
 ui.show()
 app.installEventFilter(ui)
 # newWin2 = CutWindow()
