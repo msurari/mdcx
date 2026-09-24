@@ -62,6 +62,7 @@ from .web import (
 
 if TYPE_CHECKING:
     from ..crawler import CrawlerProviderProtocol
+from mdcx.i18n import tr
 
 
 class StopScrape(Exception): ...
@@ -939,9 +940,9 @@ def get_remain_list() -> bool:
     box.setStandardButtons(
         QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel
     )
-    box.button(QMessageBox.StandardButton.Yes).setText("继续刮削剩余任务")
-    box.button(QMessageBox.StandardButton.No).setText("从头刮削")
-    box.button(QMessageBox.StandardButton.Cancel).setText("取消")
+    box.button(QMessageBox.StandardButton.Yes).setText(tr("继续刮削剩余任务"))
+    box.button(QMessageBox.StandardButton.No).setText(tr("从头刮削"))
+    box.button(QMessageBox.StandardButton.Cancel).setText(tr("取消"))
     box.setDefaultButton(QMessageBox.StandardButton.No)
     reply = box.exec()
     if reply == QMessageBox.StandardButton.Yes:
@@ -965,8 +966,8 @@ def get_remain_list() -> bool:
             "请确认成功输出目录和失败目录是否正确！如果配置不正确，继续刮削可能会导致文件被移动到新配置的输出位置！\n是否继续刮削？",
         )
         box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-        box.button(QMessageBox.StandardButton.Yes).setText("继续")
-        box.button(QMessageBox.StandardButton.No).setText("取消")
+        box.button(QMessageBox.StandardButton.Yes).setText(tr("继续"))
+        box.button(QMessageBox.StandardButton.No).setText(tr("取消"))
         box.setDefaultButton(QMessageBox.StandardButton.No)
         reply = box.exec()
         if reply == QMessageBox.StandardButton.No:

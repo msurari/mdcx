@@ -23,6 +23,7 @@ from ..models.log_buffer import LogBuffer
 from ..signals import signal
 from ..utils import executor, get_current_time, get_used_time
 from ..utils.file import copy_file_async, copy_file_sync, delete_file_async, delete_file_sync, move_file_async
+from mdcx.i18n import tr
 
 LARGE_LIST_SORT_THRESHOLD = 50000
 _large_list_warned: set[str] = set()
@@ -242,7 +243,7 @@ async def _clean_empty_fodlers(path: Path, file_mode: FileMode) -> None:
     start_time = time.time()
     if not manager.config.del_empty_folder or file_mode == FileMode.Again:
         return
-    signal.set_label_file_path.emit("🗑 正在清理空文件夹，请等待...")
+    signal.set_label_file_path.emit(tr("🗑 正在清理空文件夹，请等待..."))
     signal.show_log_text(" ⏳ Cleaning empty folders...")
 
     if NoEscape.FOLDER in manager.config.no_escape:
@@ -322,7 +323,7 @@ async def check_and_clean_files() -> None:
     signal.show_log_text("================================================================================")
     for movie_path in movie_paths:
         await _clean_empty_fodlers(movie_path, FileMode.Default)
-    signal.set_label_file_path.emit("🗑 清理完成！")
+    signal.set_label_file_path.emit(tr("🗑 清理完成！"))
     signal.show_log_text(
         f" 🎉🎉🎉 All finished!!!({get_used_time(start_time)}s) Total {total} , Success {succ} , Failed {fail} "
     )

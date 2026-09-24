@@ -31,6 +31,7 @@ from .style import build_scrollbar_style, get_theme_tokens
 
 if TYPE_CHECKING:
     from .main_window import MyMAinWindow
+from mdcx.i18n import tr
 
 
 @dataclass
@@ -264,9 +265,9 @@ def _style_dialog(dialog: QDialog, dark: bool = False) -> None:
 
 def _localize_dialog_buttons(buttons: QDialogButtonBox) -> None:
     if ok_button := buttons.button(QDialogButtonBox.StandardButton.Ok):
-        ok_button.setText("保存")
+        ok_button.setText(tr("保存"))
     if cancel_button := buttons.button(QDialogButtonBox.StandardButton.Cancel):
-        cancel_button.setText("取消")
+        cancel_button.setText(tr("取消"))
 
 
 class SitePaletteList(QListWidget):

@@ -272,7 +272,7 @@ class MyMAinWindow(QMainWindow):
     def _update_name_template_preview(self) -> None:
         template = self.Ui.plainTextEdit_name_template_preview.toPlainText()
         if not template.strip():
-            self.Ui.label_name_template_preview_result.setText("状态：等待输入模板")
+            self.Ui.label_name_template_preview_result.setText(tr("状态：等待输入模板"))
             return
         try:
             file_info, result = self._build_name_preview_sample()
@@ -343,7 +343,7 @@ class MyMAinWindow(QMainWindow):
         self.Ui.label_fc2ppvdb_cookie.setAlignment(
             Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTrailing | Qt.AlignmentFlag.AlignVCenter
         )
-        self.Ui.label_fc2ppvdb_cookie.setText("fc2ppvdb：\n（登录状态）")
+        self.Ui.label_fc2ppvdb_cookie.setText(tr("fc2ppvdb：\n（登录状态）"))
         self.Ui.label_fc2ppvdb_cookie.setObjectName("label_fc2ppvdb_cookie")
         self.Ui.gridLayout_10.addWidget(self.Ui.label_fc2ppvdb_cookie, 4, 0, 1, 1)
 
@@ -371,7 +371,7 @@ class MyMAinWindow(QMainWindow):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.Ui.pushButton_check_fc2ppvdb_cookie.sizePolicy().hasHeightForWidth())
         self.Ui.pushButton_check_fc2ppvdb_cookie.setSizePolicy(sizePolicy)
-        self.Ui.pushButton_check_fc2ppvdb_cookie.setText("检查cookie")
+        self.Ui.pushButton_check_fc2ppvdb_cookie.setText(tr("检查cookie"))
         self.Ui.pushButton_check_fc2ppvdb_cookie.setObjectName("pushButton_check_fc2ppvdb_cookie")
         self.Ui.horizontalLayout_fc2ppvdb_cookie.addWidget(self.Ui.pushButton_check_fc2ppvdb_cookie)
 
@@ -421,13 +421,13 @@ class MyMAinWindow(QMainWindow):
                     child_geo.height(),
                 )
 
-        self.Ui.label_60.setText("填写 DeepL API / DeepLX URL / 百度 API 凭据后，才会生效；未填写时会自动跳过。")
-        self.Ui.label_601.setText("填写 DeepL API / DeepLX URL / 百度 API 凭据后，才会生效；未填写时会自动跳过。")
+        self.Ui.label_60.setText(tr("填写 DeepL API / DeepLX URL / 百度 API 凭据后，才会生效；未填写时会自动跳过。"))
+        self.Ui.label_601.setText(tr("填写 DeepL API / DeepLX URL / 百度 API 凭据后，才会生效；未填写时会自动跳过。"))
 
         self.Ui.checkBox_baidu = QCheckBox(self.Ui.layoutWidget_2)
         self.Ui.checkBox_baidu.setMinimumSize(self.Ui.checkBox_google.minimumSize())
         self.Ui.checkBox_baidu.setObjectName("checkBox_baidu")
-        self.Ui.checkBox_baidu.setText("百度")
+        self.Ui.checkBox_baidu.setText(tr("百度"))
         self.Ui.horizontalLayout_20.addWidget(self.Ui.checkBox_baidu)
 
         self.Ui.label_baidu_appid = QLabel(self.Ui.layoutWidget_2)
@@ -436,7 +436,7 @@ class MyMAinWindow(QMainWindow):
         self.Ui.label_baidu_appid.setFrameShape(self.Ui.label_80.frameShape())
         self.Ui.label_baidu_appid.setAlignment(self.Ui.label_80.alignment())
         self.Ui.label_baidu_appid.setObjectName("label_baidu_appid")
-        self.Ui.label_baidu_appid.setText("百度 APP ID：")
+        self.Ui.label_baidu_appid.setText(tr("百度 APP ID："))
         self.Ui.gridLayout_32.addWidget(self.Ui.label_baidu_appid, 5, 0, 1, 1)
 
         self.Ui.lineEdit_baidu_appid = QLineEdit(self.Ui.layoutWidget_2)
@@ -451,7 +451,7 @@ class MyMAinWindow(QMainWindow):
         self.Ui.label_baidu_key.setFrameShape(self.Ui.label_80.frameShape())
         self.Ui.label_baidu_key.setAlignment(self.Ui.label_80.alignment())
         self.Ui.label_baidu_key.setObjectName("label_baidu_key")
-        self.Ui.label_baidu_key.setText("百度密钥：")
+        self.Ui.label_baidu_key.setText(tr("百度密钥："))
         self.Ui.gridLayout_32.addWidget(self.Ui.label_baidu_key, 6, 0, 1, 1)
 
         self.Ui.lineEdit_baidu_key = QLineEdit(self.Ui.layoutWidget_2)
@@ -769,8 +769,8 @@ class MyMAinWindow(QMainWindow):
             self.raise_()
             box = QMessageBox(QMessageBox.Icon.Warning, "退出", "确定要退出吗？")
             box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-            box.button(QMessageBox.StandardButton.Yes).setText("退出 MDCx")
-            box.button(QMessageBox.StandardButton.No).setText("取消")
+            box.button(QMessageBox.StandardButton.Yes).setText(tr("退出 MDCx"))
+            box.button(QMessageBox.StandardButton.No).setText(tr("取消"))
             box.setDefaultButton(QMessageBox.StandardButton.No)
             reply = box.exec()
             if reply != QMessageBox.StandardButton.Yes:
@@ -1009,7 +1009,7 @@ class MyMAinWindow(QMainWindow):
             box = QMessageBox(QMessageBox.Icon.Warning, "停止刮削", "确定要停止刮削吗？")
             box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
             box.button(QMessageBox.StandardButton.Yes).setText(tr("停止刮削"))
-            box.button(QMessageBox.StandardButton.No).setText("取消")
+            box.button(QMessageBox.StandardButton.No).setText(tr("取消"))
             box.setDefaultButton(QMessageBox.StandardButton.No)
             reply = box.exec()
             if reply != QMessageBox.StandardButton.Yes:
@@ -1041,7 +1041,7 @@ class MyMAinWindow(QMainWindow):
                 signal_qt.show_log_text(
                     "⛔️ 已手动停止！\n================================================================================"
                 )
-                self.set_label_file_path.emit("⛔️ 已手动停止！")
+                self.set_label_file_path.emit(tr("⛔️ 已手动停止！"))
                 return
             signal_qt.exec_set_processbar.emit(0)
             end_time = time.time()
@@ -1432,9 +1432,9 @@ class MyMAinWindow(QMainWindow):
         for button in box.findChildren(QPushButton):
             text = button.text().strip()
             if text == "Show Details...":
-                button.setText("显示详情")
+                button.setText(tr("显示详情"))
             elif text == "Hide Details...":
-                button.setText("隐藏详情")
+                button.setText(tr("隐藏详情"))
 
     def _bind_localized_message_box_detail_buttons(self, box: QMessageBox) -> None:
         def relocalize() -> None:
@@ -1465,9 +1465,9 @@ class MyMAinWindow(QMainWindow):
         box.setStandardButtons(
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel
         )
-        box.button(QMessageBox.StandardButton.Yes).setText("写入并继续")
-        box.button(QMessageBox.StandardButton.No).setText("仅创建")
-        box.button(QMessageBox.StandardButton.Cancel).setText("取消")
+        box.button(QMessageBox.StandardButton.Yes).setText(tr("写入并继续"))
+        box.button(QMessageBox.StandardButton.No).setText(tr("仅创建"))
+        box.button(QMessageBox.StandardButton.Cancel).setText(tr("取消"))
         box.setDefaultButton(QMessageBox.StandardButton.Yes)
         reply = box.exec()
         if reply == QMessageBox.StandardButton.Cancel:
@@ -1903,8 +1903,8 @@ class MyMAinWindow(QMainWindow):
 
         box = QMessageBox(QMessageBox.Icon.Warning, "删除文件", box_text)
         box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-        box.button(QMessageBox.StandardButton.Yes).setText("删除文件")
-        box.button(QMessageBox.StandardButton.No).setText("取消")
+        box.button(QMessageBox.StandardButton.Yes).setText(tr("删除文件"))
+        box.button(QMessageBox.StandardButton.No).setText(tr("取消"))
         box.setDefaultButton(QMessageBox.StandardButton.No)
         reply = box.exec()
         if reply != QMessageBox.StandardButton.Yes:
@@ -1974,8 +1974,8 @@ class MyMAinWindow(QMainWindow):
 
         box = QMessageBox(QMessageBox.Icon.Warning, "删除文件", box_text)
         box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-        box.button(QMessageBox.StandardButton.Yes).setText("删除文件和文件夹")
-        box.button(QMessageBox.StandardButton.No).setText("取消")
+        box.button(QMessageBox.StandardButton.Yes).setText(tr("删除文件和文件夹"))
+        box.button(QMessageBox.StandardButton.No).setText(tr("取消"))
         box.setDefaultButton(QMessageBox.StandardButton.No)
         reply = box.exec()
         if reply != QMessageBox.StandardButton.Yes:
@@ -2052,8 +2052,8 @@ class MyMAinWindow(QMainWindow):
     # 主界面-开关封面显示
     def checkBox_cover_clicked(self):
         if not self.Ui.checkBox_cover.isChecked():
-            self.Ui.label_poster.setText("封面图")
-            self.Ui.label_thumb.setText("缩略图")
+            self.Ui.label_poster.setText(tr("封面图"))
+            self.Ui.label_thumb.setText(tr("缩略图"))
             self.Ui.label_poster.resize(156, 220)
             self.Ui.label_thumb.resize(328, 220)
             self.Ui.label_poster_size.setText("")
@@ -2175,8 +2175,8 @@ class MyMAinWindow(QMainWindow):
     def pushButton_success_list_save_clicked(self):
         box = QMessageBox(QMessageBox.Icon.Warning, "保存成功列表", "确定要将当前列表保存为已刮削成功文件列表吗？")
         box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-        box.button(QMessageBox.StandardButton.Yes).setText("保存")
-        box.button(QMessageBox.StandardButton.No).setText("取消")
+        box.button(QMessageBox.StandardButton.Yes).setText(tr("保存"))
+        box.button(QMessageBox.StandardButton.No).setText(tr("取消"))
         box.setDefaultButton(QMessageBox.StandardButton.No)
         reply = box.exec()
         if reply == QMessageBox.StandardButton.Yes:
@@ -2191,8 +2191,8 @@ class MyMAinWindow(QMainWindow):
     def pushButton_success_list_clear_clicked(self):
         box = QMessageBox(QMessageBox.Icon.Warning, "清空成功列表", "确定要清空当前已刮削成功文件列表吗？")
         box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-        box.button(QMessageBox.StandardButton.Yes).setText("清空")
-        box.button(QMessageBox.StandardButton.No).setText("取消")
+        box.button(QMessageBox.StandardButton.Yes).setText(tr("清空"))
+        box.button(QMessageBox.StandardButton.No).setText(tr("取消"))
         box.setDefaultButton(QMessageBox.StandardButton.No)
         reply = box.exec()
         if reply == QMessageBox.StandardButton.Yes:
@@ -2479,8 +2479,8 @@ class MyMAinWindow(QMainWindow):
     def pushButton_move_mp4_clicked(self):
         box = QMessageBox(QMessageBox.Icon.Warning, "移动视频和字幕", "确定要移动视频和字幕吗？")
         box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-        box.button(QMessageBox.StandardButton.Yes).setText("移动")
-        box.button(QMessageBox.StandardButton.No).setText("取消")
+        box.button(QMessageBox.StandardButton.Yes).setText(tr("移动"))
+        box.button(QMessageBox.StandardButton.No).setText(tr("取消"))
         box.setDefaultButton(QMessageBox.StandardButton.No)
         reply = box.exec()
         if reply == QMessageBox.StandardButton.Yes:
@@ -2945,8 +2945,8 @@ class MyMAinWindow(QMainWindow):
                 f"检测到当前配置文件目录为：\n {manager.data_folder}\n\n由于 MacOS 平台在每次更新 APP 版本时会覆盖该目录的配置，因此请选择其他的配置目录！\n这样下次更新 APP 时，选择相同的配置目录即可读取你之前的配置！！！",
             )
             box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-            box.button(QMessageBox.StandardButton.Yes).setText("选择目录")
-            box.button(QMessageBox.StandardButton.No).setText("取消")
+            box.button(QMessageBox.StandardButton.Yes).setText(tr("选择目录"))
+            box.button(QMessageBox.StandardButton.No).setText(tr("取消"))
             box.setDefaultButton(QMessageBox.StandardButton.Yes)
             reply = box.exec()
             if reply == QMessageBox.StandardButton.Yes:
@@ -3013,8 +3013,8 @@ class MyMAinWindow(QMainWindow):
                 signal_qt.show_traceback_log(traceback.format_exc())
                 signal_qt.show_net_info(traceback.format_exc())
         elif self.Ui.pushButton_check_net.text() == tr("停止检测"):
-            self.Ui.pushButton_check_net.setText(" 停止检测 ")
-            self.Ui.pushButton_check_net.setText(" 停止检测 ")
+            self.Ui.pushButton_check_net.setText(tr(" 停止检测 "))
+            self.Ui.pushButton_check_net.setText(tr(" 停止检测 "))
             if self.network_check_cancel_event:
                 self.network_check_cancel_event.set()
             signal_qt.show_net_info("\n⛔️ 正在停止网络检测...")
@@ -3042,10 +3042,10 @@ class MyMAinWindow(QMainWindow):
     def pushButton_check_javdb_cookie_clicked(self):
         input_cookie = self.Ui.plainTextEdit_cookie_javdb.toPlainText()
         if not input_cookie:
-            self.set_javdb_status.emit("❌ 未填写 Cookie")
+            self.set_javdb_status.emit(tr("❌ 未填写 Cookie"))
             self.show_log_text(" ❌ JavDb 未填写 Cookie，可在「设置」-「网络」添加！")
             return
-        self.set_javdb_status.emit("⏳ 正在检测中...")
+        self.set_javdb_status.emit(tr("⏳ 正在检测中..."))
         try:
             t = threading.Thread(target=self._check_javdb_cookie, args=(input_cookie,))
             t.start()  # 启动线程,即让线程开始执行
@@ -3114,10 +3114,10 @@ class MyMAinWindow(QMainWindow):
     def pushButton_check_fc2ppvdb_cookie_clicked(self):
         input_cookie = self.Ui.plainTextEdit_cookie_fc2ppvdb.toPlainText().strip()
         if not input_cookie:
-            self.set_fc2ppvdb_status.emit("❌ 未填写 Cookie")
+            self.set_fc2ppvdb_status.emit(tr("❌ 未填写 Cookie"))
             self.show_log_text(" ❌ FC2PPVDB 未填写 Cookie，可在「设置」-「网络」添加！")
             return
-        self.set_fc2ppvdb_status.emit("⏳ 正在检测中...")
+        self.set_fc2ppvdb_status.emit(tr("⏳ 正在检测中..."))
         try:
             t = threading.Thread(target=self._check_fc2ppvdb_cookie, args=(input_cookie,))
             t.start()  # 启动线程,即让线程开始执行
@@ -3162,7 +3162,7 @@ class MyMAinWindow(QMainWindow):
     # javbus cookie
     def pushButton_check_javbus_cookie_clicked(self):
         input_cookie = self.Ui.plainTextEdit_cookie_javbus.toPlainText()
-        self.set_javbus_status.emit("⏳ 正在检测中...")
+        self.set_javbus_status.emit(tr("⏳ 正在检测中..."))
         try:
             t = threading.Thread(target=self._check_javbus_cookie, args=(input_cookie,))
             t.start()  # 启动线程,即让线程开始执行
@@ -3249,29 +3249,29 @@ class MyMAinWindow(QMainWindow):
 
     def change_buttons_status(self):
         Flags.stop_other = True
-        self.Ui.pushButton_start_cap.setText("■ 停止")
-        self.Ui.pushButton_start_cap2.setText("■ 停止")
+        self.Ui.pushButton_start_cap.setText(tr("■ 停止"))
+        self.Ui.pushButton_start_cap2.setText(tr("■ 停止"))
         self.Ui.pushButton_select_media_folder.setVisible(False)
         self.Ui.pushButton_start_single_file.setEnabled(False)
-        self.Ui.pushButton_start_single_file.setText("正在刮削中...")
+        self.Ui.pushButton_start_single_file.setText(tr("正在刮削中..."))
         self.Ui.pushButton_add_sub_for_all_video.setEnabled(False)
-        self.Ui.pushButton_add_sub_for_all_video.setText("正在刮削中...")
+        self.Ui.pushButton_add_sub_for_all_video.setText(tr("正在刮削中..."))
         self.Ui.pushButton_show_pic_actor.setEnabled(False)
-        self.Ui.pushButton_show_pic_actor.setText("刮削中...")
+        self.Ui.pushButton_show_pic_actor.setText(tr("刮削中..."))
         self.Ui.pushButton_add_actor_info.setEnabled(False)
-        self.Ui.pushButton_add_actor_info.setText("正在刮削中...")
+        self.Ui.pushButton_add_actor_info.setText(tr("正在刮削中..."))
         self.Ui.pushButton_add_actor_pic.setEnabled(False)
-        self.Ui.pushButton_add_actor_pic.setText("正在刮削中...")
+        self.Ui.pushButton_add_actor_pic.setText(tr("正在刮削中..."))
         self.Ui.pushButton_add_actor_pic_kodi.setEnabled(False)
-        self.Ui.pushButton_add_actor_pic_kodi.setText("正在刮削中...")
+        self.Ui.pushButton_add_actor_pic_kodi.setText(tr("正在刮削中..."))
         self.Ui.pushButton_del_actor_folder.setEnabled(False)
-        self.Ui.pushButton_del_actor_folder.setText("正在刮削中...")
+        self.Ui.pushButton_del_actor_folder.setText(tr("正在刮削中..."))
         # self.Ui.pushButton_check_and_clean_files.setEnabled(False)
-        self.Ui.pushButton_check_and_clean_files.setText("正在刮削中...")
+        self.Ui.pushButton_check_and_clean_files.setText(tr("正在刮削中..."))
         self.Ui.pushButton_move_mp4.setEnabled(False)
-        self.Ui.pushButton_move_mp4.setText("正在刮削中...")
+        self.Ui.pushButton_move_mp4.setText(tr("正在刮削中..."))
         self.Ui.pushButton_find_missing_number.setEnabled(False)
-        self.Ui.pushButton_find_missing_number.setText("正在刮削中...")
+        self.Ui.pushButton_find_missing_number.setText(tr("正在刮削中..."))
         self.Ui.pushButton_start_cap.setStyleSheet(
             "QPushButton#pushButton_start_cap{color: white;background-color:#DC2626;}QPushButton:hover#pushButton_start_cap{color: white;background-color:#EF4444;}QPushButton:pressed#pushButton_start_cap{color: white;background-color:#B91C1C;}"
         )
@@ -3282,30 +3282,30 @@ class MyMAinWindow(QMainWindow):
     def reset_buttons_status(self):
         self.Ui.pushButton_start_cap.setEnabled(True)
         self.Ui.pushButton_start_cap2.setEnabled(True)
-        self.pushButton_start_cap.emit("开始")
-        self.pushButton_start_cap2.emit("开始")
+        self.pushButton_start_cap.emit(tr("开始"))
+        self.pushButton_start_cap2.emit(tr("开始"))
         self.Ui.pushButton_select_media_folder.setVisible(True)
         self.Ui.pushButton_start_single_file.setEnabled(True)
-        self.pushButton_start_single_file.emit("刮削")
+        self.pushButton_start_single_file.emit(tr("刮削"))
         self.Ui.pushButton_add_sub_for_all_video.setEnabled(True)
-        self.pushButton_add_sub_for_all_video.emit("点击检查所有视频的字幕情况并为无字幕视频添加字幕")
+        self.pushButton_add_sub_for_all_video.emit(tr("点击检查所有视频的字幕情况并为无字幕视频添加字幕"))
 
         self.Ui.pushButton_show_pic_actor.setEnabled(True)
-        self.pushButton_show_pic_actor.emit("查看")
+        self.pushButton_show_pic_actor.emit(tr("查看"))
         self.Ui.pushButton_add_actor_info.setEnabled(True)
-        self.pushButton_add_actor_info.emit("开始补全")
+        self.pushButton_add_actor_info.emit(tr("开始补全"))
         self.Ui.pushButton_add_actor_pic.setEnabled(True)
-        self.pushButton_add_actor_pic.emit("开始补全")
+        self.pushButton_add_actor_pic.emit(tr("开始补全"))
         self.Ui.pushButton_add_actor_pic_kodi.setEnabled(True)
-        self.pushButton_add_actor_pic_kodi.emit("开始补全")
+        self.pushButton_add_actor_pic_kodi.emit(tr("开始补全"))
         self.Ui.pushButton_del_actor_folder.setEnabled(True)
-        self.pushButton_del_actor_folder.emit("清除所有.actors文件夹")
+        self.pushButton_del_actor_folder.emit(tr("清除所有.actors文件夹"))
         self.Ui.pushButton_check_and_clean_files.setEnabled(True)
-        self.pushButton_check_and_clean_files.emit("点击检查待刮削目录并清理文件")
+        self.pushButton_check_and_clean_files.emit(tr("点击检查待刮削目录并清理文件"))
         self.Ui.pushButton_move_mp4.setEnabled(True)
-        self.pushButton_move_mp4.emit("开始移动")
+        self.pushButton_move_mp4.emit(tr("开始移动"))
         self.Ui.pushButton_find_missing_number.setEnabled(True)
-        self.pushButton_find_missing_number.emit("检查缺失番号")
+        self.pushButton_find_missing_number.emit(tr("检查缺失番号"))
 
         self.Ui.pushButton_start_cap.setStyleSheet(
             "QPushButton#pushButton_start_cap{color: white;background-color:#4C6EFF;}QPushButton:hover#pushButton_start_cap{color: white;background-color: rgba(76,110,255,240)}QPushButton:pressed#pushButton_start_cap{color: white;background-color:#4C6EE0}"
@@ -3318,7 +3318,7 @@ class MyMAinWindow(QMainWindow):
         if len(Flags.failed_list):
             self.Ui.pushButton_scraper_failed_list.setText(f"一键重新刮削当前 {len(Flags.failed_list)} 个失败文件")
         else:
-            self.Ui.pushButton_scraper_failed_list.setText("当有失败任务时，点击可以一键刮削当前失败列表")
+            self.Ui.pushButton_scraper_failed_list.setText(tr("当有失败任务时，点击可以一键刮削当前失败列表"))
 
     # endregion
 

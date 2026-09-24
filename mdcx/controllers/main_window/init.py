@@ -365,7 +365,7 @@ def init_QTreeWidget(self: "MyMAinWindow"):
     if self.Ui.pushButton_start_cap.text() != tr("开始"):
         Flags.count_claw = 1  # 批量刮削次数
     else:
-        self.label_result.emit(" 刮削中：0 成功：0 失败：0")
+        self.label_result.emit(tr(" 刮削中：0 成功：0 失败：0"))
     self.Ui.treeWidget_number.clear()
     self.item_succ = QTreeWidgetItem(self.Ui.treeWidget_number)
     self.item_succ.setText(0, "成功")
