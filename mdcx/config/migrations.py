@@ -127,7 +127,41 @@ def _migrate_builtin_naming_templates(data: dict[str, Any]) -> None:
         value = data.get(key)
         if not isinstance(value, str):
             continue
-        data[key] = mapping.get(value, convert_braced_template(value))
+        data[key] = mapping.get(value, _bare_to_jinja(convert_braced_template(value)))
+
+
+# v1 wrote field names as bare words ("actor/【actor】(release) number"); v2 renders Jinja2.
+# Upstream's converter only handles {braced} input and a table of builtin templates, so a v1
+# template using bare keywords and decorative brackets (【】) passed through untouched and was
+# then rendered as literal text by v2's Jinja2 environment. Convert it here instead.
+_V1_FIELD_NAMES = (
+    "originaltitle", "first_actor", "all_actor", "first_letter", "four_k", "letters",
+    "number", "title", "actor", "outline", "director", "series", "studio", "publisher",
+    "release", "year", "runtime", "mosaic", "definition", "cnword", "moword", "filename",
+    "wanted", "score",
+)
+
+
+def _bare_to_jinja(template: str) -> str:
+    """Replace bare v1 field words with Jinja2 variables.
+
+    Existing ``{{ }}`` / ``{% %}`` spans are masked first, so the conversion is idempotent and a
+    template mixing v1 bare words with v2 syntax converts correctly. Decorative characters
+    (【】()/_ etc.) are never touched.
+    """
+
+    parts = re.split(r"(\{\{.*?\}\}|\{%.*?%\})", template, flags=re.S)
+    for index, part in enumerate(parts):
+        if part.startswith("{{") or part.startswith("{%"):
+            continue
+        for name in sorted(_V1_FIELD_NAMES, key=len, reverse=True):
+            part = re.sub(
+                rf"(?<![\w{{]){re.escape(name)}(?![\w}}])",
+                "{{ " + name + " }}",
+                part,
+            )
+        parts[index] = part
+    return "".join(parts)
 
 
 def migrate_config_data(data: dict[str, Any]) -> list[str]:
