@@ -36,6 +36,7 @@ from mdcx.utils.file import delete_file_sync
 
 from .bind_utils import set_checkboxes, set_radio_buttons
 from .site_priority_dialog import apply_site_priority_theme, refresh_site_priority_ui
+from mdcx.i18n import tr
 
 if TYPE_CHECKING:
     from .main_window import MyMAinWindow
@@ -193,11 +194,11 @@ def load_config(self: "MyMAinWindow"):
         # 刮削偏好
         scrape_like = manager.config.scrape_like
         if "speed" == scrape_like:
-            Flags.scrape_like_text = "速度优先"
+            Flags.scrape_like_text = tr("速度优先")
         elif "single" == scrape_like:
-            Flags.scrape_like_text = "指定网站"
+            Flags.scrape_like_text = tr("指定网站")
         else:
-            Flags.scrape_like_text = "字段优先"
+            Flags.scrape_like_text = tr("字段优先")
 
         set_radio_buttons(
             scrape_like,
@@ -446,12 +447,12 @@ def load_config(self: "MyMAinWindow"):
         # 刮削模式
         main_mode = manager.config.main_mode
         mode_mapping = {
-            1: ("common", "正常模式"),
-            2: ("sort", "整理模式"),
-            3: ("update", "更新模式"),
-            4: ("read", "读取模式"),
+            1: ("common", tr("正常模式")),
+            2: ("sort", tr("整理模式")),
+            3: ("update", tr("更新模式")),
+            4: ("read", tr("读取模式")),
         }
-        mode_key, mode_text = mode_mapping.get(main_mode, ("common", "正常模式"))
+        mode_key, mode_text = mode_mapping.get(main_mode, ("common", tr("正常模式")))
         Flags.main_mode_text = mode_text
         set_radio_buttons(
             mode_key,
@@ -1087,9 +1088,9 @@ def load_config(self: "MyMAinWindow"):
             if manager.config.scrape_like == "single":
                 scrape_like_text += f" · {manager.config.website_single.value}"
             if manager.config.soft_link == 1:
-                scrape_like_text += " · 软连接开"
+                scrape_like_text += tr(" · 软连接开")
             elif manager.config.soft_link == 2:
-                scrape_like_text += " · 硬连接开"
+                scrape_like_text += tr(" · 硬连接开")
             movie_path_text = ";".join(str(path) for path in get_movie_path_setting().movie_paths)
             signal_qt.show_log_text(
                 f" 🛠 当前配置：{manager.path} 加载完成！\n "

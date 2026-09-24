@@ -159,7 +159,7 @@ class Scraper:
         signal.set_main_info()  # 清空主界面显示信息
         thread_number = manager.config.thread_number  # 线程数量
         thread_time = manager.config.thread_time  # 线程延时
-        signal.label_result.emit(f" 刮削中：{0} 成功：{Flags.succ_count} 失败：{Flags.fail_count}")
+        signal.label_result.emit(f"{tr(' 刮削中：')}{0}{tr(' 成功：')}{Flags.succ_count}{tr(' 失败：')}{Flags.fail_count}")
         signal.logs_failed_settext.emit("\n\n\n")
 
         # 日志页面显示开始时间
@@ -231,7 +231,7 @@ class Scraper:
                 signal.show_traceback_log(message)
                 signal.show_log_text(f" 🔴 {message}")
                 raise UnexpectedScrapeCancellation(message)
-            signal.label_result.emit(f" 刮削中：0 成功：{Flags.succ_count} 失败：{Flags.fail_count}")
+            signal.label_result.emit(f"{tr(' 刮削中：')}0{tr(' 成功：')}{Flags.succ_count}{tr(' 失败：')}{Flags.fail_count}")
             await save_success_list()  # 保存成功列表
             if signal.stop or Flags.stop_requested:
                 return
@@ -360,7 +360,7 @@ class Scraper:
             f"正在刮削： {Flags.scrape_started}/{count_all} {progress_percentage} \n {file_show_path}"
         )
         signal.label_result.emit(
-            f" 刮削中：{Flags.scrape_started - Flags.succ_count - Flags.fail_count} 成功：{Flags.succ_count} 失败：{Flags.fail_count}"
+            f"{tr(' 刮削中：')}{Flags.scrape_started - Flags.succ_count - Flags.fail_count}{tr(' 成功：')}{Flags.succ_count}{tr(' 失败：')}{Flags.fail_count}"
         )
         LogBuffer.log().write("\n" + "👆" * 50)
         LogBuffer.log().write("\n 🙈 [file] " + str(file_info.file_path))
@@ -466,7 +466,7 @@ class Scraper:
             remain_count = Flags.scrape_started - count
             if Flags.scrape_started == count_all:
                 signal.show_log_text(f" 🕷 剩余正在刮削的线程：{remain_count}")
-            signal.label_result.emit(f" 刮削中：{remain_count} 成功：{Flags.succ_count} 失败：{Flags.fail_count}")
+            signal.label_result.emit(f"{tr(' 刮削中：')}{remain_count}{tr(' 成功：')}{Flags.succ_count}{tr(' 失败：')}{Flags.fail_count}")
             signal.show_scrape_info(f"🔎 已刮削 {count}/{count_all}")
         except Exception as e:
             self._check_stop(show_name)

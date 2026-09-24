@@ -368,7 +368,7 @@ def init_QTreeWidget(self: "MyMAinWindow"):
         self.label_result.emit(tr(" 刮削中：0 成功：0 失败：0"))
     self.Ui.treeWidget_number.clear()
     self.item_succ = QTreeWidgetItem(self.Ui.treeWidget_number)
-    self.item_succ.setText(0, "成功")
+    self.item_succ.setText(0, tr("成功"))
     self.item_fail = QTreeWidgetItem(self.Ui.treeWidget_number)
-    self.item_fail.setText(0, "失败")
+    self.item_fail.setText(0, tr("失败"))
     self.Ui.treeWidget_number.expandAll()  # 展开主界面树状内容

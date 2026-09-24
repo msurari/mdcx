@@ -147,7 +147,7 @@ class MyMAinWindow(QMainWindow):
 
         # region 初始化需要的变量
         self.localversion = LOCAL_VERSION  # 当前版本号
-        self.new_version = "\n🔍 点击检查最新版本"  # 有版本更新时在左下角显示的新版本信息
+        self.new_version = "\n🔍 " + tr("点击检查最新版本")  # 有版本更新时在左下角显示的新版本信息
         self.show_data: ShowData | None = None  # 当前树状图选中文件的数据
         self.img_path = None  # 当前树状图选中文件的图片地址
         self.m_drag = False  # 允许鼠标拖动的标识
@@ -577,7 +577,7 @@ class MyMAinWindow(QMainWindow):
 
     def _tree_result_context_menu(self, pos: QPoint):
         item = self.Ui.treeWidget_number.itemAt(pos)
-        if item is not None and item.text(0) not in {"成功", "失败"}:
+        if item is not None and item.text(0) not in {tr("成功"), tr("失败")}:
             self._set_result_item_as_current_selection(item)
         global_pos = self.Ui.treeWidget_number.viewport().mapToGlobal(pos)
         self._menu(self.Ui.page_main.mapFromGlobal(global_pos))
@@ -1140,7 +1140,7 @@ class MyMAinWindow(QMainWindow):
         return self._get_single_selected_entry() is not None
 
     def _set_result_item_as_current_selection(self, item: QTreeWidgetItem) -> None:
-        if item.text(0) in {"成功", "失败"}:
+        if item.text(0) in {tr("成功"), tr("失败")}:
             return
 
         tree = self.Ui.treeWidget_number
@@ -1313,7 +1313,7 @@ class MyMAinWindow(QMainWindow):
         """
         selected_items = []
         for item in self.Ui.treeWidget_number.selectedItems():
-            if not item or item.text(0) in {"成功", "失败"}:
+            if not item or item.text(0) in {tr("成功"), tr("失败")}:
                 continue
             if item.text(0) not in self.json_array:
                 continue
