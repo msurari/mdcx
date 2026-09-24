@@ -72,7 +72,7 @@ def test_default_cap_fits_the_production_title_without_truncating():
     from mdcx.config.models import Config
 
     field = Config.model_fields["file_name_max"]
-    assert field.default == 80, field.default
+    assert field.default == 100, field.default
 
     basename_cap = field.default - len(".mp4")
     title_cap = basename_cap - len("【EBOD-875】")

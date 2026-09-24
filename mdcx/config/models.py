@@ -513,7 +513,7 @@ class Config(BaseModel):
     actor_no_name: str = Field(default="未知演员", title=tr("未知演员名称"))
     release_rule: str = Field(default="YYYY-MM-DD", title=tr("发布规则"))
     folder_name_max: int = Field(default=60, title=tr("目录名称最大长度"))
-    file_name_max: int = Field(default=80, title=tr("文件名称最大长度"))
+    file_name_max: int = Field(default=100, title=tr("文件名称最大长度"))
     actor_name_max: int = Field(default=3, title=tr("演员名称最大数量"))
     actor_name_more: str = Field(default="等演员", title=tr("更多演员名称"))
     umr_style: str = Field(default="-破解", title=tr("UMR样式"))
