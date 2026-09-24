@@ -1,0 +1,2 @@
+# This directory is mounted at /mdcx-config — the app writes config.v2.json here.
+# It is intentionally empty in git; the config holds deployment-specific paths.

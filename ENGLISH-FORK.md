@@ -74,6 +74,17 @@ ever re-typed by hand.
 
 ## Image build
 
-Upstream ships no Dockerfile (only `scripts/build.py`, a PyInstaller script). The image is built by the
-`northsea4/mdcx-docker` project. A Dockerfile for this fork is **not yet in the tree** — until it is, the
-fork is not yet deployable. Tracked as the next step.
+A `Dockerfile` in this repository builds the app **from source** rather than freezing it with
+PyInstaller. See `docker/BUILD.md` for the build and the fast-iteration setup, and the Dockerfile
+header for why freezing was rejected: a PyInstaller build needs an extra
+`--add-data mdcx/i18n/en.json:mdcx/i18n`, and if that flag is missed the translation map is simply
+absent at runtime — the UI reverts to Chinese with no error at all.
+
+```bash
+docker build -t mdcx-en:local --build-arg GIT_REV=$(git rev-parse --short HEAD) .
+cd docker && docker compose up -d --build
+```
+
+The venv lives at `/opt/venv` (outside `/app`) so the source can be bind-mounted over `/app` for
+iteration without hiding it. The image also bakes a default `/app/MDCx.config` marker pointing at
+`/mdcx-config/config.v2.json`, so it is v2-configured out of the box.

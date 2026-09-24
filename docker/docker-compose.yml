@@ -1,0 +1,43 @@
+# Minimal working example for the English fork. Builds the image from this repository.
+#
+# The image base is jlesage/baseimage-gui, so the runtime user is USER_ID / GROUP_ID.
+# PUID / PGID are IGNORED by that base — do not use them here.
+#
+#   cd docker && docker compose up -d --build
+#
+services:
+  mdcx:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      args:
+        GIT_REV: ${GIT_REV:-unknown}
+    image: mdcx-en:local
+    container_name: ${MDCX_CONTAINER_NAME:-MDCX}
+    environment:
+      - TZ=${TZ:-Asia/Singapore}
+      - DISPLAY_WIDTH=${DISPLAY_WIDTH:-1200}
+      - DISPLAY_HEIGHT=${DISPLAY_HEIGHT:-750}
+      # the translation map to load; unset also means English
+      - MDCX_LANG=${MDCX_LANG:-en}
+      - VNC_PASSWORD=${VNC_PASSWORD:-}
+      # Uncomment ONLY after verifying the media files are owned by this uid:gid.
+      # While unset the app runs as root (the jlesage default), which is why file
+      # renames currently succeed. Setting a uid the files are not owned by will make
+      # rename/move fail with permission errors.
+      #- USER_ID=1000
+      #- GROUP_ID=1000
+    volumes:
+      # app config directory — holds config.v2.json. The image already contains a
+      # default marker at /app/MDCx.config pointing here, so nothing else is needed.
+      - ./mdcx-config:/mdcx-config
+      # app logs
+      - ./logs:/app/Log
+      # media directory to scrape — adjust to your layout
+      - ${MEDIA_DIR:-/srv/mergerfs/naspool/naspool/media/torrents/adult}:/torrents/adult
+    ports:
+      - ${WEB_PORT:-6800}:5800
+      - ${VNC_PORT:-5900}:5900
+    restart: unless-stopped
+    network_mode: bridge
+    stdin_open: true

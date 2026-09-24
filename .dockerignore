@@ -1,0 +1,40 @@
+# Build context excludes — keep the image to source only.
+# NOTE: resources/ and libs/ are REQUIRED at runtime and must NOT be listed here.
+
+# --- vcs / ci ---
+.git
+.gitattributes
+.github
+.vscode
+mdcx.code-workspace
+
+# --- python artefacts ---
+.venv
+venv
+__pycache__
+*.py[cod]
+*.egg-info
+build
+dist
+.pytest_cache
+.mypy_cache
+.ruff_cache
+htmlcov
+.coverage
+
+# --- runtime state: never bake these into an image ---
+config.ini
+config.json
+config.v2.json
+MDCx.config
+userdata/
+Log/
+*.log
+
+# --- dev only ---
+tests
+*.ipynb
+dev
+scripts/local
+AGENTS.md
+uv.toml
