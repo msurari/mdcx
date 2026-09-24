@@ -32,6 +32,7 @@ from .enums import (
     Website,
 )
 from .migrations import migrate_config_data
+from mdcx.i18n import tr
 
 
 def str_to_list(v: str | list[Any] | None, sep: Literal[",", "|"] = ",", unique: bool = True) -> list[str]:
@@ -63,27 +64,27 @@ class TranslateConfig(BaseModel):
             Translator.DEEPLX,
             Translator.LLM,
         ],
-        title="翻译服务",
+        title=tr("翻译服务"),
     )
-    baidu_appid: str = Field(default="", title="百度 APP ID")
-    baidu_key: str = Field(default="", title="百度密钥")
+    baidu_appid: str = Field(default="", title=tr("百度 APP ID"))
+    baidu_key: str = Field(default="", title=tr("百度密钥"))
     deepl_key: str = Field(default="", title="DeepL API Key")
     deeplx_url: str = Field(default="", title="DeepLX URL")
     llm_url: HttpUrl = Field(default=HttpUrl("https://api.llm.com/v1"), title="LLM API Host")
-    llm_model: str = Field(default="gpt-3.5-turbo", title="模型 ID")
+    llm_model: str = Field(default="gpt-3.5-turbo", title=tr("模型 ID"))
     llm_key: str = Field(default="", title="LLM API Key")
     llm_prompt_title: str = Field(
         default="Please translate the following text to {lang}. Output only the translation without any explanation.\n{content}",
-        title="LLM 标题提示词",
+        title=tr("LLM 标题提示词"),
     )
     llm_prompt_outline: str = Field(
         default="Please translate the following text to {lang}. Output only the translation without any explanation.\n{content}",
-        title="LLM 简介提示词",
+        title=tr("LLM 简介提示词"),
     )
-    llm_read_timeout: int = Field(default=60, title="LLM 读取超时 (秒)", description="LLM 生成耗时较长, 建议设置较大值")
-    llm_max_req_sec: float = Field(default=1, title="LLM 每秒最大请求数")
-    llm_max_try: int = Field(default=5, title="LLM 最大尝试次数")
-    llm_temperature: float = Field(default=0.2, title="LLM 温度")
+    llm_read_timeout: int = Field(default=60, title=tr("LLM 读取超时 (秒)"), description=tr("LLM 生成耗时较长, 建议设置较大值"))
+    llm_max_req_sec: float = Field(default=1, title=tr("LLM 每秒最大请求数"))
+    llm_max_try: int = Field(default=5, title=tr("LLM 最大尝试次数"))
+    llm_temperature: float = Field(default=0.2, title=tr("LLM 温度"))
 
     def model_post_init(self, context) -> None:
         if self.llm_max_req_sec <= 0:
@@ -91,21 +92,21 @@ class TranslateConfig(BaseModel):
 
 
 class SiteConfig(BaseModel):
-    custom_url: HttpUrl | None = Field(default=None, title="自定义网址")
+    custom_url: HttpUrl | None = Field(default=None, title=tr("自定义网址"))
 
 
 class FieldConfig(BaseModel):
-    site_prority: list[Website] = Field(default_factory=list, title="来源网站优先级")
-    language: Language = Field(default=Language.UNDEFINED, title="语言偏好")
+    site_prority: list[Website] = Field(default_factory=list, title=tr("来源网站优先级"))
+    language: Language = Field(default=Language.UNDEFINED, title=tr("语言偏好"))
     translate: bool = Field(
         default=True,
-        title="翻译此字段",
-        description="若启用则使用首个来源的数据并翻译为指定语言; 否则使用第一个指定语言的数据, 如果所有来源都没有指定语言数据则视为失败.",
+        title=tr("翻译此字段"),
+        description=tr("若启用则使用首个来源的数据并翻译为指定语言; 否则使用第一个指定语言的数据, 如果所有来源都没有指定语言数据则视为失败."),
     )
 
 
 class FieldPriorityConfig(BaseModel):
-    site_prority: list[Website] = Field(default_factory=list, title="来源网站优先级")
+    site_prority: list[Website] = Field(default_factory=list, title=tr("来源网站优先级"))
 
 
 CONFIGURABLE_SCRAPING_TYPES = (
@@ -154,12 +155,12 @@ def default_field_config(language: Language = Language.UNDEFINED, translate: boo
 class Config(BaseModel):
     model_config = ConfigDict()
     # region: General Settings
-    config_version: int = Field(default=2, title="配置版本")
-    media_path: str = Field(default="./media", title="媒体路径")
-    softlink_path: str = Field(default="softlink", title="软链接路径")
-    success_output_folder: str = Field(default="JAV_output", title="成功输出目录")
-    failed_output_folder: str = Field(default="failed", title="失败输出目录")
-    extrafanart_folder: str = Field(default="extrafanart_copy", title="额外剧照目录")
+    config_version: int = Field(default=2, title=tr("配置版本"))
+    media_path: str = Field(default="./media", title=tr("媒体路径"))
+    softlink_path: str = Field(default="softlink", title=tr("软链接路径"))
+    success_output_folder: str = Field(default="JAV_output", title=tr("成功输出目录"))
+    failed_output_folder: str = Field(default="failed", title=tr("失败输出目录"))
+    extrafanart_folder: str = Field(default="extrafanart_copy", title=tr("额外剧照目录"))
     media_type: list[str] = Field(
         default_factory=lambda: [
             ".mp4",
@@ -174,7 +175,7 @@ class Config(BaseModel):
             ".iso",
             ".mpg",
         ],
-        title="媒体类型",
+        title=tr("媒体类型"),
     )
     sub_type: list[str] = Field(
         default_factory=lambda: [
@@ -195,14 +196,14 @@ class Config(BaseModel):
             ".vtt",
             ".ttml",
         ],
-        title="字幕类型",
+        title=tr("字幕类型"),
     )
-    scrape_softlink_path: bool = Field(default=False, title="刮削软链接路径")
-    auto_link: bool = Field(default=False, title="自动创建软链接")
+    scrape_softlink_path: bool = Field(default=False, title=tr("刮削软链接路径"))
+    auto_link: bool = Field(default=False, title=tr("自动创建软链接"))
     # endregion
 
     # region: Cleaning Settings
-    folders: list[str] = Field(default_factory=lambda: ["JAV_output", "examples"], title="排除的目录")
+    folders: list[str] = Field(default_factory=lambda: ["JAV_output", "examples"], title=tr("排除的目录"))
     string: list[str] = Field(
         default_factory=lambda: [
             "h_720",
@@ -218,20 +219,20 @@ class Config(BaseModel):
             "[456k.me]",
             "[ThZu.Cc]",
         ],
-        title="要从文件名中删除的字符串",
+        title=tr("要从文件名中删除的字符串"),
     )
-    file_size: float = Field(default=100.0, title="要处理的最小文件大小（MB）")
+    file_size: float = Field(default=100.0, title=tr("要处理的最小文件大小（MB）"))
     no_escape: list[NoEscape] = Field(
         default_factory=lambda: [NoEscape.RECORD_SUCCESS_FILE],
-        title="不转义的字符串",
+        title=tr("不转义的字符串"),
     )
     clean_ext: list[str] = Field(
         default_factory=lambda: [".html", ".url"],
-        title="清理规则: 扩展名",
+        title=tr("清理规则: 扩展名"),
     )
     clean_name: list[str] = Field(
         default_factory=lambda: ["uur76.mp4", "uur93.com.mp4"],
-        title="清理规则: 文件名(完全匹配)",
+        title=tr("清理规则: 文件名(完全匹配)"),
     )
     clean_contains: list[str] = Field(
         default_factory=lambda: [
@@ -244,16 +245,16 @@ class Config(BaseModel):
             "妹妹直播",
             "精彩直播",
         ],
-        title="清理规则: 文件名包含",
+        title=tr("清理规则: 文件名包含"),
     )
-    clean_size: float = Field(default=0.0, title="清理小于此大小的文件（KB）")
+    clean_size: float = Field(default=0.0, title=tr("清理小于此大小的文件（KB）"))
     clean_ignore_ext: list[str] = Field(
         default_factory=list,
-        title="清理规则: 排除扩展名",
+        title=tr("清理规则: 排除扩展名"),
     )
     clean_ignore_contains: list[str] = Field(
         default_factory=lambda: ["skip", "ignore"],
-        title="清理规则: 排除文件名包含",
+        title=tr("清理规则: 排除文件名包含"),
     )
     clean_enable: list[CleanAction] = Field(
         default_factory=lambda: [
@@ -264,31 +265,31 @@ class Config(BaseModel):
             CleanAction.CLEAN_IGNORE_EXT,
             CleanAction.CLEAN_IGNORE_CONTAINS,
         ],
-        title="启用的清理规则",
+        title=tr("启用的清理规则"),
     )
     # endregion
 
     # region: Scraping Settings
-    thread_number: int = Field(default=50, title="并发数")
-    thread_time: int = Field(default=0, title="线程时间")
-    javdb_time: int = Field(default=10, title="Javdb时间")
-    main_mode: int = Field(default=1, title="主模式")
-    read_mode: list[ReadMode] = Field(default_factory=list, title="读取模式")
-    update_mode: str = Field(default="c", title="更新模式")
-    update_a_folder: str = Field(default="{{ actor }}", title="更新A目录")
-    update_b_folder: str = Field(default="{{ number }} {{ actor }}", title="更新B目录")
-    update_c_filetemplate: str = Field(default="{{ number }}", title="更新C文件模板")
-    update_d_folder: str = Field(default="{{ number }} {{ actor }}", title="更新D目录")
+    thread_number: int = Field(default=50, title=tr("并发数"))
+    thread_time: int = Field(default=0, title=tr("线程时间"))
+    javdb_time: int = Field(default=10, title=tr("Javdb时间"))
+    main_mode: int = Field(default=1, title=tr("主模式"))
+    read_mode: list[ReadMode] = Field(default_factory=list, title=tr("读取模式"))
+    update_mode: str = Field(default="c", title=tr("更新模式"))
+    update_a_folder: str = Field(default="{{ actor }}", title=tr("更新A目录"))
+    update_b_folder: str = Field(default="{{ number }} {{ actor }}", title=tr("更新B目录"))
+    update_c_filetemplate: str = Field(default="{{ number }}", title=tr("更新C文件模板"))
+    update_d_folder: str = Field(default="{{ number }} {{ actor }}", title=tr("更新D目录"))
     update_titletemplate: str = Field(
         default="[{% if number %}{{ number }}{% endif %}]{% if title and title != number %}{{ title }}{% endif %}",
-        title="更新标题模板",
+        title=tr("更新标题模板"),
     )
-    soft_link: int = Field(default=0, title="软链接")
-    success_file_move: bool = Field(default=True, title="成功后移动文件")
-    failed_file_move: bool = Field(default=True, title="失败后移动文件")
-    success_file_rename: bool = Field(default=True, title="成功后重命名文件")
-    del_empty_folder: bool = Field(default=True, title="删除空目录")
-    show_poster: bool = Field(default=True, title="显示海报")
+    soft_link: int = Field(default=0, title=tr("软链接"))
+    success_file_move: bool = Field(default=True, title=tr("成功后移动文件"))
+    failed_file_move: bool = Field(default=True, title=tr("失败后移动文件"))
+    success_file_rename: bool = Field(default=True, title=tr("成功后重命名文件"))
+    del_empty_folder: bool = Field(default=True, title=tr("删除空目录"))
+    show_poster: bool = Field(default=True, title=tr("显示海报"))
     download_files: list[DownloadableFile] = Field(
         default_factory=lambda: [
             DownloadableFile.POSTER,
@@ -307,23 +308,23 @@ class Config(BaseModel):
             DownloadableFile.IGNORE_GUOCHAN,
             DownloadableFile.IGNORE_SIZE,
         ],
-        title="下载文件类型",
+        title=tr("下载文件类型"),
     )
     keep_files: list[KeepableFile] = Field(
         default_factory=lambda: [
             KeepableFile.TRAILER,
             KeepableFile.THEME_VIDEOS,
         ],
-        title="保留文件类型",
+        title=tr("保留文件类型"),
     )
     download_hd_pics: list[HDPicSource] = Field(
         default_factory=lambda: [HDPicSource.AMAZON],
-        title="Amazon 高清封面图",
+        title=tr("Amazon 高清封面图"),
     )
-    amazon_skip_poster_size_precheck: bool = Field(default=False, title="跳过前置 Poster 大小校验")
-    amazon_strict_pic_verify: bool = Field(default=False, title="严格校验 Amazon 图片")
-    scrape_like: Literal["info", "speed", "single"] = Field(default="info", title="刮削模式")  # speed, info, single
-    field_priority_try_all_images: bool = Field(default=False, title="字段优先时尝试所有图片")
+    amazon_skip_poster_size_precheck: bool = Field(default=False, title=tr("跳过前置 Poster 大小校验"))
+    amazon_strict_pic_verify: bool = Field(default=False, title=tr("严格校验 Amazon 图片"))
+    scrape_like: Literal["info", "speed", "single"] = Field(default="info", title=tr("刮削模式"))  # speed, info, single
+    field_priority_try_all_images: bool = Field(default=False, title=tr("字段优先时尝试所有图片"))
     # endregion
 
     @field_validator("download_hd_pics", mode="before")
@@ -342,7 +343,7 @@ class Config(BaseModel):
         return [item for item in items if (item.value if isinstance(item, HDPicSource) else str(item)) in valid_values]
 
     # region: Website Settings
-    website_single: Website = Field(default=Website.AIRAV_CC, title="单个网站")  # todo 移除
+    website_single: Website = Field(default=Website.AIRAV_CC, title=tr("单个网站"))  # todo 移除
     website_youma: list[Website] = Field(
         default_factory=lambda: [
             Website.MGSTAGE,
@@ -354,7 +355,7 @@ class Config(BaseModel):
             Website.DMM,
             Website.AVBASE,
         ],
-        title="有码网站源",
+        title=tr("有码网站源"),
     )
     website_wuma: list[Website] = Field(
         default_factory=lambda: [
@@ -362,7 +363,7 @@ class Config(BaseModel):
             Website.MMTV,
             Website.AVSOX,
         ],
-        title="无码网站源",
+        title=tr("无码网站源"),
     )
     website_suren: list[Website] = Field(
         default_factory=lambda: [
@@ -373,7 +374,7 @@ class Config(BaseModel):
             Website.AVBASE,
             Website.MMTV,
         ],
-        title="素人网站源",
+        title=tr("素人网站源"),
     )
     website_fc2: list[Website] = Field(
         default_factory=lambda: [
@@ -382,24 +383,24 @@ class Config(BaseModel):
             Website.FC2HUB,
             Website.FC2CLUB,
         ],
-        title="FC2网站源",
+        title=tr("FC2网站源"),
     )
     website_oumei: list[Website] = Field(
         default_factory=lambda: [Website.THEPORNDB],
-        title="欧美网站源",
+        title=tr("欧美网站源"),
     )
     website_guochan: list[Website] = Field(
         default_factory=lambda: [Website.CNMDB, Website.HDOUBAN, Website.MADOUQU, Website.JAVDAY, Website.MDTV],
-        title="国产网站源",
+        title=tr("国产网站源"),
     )
     fixed_scraping_type: FixedScrapingType = Field(
         default=FixedScrapingType.AUTO,
-        title="锁定刮削类型",
-        description="选择后将跳过自动类型判断，直接使用指定类型的网站列表进行刮削",
+        title=tr("锁定刮削类型"),
+        description=tr("选择后将跳过自动类型判断，直接使用指定类型的网站列表进行刮削"),
     )
 
-    actor_realname: bool = Field(default=True, title="演员真名")
-    outline_format: list[OutlineShow] = Field(default_factory=list, title="简介格式")
+    actor_realname: bool = Field(default=True, title=tr("演员真名"))
+    outline_format: list[OutlineShow] = Field(default_factory=list, title=tr("简介格式"))
     # endregion
 
     field_configs: dict[CrawlerResultFields, FieldConfig] = Field(
@@ -424,16 +425,16 @@ class Config(BaseModel):
             CrawlerResultFields.SCORE: default_field_config(),
             CrawlerResultFields.WANTED: default_field_config(),
         },
-        title="字段配置",
+        title=tr("字段配置"),
     )
     type_field_configs: dict[FixedScrapingType, dict[CrawlerResultFields, FieldPriorityConfig]] = Field(
         default_factory=dict,
-        title="按类型字段优先级",
+        title=tr("按类型字段优先级"),
     )
 
-    site_configs: dict[Website, SiteConfig] = Field(default_factory=dict, title="网站配置")
+    site_configs: dict[Website, SiteConfig] = Field(default_factory=dict, title=tr("网站配置"))
 
-    translate_config: TranslateConfig = Field(default_factory=TranslateConfig, title="翻译配置")
+    translate_config: TranslateConfig = Field(default_factory=TranslateConfig, title=tr("翻译配置"))
 
     # region: Naming and Formatting
     nfo_include_new: list[NfoInclude] = Field(
@@ -473,9 +474,9 @@ class Config(BaseModel):
             NfoInclude.TRAILER,
             NfoInclude.WEBSITE,
         ],
-        title="NFO包含内容",
+        title=tr("NFO包含内容"),
     )
-    nfo_tagline: str = Field(default="发行日期 release", title="NFO标语")
+    nfo_tagline: str = Field(default="发行日期 release", title=tr("NFO标语"))
     nfo_tag_include: list[TagInclude] = Field(
         default_factory=lambda: [
             TagInclude.ACTOR,
@@ -487,39 +488,39 @@ class Config(BaseModel):
             TagInclude.MOSAIC,
             TagInclude.DEFINITION,
         ],
-        title="包含标签",
+        title=tr("包含标签"),
     )
-    nfo_tag_series: str = Field(default="系列: series", title="NFO系列标签")
-    nfo_tag_studio: str = Field(default="片商: studio", title="NFO工作室标签")
-    nfo_tag_publisher: str = Field(default="发行: publisher", title="NFO发行商标签")
-    nfo_tag_actor: str = Field(default="actor", title="NFO演员标签")
-    nfo_tag_actor_contains: list[str] = Field(default_factory=list, title="NFO 演员名白名单")
-    folder_name: str = Field(default="{{ actor }}/{{ number }} {{ actor }}", title="目录名称")
-    naming_file: str = Field(default="{{ number }}", title="文件命名")
+    nfo_tag_series: str = Field(default="系列: series", title=tr("NFO系列标签"))
+    nfo_tag_studio: str = Field(default="片商: studio", title=tr("NFO工作室标签"))
+    nfo_tag_publisher: str = Field(default="发行: publisher", title=tr("NFO发行商标签"))
+    nfo_tag_actor: str = Field(default="actor", title=tr("NFO演员标签"))
+    nfo_tag_actor_contains: list[str] = Field(default_factory=list, title=tr("NFO 演员名白名单"))
+    folder_name: str = Field(default="{{ actor }}/{{ number }} {{ actor }}", title=tr("目录名称"))
+    naming_file: str = Field(default="{{ number }}", title=tr("文件命名"))
     naming_media: str = Field(
         default="[{% if number %}{{ number }}{% endif %}]{% if title and title != number %}{{ title }}{% endif %}",
-        title="媒体命名",
+        title=tr("媒体命名"),
     )
-    prevent_char: str = Field(default="", title="禁止字符")
+    prevent_char: str = Field(default="", title=tr("禁止字符"))
     fields_rule: list[FieldRule] = Field(
         default_factory=lambda: [FieldRule.DEL_ACTOR, FieldRule.DEL_CHAR, FieldRule.FC2_SELLER, FieldRule.DEL_NUM],
-        title="字段规则",
+        title=tr("字段规则"),
     )
     suffix_sort: list[SuffixSort] = Field(
         default_factory=lambda: [SuffixSort.MOWORD, SuffixSort.CNWORD, SuffixSort.DEFINITION],
-        title="后缀排序",
+        title=tr("后缀排序"),
     )
-    actor_no_name: str = Field(default="未知演员", title="未知演员名称")
-    release_rule: str = Field(default="YYYY-MM-DD", title="发布规则")
-    folder_name_max: int = Field(default=60, title="目录名称最大长度")
-    file_name_max: int = Field(default=60, title="文件名称最大长度")
-    actor_name_max: int = Field(default=3, title="演员名称最大数量")
-    actor_name_more: str = Field(default="等演员", title="更多演员名称")
-    umr_style: str = Field(default="-破解", title="UMR样式")
-    leak_style: str = Field(default="-流出", title="泄露样式")
-    wuma_style: str = Field(default="", title="无码样式")
-    youma_style: str = Field(default="", title="有码样式")
-    cd_name: int = Field(default=0, title="CD名称")
+    actor_no_name: str = Field(default="未知演员", title=tr("未知演员名称"))
+    release_rule: str = Field(default="YYYY-MM-DD", title=tr("发布规则"))
+    folder_name_max: int = Field(default=60, title=tr("目录名称最大长度"))
+    file_name_max: int = Field(default=60, title=tr("文件名称最大长度"))
+    actor_name_max: int = Field(default=3, title=tr("演员名称最大数量"))
+    actor_name_more: str = Field(default="等演员", title=tr("更多演员名称"))
+    umr_style: str = Field(default="-破解", title=tr("UMR样式"))
+    leak_style: str = Field(default="-流出", title=tr("泄露样式"))
+    wuma_style: str = Field(default="", title=tr("无码样式"))
+    youma_style: str = Field(default="", title=tr("有码样式"))
+    cd_name: int = Field(default=0, title=tr("CD名称"))
     cd_char: list[CDChar] = Field(
         default_factory=lambda: [
             CDChar.LETTER,
@@ -530,31 +531,31 @@ class Config(BaseModel):
             CDChar.SPACE,
             CDChar.POINT,
         ],
-        title="分集规则",
+        title=tr("分集规则"),
     )
-    pic_simple_name: bool = Field(default=False, title="图片简化命名")
-    trailer_simple_name: bool = Field(default=True, title="预告片简化命名")
-    hd_name: Literal["height", "hd"] = Field(default="height", title="高清名称")
-    hd_get: Literal["video", "path", "none"] = Field(default="video", title="获取高清")
-    folder_moword: bool = Field(default=True, title="目录版本字符")
-    file_moword: bool = Field(default=True, title="文件版本字符")
-    folder_hd: bool = Field(default=True, title="目录画质字符")
-    file_hd: bool = Field(default=True, title="文件画质字符")
-    cnword_char: list[str] = Field(default_factory=lambda: ["-C.", "-C-", "ch.", "字幕"], title="中文字符")
-    cnword_style: str = Field(default="-C", title="中文样式")
-    folder_cnword: bool = Field(default=True, title="目录中文")
-    file_cnword: bool = Field(default=True, title="文件中文")
-    subtitle_folder: str = Field(default="", title="字幕目录")
-    subtitle_add: bool = Field(default=False, title="添加字幕")
-    subtitle_add_chs: bool = Field(default=True, title="添加中文字幕")
-    subtitle_add_rescrape: bool = Field(default=True, title="重新刮削时添加字幕")
+    pic_simple_name: bool = Field(default=False, title=tr("图片简化命名"))
+    trailer_simple_name: bool = Field(default=True, title=tr("预告片简化命名"))
+    hd_name: Literal["height", "hd"] = Field(default="height", title=tr("高清名称"))
+    hd_get: Literal["video", "path", "none"] = Field(default="video", title=tr("获取高清"))
+    folder_moword: bool = Field(default=True, title=tr("目录版本字符"))
+    file_moword: bool = Field(default=True, title=tr("文件版本字符"))
+    folder_hd: bool = Field(default=True, title=tr("目录画质字符"))
+    file_hd: bool = Field(default=True, title=tr("文件画质字符"))
+    cnword_char: list[str] = Field(default_factory=lambda: ["-C.", "-C-", "ch.", "字幕"], title=tr("中文字符"))
+    cnword_style: str = Field(default="-C", title=tr("中文样式"))
+    folder_cnword: bool = Field(default=True, title=tr("目录中文"))
+    file_cnword: bool = Field(default=True, title=tr("文件中文"))
+    subtitle_folder: str = Field(default="", title=tr("字幕目录"))
+    subtitle_add: bool = Field(default=False, title=tr("添加字幕"))
+    subtitle_add_chs: bool = Field(default=True, title=tr("添加中文字幕"))
+    subtitle_add_rescrape: bool = Field(default=True, title=tr("重新刮削时添加字幕"))
     # endregion
 
     # region: Server Settings
-    server_type: Literal["emby", "jellyfin"] = Field(default="emby", title="服务器类型")
-    emby_url: HttpUrl = Field(default=HttpUrl("http://127.0.0.1:8096"), title="Emby网址")
-    api_key: str = Field(default="", title="API密钥")
-    user_id: str = Field(default="", title="用户ID")
+    server_type: Literal["emby", "jellyfin"] = Field(default="emby", title=tr("服务器类型"))
+    emby_url: HttpUrl = Field(default=HttpUrl("http://127.0.0.1:8096"), title=tr("Emby网址"))
+    api_key: str = Field(default="", title=tr("API密钥"))
+    user_id: str = Field(default="", title=tr("用户ID"))
     emby_on: list[EmbyAction] = Field(
         default_factory=lambda: [
             EmbyAction.ACTOR_INFO_ZH_CN,
@@ -569,20 +570,20 @@ class Config(BaseModel):
             EmbyAction.ACTOR_PHOTO_AUTO,
             EmbyAction.ACTOR_REPLACE,
         ],
-        title="Emby功能开关",
+        title=tr("Emby功能开关"),
     )
-    use_database: bool = Field(default=False, title="使用数据库")
-    info_database_path: str = Field(default="", title="信息数据库路径")
+    use_database: bool = Field(default=False, title=tr("使用数据库"))
+    info_database_path: str = Field(default="", title=tr("信息数据库路径"))
     gfriends_github: HttpUrl = Field(default=HttpUrl("https://github.com/gfriends/gfriends"), title="Gfriends Github")
-    actor_photo_folder: str = Field(default="", title="演员照片目录")
-    actor_photo_kodi_auto: bool = Field(default=False, title="演员照片Kodi自动")
+    actor_photo_folder: str = Field(default="", title=tr("演员照片目录"))
+    actor_photo_kodi_auto: bool = Field(default=False, title=tr("演员照片Kodi自动"))
     # endregion
 
     # region: Watermark Settings
-    poster_mark: int = Field(default=1, title="海报水印")
-    thumb_mark: int = Field(default=1, title="缩略图水印")
-    fanart_mark: int = Field(default=0, title="Fanart水印")
-    mark_size: int = Field(default=5, title="水印大小")
+    poster_mark: int = Field(default=1, title=tr("海报水印"))
+    thumb_mark: int = Field(default=1, title=tr("缩略图水印"))
+    fanart_mark: int = Field(default=0, title=tr("Fanart水印"))
+    mark_size: int = Field(default=5, title=tr("水印大小"))
     mark_type: list[MarkType] = Field(
         default_factory=lambda: [
             MarkType.SUB,
@@ -592,47 +593,47 @@ class Config(BaseModel):
             MarkType.UNCENSORED,
             MarkType.HD,
         ],
-        title="水印类型",
+        title=tr("水印类型"),
     )
     mark_fixed: Literal["not_fixed", "fixed", "corner"] = Field(
         default="not_fixed",
-        title="水印添加规则",
-        description="not_fixed: 不固定位置. 将从首个位置开始顺时针方向依次添加; fixed: 固定一个位置, 水印在此依次横向添加; corner: 分别设置不同种类水印的位置.",
+        title=tr("水印添加规则"),
+        description=tr("not_fixed: 不固定位置. 将从首个位置开始顺时针方向依次添加; fixed: 固定一个位置, 水印在此依次横向添加; corner: 分别设置不同种类水印的位置."),
     )
-    mark_pos: str = Field(default="top_left", title="水印规则为不固定时首个水印的位置")
-    mark_pos_corner: str = Field(default="top_left", title="水印规则为固定时的位置")
-    mark_pos_sub: str = Field(default="top_left", title="中文字幕水印位置")
-    mark_pos_mosaic: str = Field(default="top_right", title="马赛克类型水印位置")
-    mark_pos_hd: str = Field(default="bottom_right", title="清晰度水印位置")
+    mark_pos: str = Field(default="top_left", title=tr("水印规则为不固定时首个水印的位置"))
+    mark_pos_corner: str = Field(default="top_left", title=tr("水印规则为固定时的位置"))
+    mark_pos_sub: str = Field(default="top_left", title=tr("中文字幕水印位置"))
+    mark_pos_mosaic: str = Field(default="top_right", title=tr("马赛克类型水印位置"))
+    mark_pos_hd: str = Field(default="bottom_right", title=tr("清晰度水印位置"))
     # endregion
 
     # region: Network Settings
-    use_proxy: bool = Field(default=False, title="代理类型")
-    proxy: str = Field(default="http://127.0.0.1:7890", title="代理地址")
-    cf_bypass_url: str = Field(default="", title="Cloudflare Bypass地址")
-    cf_bypass_proxy: str = Field(default="", title="Cloudflare Bypass代理地址")
-    timeout: int = Field(default=10, title="超时")
-    retry: int = Field(default=3, title="重试")
-    theporndb_api_token: str = Field(default="", title="Theporndb API令牌")
+    use_proxy: bool = Field(default=False, title=tr("代理类型"))
+    proxy: str = Field(default="http://127.0.0.1:7890", title=tr("代理地址"))
+    cf_bypass_url: str = Field(default="", title=tr("Cloudflare Bypass地址"))
+    cf_bypass_proxy: str = Field(default="", title=tr("Cloudflare Bypass代理地址"))
+    timeout: int = Field(default=10, title=tr("超时"))
+    retry: int = Field(default=3, title=tr("重试"))
+    theporndb_api_token: str = Field(default="", title=tr("Theporndb API令牌"))
     javdb: str = Field(default="", title="Javdb")
     fc2ppvdb: str = Field(default="", title="FC2PPVDB")
     javbus: str = Field(default="", title="Javbus")
     # endregion
 
     # region: Log Settings
-    show_web_log: bool = Field(default=False, title="显示网页日志")
-    show_from_log: bool = Field(default=True, title="显示来源日志")
-    show_data_log: bool = Field(default=True, title="显示数据日志")
-    save_log: bool = Field(default=True, title="保存日志")
+    show_web_log: bool = Field(default=False, title=tr("显示网页日志"))
+    show_from_log: bool = Field(default=True, title=tr("显示来源日志"))
+    show_data_log: bool = Field(default=True, title=tr("显示数据日志"))
+    save_log: bool = Field(default=True, title=tr("保存日志"))
     # endregion
 
     # region: Misc Settings
-    update_check: bool = Field(default=True, title="检查更新")
-    local_library: list[str] = Field(default_factory=list, title="本地库")
-    actors_name: str = Field(default="", title="演员名称")
-    netdisk_path: str = Field(default="", title="网盘路径")
-    localdisk_path: str = Field(default="", title="本地磁盘路径")
-    window_title: str = Field(default="hide", title="窗口标题")
+    update_check: bool = Field(default=True, title=tr("检查更新"))
+    local_library: list[str] = Field(default_factory=list, title=tr("本地库"))
+    actors_name: str = Field(default="", title=tr("演员名称"))
+    netdisk_path: str = Field(default="", title=tr("网盘路径"))
+    localdisk_path: str = Field(default="", title=tr("本地磁盘路径"))
+    window_title: str = Field(default="hide", title=tr("窗口标题"))
     switch_on: list[Switch] = Field(
         default_factory=lambda: [
             Switch.AUTO_EXIT,
@@ -650,67 +651,67 @@ class Config(BaseModel):
             Switch.SHOW_LOGS,
             Switch.HIDE_NONE,
         ],
-        title="功能开关",
+        title=tr("功能开关"),
     )
-    timed_interval: timedelta = Field(default=timedelta(minutes=30), title="定时器间隔")
-    rest_count: int = Field(default=20, title="休息计数")
-    rest_time: timedelta = Field(default=timedelta(), title="休息时间")
-    # statement: int = Field(default=3, title="声明")
+    timed_interval: timedelta = Field(default=timedelta(minutes=30), title=tr("定时器间隔"))
+    rest_count: int = Field(default=20, title=tr("休息计数"))
+    rest_time: timedelta = Field(default=timedelta(), title=tr("休息时间"))
+    # statement: int = Field(default=3, title=tr("声明"))
     # endregion
 
     # region: deperated
-    # website_set: list[WebsiteSet] = Field(default_factory=list, title="网站设置")
-    # whole_fields: list[WholeField] = Field(default_factory=list, title="完整字段")
-    # none_fields: list[NoneField] = Field(default_factory=list, title="空字段")
-    # title_website: list[Website] = Field(default_factory=list, title="标题网站源")
-    # title_zh_website: list[Website] = Field(default_factory=list, title="中文标题网站源")
-    # title_website_exclude: list[Website] = Field(default_factory=list, title="排除的标题网站源")
-    # outline_website: list[Website] = Field(default_factory=list, title="简介网站源")
-    # outline_zh_website: list[Website] = Field(default_factory=list, title="中文简介网站源")
-    # outline_website_exclude: list[Website] = Field(default_factory=list, title="排除的简介网站源")
-    # actor_website: list[Website] = Field(default_factory=list, title="演员网站源")
-    # actor_website_exclude: list[Website] = Field(default_factory=list, title="排除的演员网站源")
-    # thumb_website: list[Website] = Field(default_factory=list, title="缩略图网站源")
-    # thumb_website_exclude: list[Website] = Field(default_factory=list, title="排除的缩略图网站源")
-    # poster_website: list[Website] = Field(default_factory=list, title="海报网站源")
-    # poster_website_exclude: list[Website] = Field(default_factory=list, title="排除的海报网站源")
-    # extrafanart_website: list[Website] = Field(default_factory=list, title="剧照网站源")
-    # extrafanart_website_exclude: list[Website] = Field(default_factory=list, title="排除的剧照网站源")
-    # trailer_website: list[Website] = Field(default_factory=list, title="预告片网站源")
-    # trailer_website_exclude: list[Website] = Field(default_factory=list, title="排除的预告片网站源")
-    # tag_website: list[Website] = Field(default_factory=list, title="标签网站源")
-    # tag_website_exclude: list[Website] = Field(default_factory=list, title="排除的标签网站源")
-    # release_website: list[Website] = Field(default_factory=list, title="发布日期网站源")
-    # release_website_exclude: list[Website] = Field(default_factory=list, title="排除的发布日期网站源")
-    # runtime_website: list[Website] = Field(default_factory=list, title="时长网站源")
-    # runtime_website_exclude: list[Website] = Field(default_factory=list, title="排除的时长网站源")
-    # score_website: list[Website] = Field(default_factory=list, title="评分网站源")
-    # score_website_exclude: list[Website] = Field(default_factory=list, title="排除的评分网站源")
-    # director_website: list[Website] = Field(default_factory=list, title="导演网站源")
-    # director_website_exclude: list[Website] = Field(default_factory=list, title="排除的导演网站源")
-    # series_website: list[Website] = Field(default_factory=list, title="系列网站源")
-    # series_website_exclude: list[Website] = Field(default_factory=list, title="排除的系列网站源")
-    # studio_website: list[Website] = Field(default_factory=list, title="工作室网站源")
-    # studio_website_exclude: list[Website] = Field(default_factory=list, title="排除的工作室网站源")
-    # publisher_website: list[Website] = Field(default_factory=list, title="发行商网站源")
-    # publisher_website_exclude: list[Website] = Field(default_factory=list, title="排除的发行商网站源")
-    # wanted_website: list[Website] = Field(default_factory=list, title="想看网站源")
-    # title_language: Language = Field(default=Language.ZH_CN, title="标题语言")
-    # title_translate: bool = Field(default=True, title="翻译标题")
-    # outline_language: Language = Field(default=Language.ZH_CN, title="简介语言")
-    # outline_translate: bool = Field(default=True, title="翻译简介")
-    # actor_language: Language = Field(default=Language.ZH_CN, title="演员语言")
-    # actor_translate: bool = Field(default=True, title="翻译演员")
-    # tag_language: Language = Field(default=Language.ZH_CN, title="标签语言")
-    # tag_translate: bool = Field(default=True, title="翻译标签")
-    # director_language: Language = Field(default=Language.ZH_CN, title="导演语言")
-    # director_translate: bool = Field(default=True, title="翻译导演")
-    # series_language: Language = Field(default=Language.ZH_CN, title="系列语言")
-    # series_translate: bool = Field(default=True, title="翻译系列")
-    # studio_language: Language = Field(default=Language.ZH_CN, title="工作室语言")
-    # studio_translate: bool = Field(default=True, title="翻译工作室")
-    # publisher_language: Language = Field(default=Language.ZH_CN, title="发行商语言")
-    # publisher_translate: bool = Field(default=True, title="翻译发行商")
+    # website_set: list[WebsiteSet] = Field(default_factory=list, title=tr("网站设置"))
+    # whole_fields: list[WholeField] = Field(default_factory=list, title=tr("完整字段"))
+    # none_fields: list[NoneField] = Field(default_factory=list, title=tr("空字段"))
+    # title_website: list[Website] = Field(default_factory=list, title=tr("标题网站源"))
+    # title_zh_website: list[Website] = Field(default_factory=list, title=tr("中文标题网站源"))
+    # title_website_exclude: list[Website] = Field(default_factory=list, title=tr("排除的标题网站源"))
+    # outline_website: list[Website] = Field(default_factory=list, title=tr("简介网站源"))
+    # outline_zh_website: list[Website] = Field(default_factory=list, title=tr("中文简介网站源"))
+    # outline_website_exclude: list[Website] = Field(default_factory=list, title=tr("排除的简介网站源"))
+    # actor_website: list[Website] = Field(default_factory=list, title=tr("演员网站源"))
+    # actor_website_exclude: list[Website] = Field(default_factory=list, title=tr("排除的演员网站源"))
+    # thumb_website: list[Website] = Field(default_factory=list, title=tr("缩略图网站源"))
+    # thumb_website_exclude: list[Website] = Field(default_factory=list, title=tr("排除的缩略图网站源"))
+    # poster_website: list[Website] = Field(default_factory=list, title=tr("海报网站源"))
+    # poster_website_exclude: list[Website] = Field(default_factory=list, title=tr("排除的海报网站源"))
+    # extrafanart_website: list[Website] = Field(default_factory=list, title=tr("剧照网站源"))
+    # extrafanart_website_exclude: list[Website] = Field(default_factory=list, title=tr("排除的剧照网站源"))
+    # trailer_website: list[Website] = Field(default_factory=list, title=tr("预告片网站源"))
+    # trailer_website_exclude: list[Website] = Field(default_factory=list, title=tr("排除的预告片网站源"))
+    # tag_website: list[Website] = Field(default_factory=list, title=tr("标签网站源"))
+    # tag_website_exclude: list[Website] = Field(default_factory=list, title=tr("排除的标签网站源"))
+    # release_website: list[Website] = Field(default_factory=list, title=tr("发布日期网站源"))
+    # release_website_exclude: list[Website] = Field(default_factory=list, title=tr("排除的发布日期网站源"))
+    # runtime_website: list[Website] = Field(default_factory=list, title=tr("时长网站源"))
+    # runtime_website_exclude: list[Website] = Field(default_factory=list, title=tr("排除的时长网站源"))
+    # score_website: list[Website] = Field(default_factory=list, title=tr("评分网站源"))
+    # score_website_exclude: list[Website] = Field(default_factory=list, title=tr("排除的评分网站源"))
+    # director_website: list[Website] = Field(default_factory=list, title=tr("导演网站源"))
+    # director_website_exclude: list[Website] = Field(default_factory=list, title=tr("排除的导演网站源"))
+    # series_website: list[Website] = Field(default_factory=list, title=tr("系列网站源"))
+    # series_website_exclude: list[Website] = Field(default_factory=list, title=tr("排除的系列网站源"))
+    # studio_website: list[Website] = Field(default_factory=list, title=tr("工作室网站源"))
+    # studio_website_exclude: list[Website] = Field(default_factory=list, title=tr("排除的工作室网站源"))
+    # publisher_website: list[Website] = Field(default_factory=list, title=tr("发行商网站源"))
+    # publisher_website_exclude: list[Website] = Field(default_factory=list, title=tr("排除的发行商网站源"))
+    # wanted_website: list[Website] = Field(default_factory=list, title=tr("想看网站源"))
+    # title_language: Language = Field(default=Language.ZH_CN, title=tr("标题语言"))
+    # title_translate: bool = Field(default=True, title=tr("翻译标题"))
+    # outline_language: Language = Field(default=Language.ZH_CN, title=tr("简介语言"))
+    # outline_translate: bool = Field(default=True, title=tr("翻译简介"))
+    # actor_language: Language = Field(default=Language.ZH_CN, title=tr("演员语言"))
+    # actor_translate: bool = Field(default=True, title=tr("翻译演员"))
+    # tag_language: Language = Field(default=Language.ZH_CN, title=tr("标签语言"))
+    # tag_translate: bool = Field(default=True, title=tr("翻译标签"))
+    # director_language: Language = Field(default=Language.ZH_CN, title=tr("导演语言"))
+    # director_translate: bool = Field(default=True, title=tr("翻译导演"))
+    # series_language: Language = Field(default=Language.ZH_CN, title=tr("系列语言"))
+    # series_translate: bool = Field(default=True, title=tr("翻译系列"))
+    # studio_language: Language = Field(default=Language.ZH_CN, title=tr("工作室语言"))
+    # studio_translate: bool = Field(default=True, title=tr("翻译工作室"))
+    # publisher_language: Language = Field(default=Language.ZH_CN, title=tr("发行商语言"))
+    # publisher_translate: bool = Field(default=True, title=tr("翻译发行商"))
     # endregion
 
     def model_post_init(self, context) -> None:
