@@ -101,6 +101,12 @@ class CutWindow(QDialog):
         self.Ui.horizontalSlider_left.valueChanged.connect(self.change_postion_left)
         self.Ui.horizontalSlider_right.valueChanged.connect(self.change_postion_right)
         self.Ui.pushButton_open_pic.clicked.connect(self.open_image)
+        # pushButton_to_cut_2 exists in the .ui but nothing ever connected it -
+        # it is a leftover that sits on top of pushButton_cut and
+        # pushButton_close (y=520 h=61 over y=500 h=40 and y=550 h=40), which
+        # is what made "Crop and close" appear to collide with the buttons.
+        # Hide it rather than delete it, so the generated view stays intact.
+        self.Ui.pushButton_to_cut_2.hide()
         self.Ui.pushButton_cut_close.clicked.connect(self.do_cut_and_close)
         self.Ui.pushButton_cut.clicked.connect(self.do_cut)
         self.Ui.pushButton_close.clicked.connect(self.close)

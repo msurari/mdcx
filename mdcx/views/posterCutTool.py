@@ -86,7 +86,7 @@ class Ui_Dialog_cut_poster(object):
         self.pushButton_close.setGeometry(QtCore.QRect(30, 550, 141, 40))
         self.pushButton_close.setObjectName("pushButton_close")
         self.gridLayoutWidget = QtWidgets.QWidget(parent=self.widget)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(20, 305, 162, 81))
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(20, 305, 300, 81))
         self.gridLayoutWidget.setObjectName("gridLayoutWidget")
         self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)

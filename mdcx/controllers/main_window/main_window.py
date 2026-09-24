@@ -147,7 +147,9 @@ class MyMAinWindow(QMainWindow):
 
         # region 初始化需要的变量
         self.localversion = LOCAL_VERSION  # 当前版本号
-        self.new_version = "\n🔍 " + tr("点击检查最新版本")  # 有版本更新时在左下角显示的新版本信息
+        # Self-maintained fork: we are always on the newest version, so there is
+        # no upstream to check against and nothing for the user to click.
+        self.new_version = ""
         self.show_data: ShowData | None = None  # 当前树状图选中文件的数据
         self.img_path = None  # 当前树状图选中文件的图片地址
         self.m_drag = False  # 允许鼠标拖动的标识
@@ -886,18 +888,12 @@ class MyMAinWindow(QMainWindow):
             signal_qt.show_log_text(traceback.format_exc())
 
     def _show_version_thread(self):
+        # Self-maintained fork: MDCx is built from this repo, so it is always the
+        # newest build. Checking upstream would compare against a project we no
+        # longer track, and the "click to check" affordance was a dead end. Just
+        # show the version we are running.
         version_info = f"基于 MDC-GUI 修改 当前版本: {self.localversion}"
         download_link = ""
-        latest_version = check_version()
-        if latest_version:
-            if int(self.localversion) < int(latest_version):
-                self.new_version = f"\n🍉 有新版本了！（{latest_version}）"
-                signal_qt.show_scrape_info()
-                self.Ui.label_show_version.setCursor(Qt.CursorShape.OpenHandCursor)  # 设置鼠标形状为十字形
-                version_info = f'基于 MDC-GUI 修改 · 当前版本: {self.localversion} （ <font color="red" >最新版本是: {latest_version}，请及时更新！🚀 </font>）'
-                download_link = f' ⬇️ <a href="{GITHUB_RELEASES_URL}">下载新版本</a>'
-            else:
-                version_info = f'基于 MDC-GUI 修改 · 当前版本: {self.localversion} （ <font color="green">你使用的是最新版本！🎉 </font>）'
 
         feedback = f' 💌 {tr("问题反馈")}: <a href="{GITHUB_ISSUES_URL}">GitHub Issues</a>'
 
