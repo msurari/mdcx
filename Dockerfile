@@ -51,7 +51,14 @@ ENV DEBIAN_FRONTEND=noninteractive
 #
 # Put real files in place for the duration of the install, then restore the symlinks so the
 # base image's runtime user management is unaffected.
-RUN rm -f /etc/passwd /etc/group \
+#
+# The same base image also relocates runtime directories: /var/log -> /config/log and
+# /var/tmp -> /config/var/tmp, neither of which exists at build time. fontconfig's postinst
+# ends with `touch /var/log/fontconfig.log`, which then fails with
+# "cannot create /var/log/fontconfig.log: Directory nonexistent" and aborts the install.
+# Creating the real targets (not replacing the symlinks) is what the base image expects.
+RUN mkdir -p /config/log /config/var/tmp \
+    && rm -f /etc/passwd /etc/group \
     && printf 'root:x:0:0:root:/root:/bin/bash\n' > /etc/passwd \
     && printf 'root:x:0:\nstaff:x:50:\n' > /etc/group \
     && apt-get update -y && apt-get install -y --no-install-recommends \
