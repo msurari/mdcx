@@ -10,6 +10,7 @@ from PyQt6.QtWidgets import QApplication
 
 from mdcx.consts import IS_DOCKER, IS_MAC, IS_NFC, IS_PYINSTALLER, IS_WINDOWS, MAIN_PATH
 from mdcx.controllers.main_window.main_window import MyMAinWindow
+from mdcx.i18n import install_translator
 from mdcx.controllers.main_window.style import apply_application_palette
 from mdcx.utils.video import VIDEO_BACKEND
 
@@ -44,6 +45,9 @@ app.setStyle("Fusion")
 apply_application_palette(False)
 if platform.system() != "Windows":
     app.setWindowIcon(QIcon("resources/Img/MDCx.ico"))  # 设置任务栏图标
+# Install the interface translation before any window is built, so the generated
+# retranslateUi() picks it up. With no mapping for MDCX_LANG the app stays Chinese.
+install_translator(app)
 ui = MyMAinWindow()
 ui.show()
 app.installEventFilter(ui)

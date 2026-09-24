@@ -1,0 +1,2755 @@
+{
+ "settings_labels_total": 258,
+ "already_in_ui": 27,
+ "not_in_ui": 231,
+ "labels": [
+  {
+   "value": "API密钥",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 556"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "Amazon 高清封面图",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 321"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "CD名称",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 522"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "Cloudflare Bypass代理地址",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 613"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "Cloudflare Bypass地址",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 612"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "C结尾也视为分集而非字幕",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "CDChar.names() line 364"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "Emby功能开关",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 572"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "Emby网址",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 555"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "FC2网站源",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 385"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "Fanart水印",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 584"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "Javdb时间",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 274"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "LLM 最大尝试次数",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 85"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "LLM 标题提示词",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 77"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "LLM 每秒最大请求数",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 84"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "LLM 温度",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 86"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "LLM 简介提示词",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 81"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "LLM 读取超时 (秒)",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 83"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "NFO 演员名白名单",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 496"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "NFO包含内容",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 476"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "NFO发行商标签",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 494"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "NFO工作室标签",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 493"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "NFO标语",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 478"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "NFO演员标签",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 495"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "NFO系列标签",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 492"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "Theporndb API令牌",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 616"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "UMR样式",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 518"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "下载文件类型",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 310"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "不在结尾的数字",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "CDChar.names() line 366"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "不跳过小文件",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoEscape.names() line 15"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "不转义的字符串",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 226"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "严格校验 Amazon 图片",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 324"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "中文字幕",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "SuffixSort.names() line 483"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "中文字幕水印位置",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 604"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "中文字符",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 543"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "中文样式",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 544"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "主模式",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 275"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "主题视频",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "DownloadableFile.names() line 287"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "KeepableFile.names() line 319"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "代理地址",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 611"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "代理类型",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 610"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "休息时间",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 657"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "休息计数",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 656"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "使用 FC2 卖家作为演员名",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "FieldRule.names() line 339"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "使用数据库",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 574"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "保存日志",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 626"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "保留文件类型",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 317"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "信息数据库路径",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 575"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "分集分隔符: 下划线",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "CDChar.names() line 367"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "分集分隔符: 空格",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "CDChar.names() line 368"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "分集分隔符: 英文句号",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "CDChar.names() line 369"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "分集规则",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 533"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "删除空目录",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 290"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "刮削模式",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 325"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "刮削软链接路径",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 200"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "制造商",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 224"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "剧情",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 201"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "剧照",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "DownloadableFile.names() line 281"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "KeepableFile.names() line 314"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "功能开关",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 653"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "包含标签",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 490"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "单个网站",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 345"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "原始剧情",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 202"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "原始标题",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 198"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "发布",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 204"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "发布日期",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "WholeField.names() line 109"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoneField.names() line 146"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 205"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "发布规则",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 513"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "发行商",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "WholeField.names() line 116"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoneField.names() line 153"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 225"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "后缀排序",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 510"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "启用的清理规则",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 267"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "国产",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "FixedScrapingType.names() line 556"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "国产网站源",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 393"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "国家",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 207"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "图片简化命名",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 535"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "复制额外剧照",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "KeepableFile.names() line 318"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "失败后移动文件",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 288"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "失败输出目录",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 161"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "媒体命名",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 501"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "媒体类型",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 177"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "媒体路径",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 158"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "字幕",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "MarkType.names() line 424"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "字幕目录",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 547"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "字幕类型",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 198"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "字段优先时尝试所有图片",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 326"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "字段规则",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 506"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "字段配置",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 427"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "字母",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "TagInclude.names() line 74"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "定时器间隔",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 655"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "导演",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "WholeField.names() line 113"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoneField.names() line 150"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 217"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "封面",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 228"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "工作室",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "WholeField.names() line 115"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoneField.names() line 152"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 223"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "年份",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 210"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "并发数",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 272"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "忽略FC2",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "DownloadableFile.names() line 293"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "忽略包含特定字符串的文件",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "CleanAction.names() line 43"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "忽略国产",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "DownloadableFile.names() line 294"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "忽略图片失败",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "DownloadableFile.names() line 288"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "忽略大小",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "DownloadableFile.names() line 295"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "忽略指定后缀",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "CleanAction.names() line 42"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "忽略无码",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "DownloadableFile.names() line 291"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "忽略有码",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "DownloadableFile.names() line 289"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "忽略欧美",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "DownloadableFile.names() line 292"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "想看",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoneField.names() line 154"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 212"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "成功后移动文件",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 287"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "成功后重命名文件",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 289"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "成功输出目录",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 160"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "我同意",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "CleanAction.names() line 45"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "我知道",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "CleanAction.names() line 44"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "所有演员",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 216"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "按类型字段优先级",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 431"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "排序标题",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 197"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "排除的目录",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 205"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "文件",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "ShowLocation.names() line 348"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "文件中文",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 546"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "文件名称最大长度",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 515"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "文件命名",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 498"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "文件版本字符",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 540"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "文件画质字符",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 542"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "无CDATA简介",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 203"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "无NFO时刮削",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "ReadMode.names() line 254"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "无码",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "MarkType.names() line 424"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "FixedScrapingType.names() line 556"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "无码样式",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 520"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "无码网站源",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 365"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "时长",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "WholeField.names() line 110"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoneField.names() line 147"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 211"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "显示中日",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "OutlineShow.names() line 57"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "显示数据日志",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 625"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "显示日中",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "OutlineShow.names() line 57"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "显示来源",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "OutlineShow.names() line 57"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "显示来源日志",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 624"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "显示海报",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 291"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "显示网页日志",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 623"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "更多演员名称",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 517"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "更新A目录",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 278"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "更新B目录",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 279"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "更新C文件模板",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 280"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "更新D目录",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 281"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "更新NFO",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "ReadMode.names() line 254"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "更新标题模板",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 284"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "更新模式",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 277"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "有NFO时更新",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "ReadMode.names() line 254"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "有码",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "MarkType.names() line 424"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "FixedScrapingType.names() line 556"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "有码Poster竖图自动选优",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "DownloadableFile.names() line 290"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "有码样式",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 521"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "有码网站源",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 357"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "服务器类型",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 554"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "未知演员名称",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 512"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "末尾两位数字",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "CDChar.names() line 365"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "本地库",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 631"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "本地磁盘路径",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 634"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "来源网站优先级",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 98"
+    },
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 108"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "标签",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "WholeField.names() line 112"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoneField.names() line 149"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 219"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 226"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "标题CD",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 199"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "检查更新",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 630"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "检查符号链接",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoEscape.names() line 19"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "模型 ID",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 73"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "欧美",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "FixedScrapingType.names() line 556"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "欧美网站源",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 389"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "水印大小",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 585"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "水印添加规则",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 599"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "水印类型",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 595"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "水印规则为不固定时首个水印的位置",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 602"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "水印规则为固定时的位置",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 603"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "泄露样式",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 519"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "流出",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "MarkType.names() line 424"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "海报",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "WholeField.names() line 106"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoneField.names() line 143"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 227"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "DownloadableFile.names() line 279"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "KeepableFile.names() line 312"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "海报水印",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 582"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "添加中文字幕",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 549"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "添加字幕",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 548"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "清晰度",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "SuffixSort.names() line 483"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "清晰度水印位置",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 606"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "清理包含特定字符串的文件",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "CleanAction.names() line 40"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "清理小于指定大小的文件",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "CleanAction.names() line 41"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "清理小于此大小的文件（KB）",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 249"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "清理指定后缀文件",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "CleanAction.names() line 38"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "清理指定文件名",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "CleanAction.names() line 39"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "清理规则: 扩展名",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 230"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "清理规则: 排除扩展名",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 252"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "清理规则: 排除文件名包含",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 256"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "清理规则: 文件名(完全匹配)",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 234"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "清理规则: 文件名包含",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 247"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "演员",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "TagInclude.names() line 73"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "WholeField.names() line 104"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoneField.names() line 141"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 215"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "演员名称",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 632"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "演员名称最大数量",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 516"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "演员照片Kodi自动",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 578"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "演员照片目录",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 577"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "演员真名",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 401"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "演员集",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 221"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "用户ID",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 557"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "百度",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "Translator.names() line 243"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "百度 APP ID",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 68"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "百度密钥",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 69"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "目录",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoEscape.names() line 16"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "ShowLocation.names() line 348"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "目录中文",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 545"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "目录名称",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 497"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "目录名称最大长度",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 514"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "目录版本字符",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 539"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "目录画质字符",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 541"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "破解",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "MarkType.names() line 424"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "禁止字符",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 503"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "移除标题后的演员名",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "FieldRule.names() line 339"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "移除演员名中的括号",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "FieldRule.names() line 339"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "移除番号前缀数字",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "FieldRule.names() line 339"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "窗口标题",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 635"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "符号链接定义",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoEscape.names() line 20"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "简介",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "WholeField.names() line 103"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoneField.names() line 140"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 200"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "简介格式",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 402"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "类型",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 220"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "系列",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "WholeField.names() line 114"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoneField.names() line 151"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 218"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "系列集",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 222"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "素人",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "FixedScrapingType.names() line 556"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "素人网站源",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 376"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "线程时间",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 273"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "缩略图",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "WholeField.names() line 105"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoneField.names() line 142"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "DownloadableFile.names() line 280"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "KeepableFile.names() line 313"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "缩略图水印",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 583"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "网盘路径",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 633"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "网站",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 230"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "网站配置",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 434"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "翻译服务",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 66"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "翻译此字段",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 102"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "翻译配置",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 436"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "自动创建软链接",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 201"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "自动判断",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "FixedScrapingType.names() line 556"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "自动开始",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "Switch.names() line 454"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "自动清理",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "CleanAction.names() line 46"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "自动退出",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "Switch.names() line 455"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "自定义网址",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 94"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "自定义评分",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 209"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "获取简体中文演员信息",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "EmbyAction.names() line 395"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "获取繁体中文演员信息",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "EmbyAction.names() line 396"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "获取高清",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 538"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "要从文件名中删除的字符串",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 221"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "要处理的最小文件大小（MB）",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 223"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "记录成功文件",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoEscape.names() line 18"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "评分",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "WholeField.names() line 111"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoneField.names() line 148"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 213"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "评论家评分",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 214"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "语言偏好",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 99"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "读取模式",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 276"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "谷歌",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "Translator.names() line 243"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "超时",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 614"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "跳过前置 Poster 大小校验",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 323"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "跳过成功文件",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoEscape.names() line 17"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "软链接",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 286"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "软链接路径",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 159"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "配置版本",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 157"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "重新下载",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "ReadMode.names() line 254"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "重新刮削时添加字幕",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 550"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "重试",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 615"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "锁定刮削类型",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 397"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "附加剧照",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "WholeField.names() line 107"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoneField.names() line 144"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "除C以外的字母",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "CDChar.names() line 363"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "预告片",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "WholeField.names() line 108"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NoneField.names() line 145"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 229"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "DownloadableFile.names() line 283"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "KeepableFile.names() line 316"
+    }
+   ],
+   "in_ui": true
+  },
+  {
+   "value": "预告片简化命名",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 536"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "额外剧照",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "DownloadableFile.names() line 282"
+    },
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "KeepableFile.names() line 315"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "额外剧照复制",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "DownloadableFile.names() line 286"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "额外剧照扩展",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "DownloadableFile.names() line 285"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "额外剧照目录",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 162"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "首映",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "NfoInclude.names() line 206"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "马赛克",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "SuffixSort.names() line 483"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "马赛克类型水印位置",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 605"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "高清",
+   "locations": [
+    {
+     "source": "mdcx/config/enums.py",
+     "where": "MarkType.names() line 424"
+    }
+   ],
+   "in_ui": false
+  },
+  {
+   "value": "高清名称",
+   "locations": [
+    {
+     "source": "mdcx/config/models.py",
+     "where": "Field(title=) line 537"
+    }
+   ],
+   "in_ui": false
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+{
+ "generated_by": "movie profile, phase 1 (i18n layer + main-window translation)",
+ "upstream": "https://github.com/Hazard804/mdcx",
+ "upstream_commit": "67a7ff78507f6f030439cd0b448fbdfc3e4f4a34",
+ "ui_strings_unique": 659,
+ "ui_strings_translated": 658,
+ "ui_strings_deferred": [
+  628
+ ],
+ "settings_labels_translated": 231,
+ "entries": 889
+}
