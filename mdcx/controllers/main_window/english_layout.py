@@ -35,8 +35,40 @@ VALUE_SHIFT = {
 }
 
 
-def widen_english_text_columns(page: QWidget) -> int:
-    """Widen caption boxes and shift value columns. Returns widgets touched."""
+def _resolve_page(target) -> "QWidget | None":
+    """Accept either the controller (whose view lives on ``.Ui``) or a page widget.
+
+    main.py holds the controller, not the view, and getting that wrong raises
+    AttributeError during startup - which takes the whole app down for what is
+    only a cosmetic layout tweak. Resolve defensively.
+    """
+    from PyQt6.QtWidgets import QWidget
+
+    if target is None:
+        return None
+    if isinstance(target, QWidget):
+        return target
+    view = getattr(target, "Ui", None)
+    return getattr(view, "page_main", None)
+
+
+def widen_english_text_columns(target) -> int:
+    """Widen caption boxes and shift value columns. Returns widgets touched.
+
+    A cosmetic adjustment must never be able to stop the app from starting, so
+    any failure here is swallowed after being reported.
+    """
+    try:
+        return _widen_english_text_columns(target)
+    except Exception:  # noqa: BLE001 - startup must survive a layout tweak
+        import traceback
+
+        traceback.print_exc()
+        return 0
+
+
+def _widen_english_text_columns(target) -> int:
+    page = _resolve_page(target)
     if page is None:
         return 0
     touched = 0

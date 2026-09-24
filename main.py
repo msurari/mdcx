@@ -60,7 +60,7 @@ apply_tooltips(ui)
 # positioned get a scroll area, matching what page_tool and page_setting
 # already do. Without this, shrinking the window puts controls outside it.
 make_window_scrollable(ui)
-widen_english_text_columns(ui.page_main)
+widen_english_text_columns(ui)
 ui.show()
 app.installEventFilter(ui)
 # newWin2 = CutWindow()
