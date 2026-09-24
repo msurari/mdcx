@@ -44,17 +44,17 @@ def Init_Ui(self: "MyMAinWindow"):
     self.Ui.label_poster.setScaledContents(True)  # 图片自适应窗口
     self.Ui.label_thumb.setScaledContents(True)  # 图片自适应窗口
     self.Ui.pushButton_right_menu.setIcon(QIcon(resources.right_menu))
-    self.Ui.pushButton_right_menu.setToolTip(" 右键菜单 ")
+    self.Ui.pushButton_right_menu.setToolTip(tr(" 右键菜单 "))
     self.Ui.pushButton_play.setIcon(QIcon(resources.play_icon))
-    self.Ui.pushButton_play.setToolTip(" 播放 ")
+    self.Ui.pushButton_play.setToolTip(tr(" 播放 "))
     self.Ui.pushButton_open_folder.setIcon(QIcon(resources.open_folder_icon))
-    self.Ui.pushButton_open_folder.setToolTip(" 打开文件夹 ")
+    self.Ui.pushButton_open_folder.setToolTip(tr(" 打开文件夹 "))
     self.Ui.pushButton_open_nfo.setIcon(QIcon(resources.open_nfo_icon))
-    self.Ui.pushButton_open_nfo.setToolTip(" 编辑 NFO ")
+    self.Ui.pushButton_open_nfo.setToolTip(tr(" 编辑 NFO "))
     self.Ui.pushButton_tree_clear.setIcon(QIcon(resources.clear_tree_icon))
-    self.Ui.pushButton_tree_clear.setToolTip(" 清空结果列表 ")
-    self.Ui.pushButton_close.setToolTip(" 关闭 ")
-    self.Ui.pushButton_min.setToolTip(" 最小化 ")
+    self.Ui.pushButton_tree_clear.setToolTip(tr(" 清空结果列表 "))
+    self.Ui.pushButton_close.setToolTip(tr(" 关闭 "))
+    self.Ui.pushButton_min.setToolTip(tr(" 最小化 "))
     self.Ui.pushButton_main.setIcon(QIcon(resources.home_icon))
     self.Ui.pushButton_log.setIcon(QIcon(resources.log_icon))
     self.Ui.pushButton_tool.setIcon(QIcon(resources.tool_icon))
@@ -334,9 +334,9 @@ def Init_QSystemTrayIcon(self: "MyMAinWindow"):
     self.tray_icon = QSystemTrayIcon(self)
     self.tray_icon.setIcon(QIcon(resources.icon_ico))
     self.tray_icon.activated.connect(self.tray_icon_click)
-    self.tray_icon.setToolTip(f"MDCx {self.localversion}（左键显示/隐藏 | 右键退出）")
-    show_action = QAction("显示", self)
-    hide_action = QAction("隐藏\tQ", self)
+    self.tray_icon.setToolTip(tr("MDCx {version}（左键显示/隐藏 | 右键退出）").format(version=self.localversion))
+    show_action = QAction(tr("显示"), self)
+    hide_action = QAction(tr("隐藏\tQ"), self)
     quit_action = QAction("退出 MDCx", self)
     show_action.triggered.connect(self.tray_icon_show)
     hide_action.triggered.connect(self.hide)
@@ -357,7 +357,7 @@ def init_QTreeWidget(self: "MyMAinWindow"):
     # 初始化树状控件
     try:
         movie_path_text = ";".join(str(path) for path in get_movie_path_setting().movie_paths)
-        self.set_label_file_path.emit(f"🎈 当前刮削路径: \n {movie_path_text}")  # 主界面右上角显示提示信息
+        self.set_label_file_path.emit(f"{tr('🎈 当前刮削路径:')} \n {movie_path_text}")  # 主界面右上角显示提示信息
     except Exception:
         signal_qt.show_traceback_log(traceback.format_exc())
     signal_qt.set_main_info()

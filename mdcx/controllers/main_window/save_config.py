@@ -747,12 +747,14 @@ def save_config(self: "MyMAinWindow"):
             scrape_like_text += tr(" · 硬连接开")
         movie_path_text = ";".join(str(path) for path in get_movie_path_setting().movie_paths)
         signal_qt.show_log_text(
-            f" 🛠 当前配置：{manager.path} 保存完成！\n "
-            f"📂 程序目录：{manager.data_folder} \n "
-            f"📂 刮削目录：{movie_path_text} \n "
-            f"💠 刮削模式：{Flags.main_mode_text} · {scrape_like_text} \n "
-            f"🖥️ 系统信息：{platform.platform()} \n "
-            f"🐰 软件版本：{self.localversion} \n"
+            tr(" 🛠 当前配置：{config} 保存完成！\n ").format(config=manager.path)
+            + tr("📂 程序目录：{data_folder} \n ").format(data_folder=manager.data_folder)
+            + tr("📂 刮削目录：{movie_path} \n ").format(movie_path=movie_path_text)
+            + tr("💠 刮削模式：{mode} · {like} \n ").format(
+                mode=Flags.main_mode_text, like=scrape_like_text
+            )
+            + tr("🖥️ 系统信息：{platform} \n ").format(platform=platform.platform())
+            + tr("🐰 软件版本：{version} \n").format(version=self.localversion)
         )
     except Exception:
         signal_qt.show_traceback_log(traceback.format_exc())
@@ -764,6 +766,6 @@ def save_config(self: "MyMAinWindow"):
     self.activateWindow()
     try:
         movie_path_text = ";".join(str(path) for path in get_movie_path_setting().movie_paths)
-        self.set_label_file_path.emit(f"🎈 当前刮削路径: \n {movie_path_text}")  # 主界面右上角显示提示信息
+        self.set_label_file_path.emit(f"{tr('🎈 当前刮削路径:')} \n {movie_path_text}")  # 主界面右上角显示提示信息
     except Exception:
         signal_qt.show_traceback_log(traceback.format_exc())

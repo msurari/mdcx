@@ -316,7 +316,7 @@ class Ui_MDCx(object):
         self.label_source.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignTrailing|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.label_source.setObjectName("label_source")
         self.pushButton_select_media_folder = QtWidgets.QPushButton(parent=self.page_main)
-        self.pushButton_select_media_folder.setGeometry(QtCore.QRect(565, 13, 101, 40))
+        self.pushButton_select_media_folder.setGeometry(QtCore.QRect(546, 13, 120, 40))
         self.pushButton_select_media_folder.setObjectName("pushButton_select_media_folder")
         self.label_poster_size = QtWidgets.QLabel(parent=self.page_main)
         self.label_poster_size.setGeometry(QtCore.QRect(80, 380, 411, 40))

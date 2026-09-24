@@ -218,14 +218,14 @@ class MyMAinWindow(QMainWindow):
 
         # region 启动显示信息和后台检查更新
         self.show_scrape_info()  # 主界面左下角显示一些配置信息
-        self.show_net_info("\n🏠 代理设置在:【设置】 - 【网络】 - 【代理设置】。")
+        self.show_net_info(tr("\n🏠 代理设置在:【设置】 - 【网络】 - 【代理设置】。"))
         show_netstatus()  # 检查网络界面显示当前网络代理信息
         self.show_net_info(
-            "\n💡 Cloudflare Bypass：在【设置】-【网络】-【CF Bypass】填写本地服务地址后生效，"
-            "例如 http://127.0.0.1:8000。\n"
-            "▶️ 点击右上角 【开始检测】按钮以测试网络连通性。"
+            tr("\n💡 Cloudflare Bypass：在【设置】-【网络】-【CF Bypass】填写本地服务地址后生效，"
+               "例如 http://127.0.0.1:8000。\n"
+               "▶️ 点击右上角 【开始检测】按钮以测试网络连通性。")
         )
-        signal_qt.add_log("🍯 你可以点击左下角的图标来 显示 / 隐藏 请求信息面板！")
+        signal_qt.add_log(tr("🍯 你可以点击左下角的图标来 显示 / 隐藏 请求信息面板！"))
         self.show_version()  # 日志页面显示版本信息
         self.creat_right_menu()  # 加载右键菜单
         self.pushButton_main_clicked()  # 切换到主界面
@@ -471,24 +471,24 @@ class MyMAinWindow(QMainWindow):
     def load_config(self): ...
 
     def creat_right_menu(self):
-        self.menu_start = QAction(QIcon(resources.start_icon), "  开始刮削\tS", self)
-        self.menu_stop = QAction(QIcon(resources.stop_icon), "  停止刮削\tS", self)
-        self.menu_number = QAction(QIcon(resources.input_number_icon), "  重新刮削\tN", self)
-        self.menu_website = QAction(QIcon(resources.input_website_icon), "  输入网址重新刮削\tU", self)
-        self.menu_del_file = QAction(QIcon(resources.del_file_icon), "  删除文件\tD", self)
-        self.menu_del_folder = QAction(QIcon(resources.del_folder_icon), "  删除文件和文件夹\tA", self)
-        self.menu_make_symlink = QAction(QIcon(resources.open_folder_icon), "  在指定位置创建软链接", self)
+        self.menu_start = QAction(QIcon(resources.start_icon), tr("  开始刮削\tS"), self)
+        self.menu_stop = QAction(QIcon(resources.stop_icon), tr("  停止刮削\tS"), self)
+        self.menu_number = QAction(QIcon(resources.input_number_icon), tr("  重新刮削\tN"), self)
+        self.menu_website = QAction(QIcon(resources.input_website_icon), tr("  输入网址重新刮削\tU"), self)
+        self.menu_del_file = QAction(QIcon(resources.del_file_icon), tr("  删除文件\tD"), self)
+        self.menu_del_folder = QAction(QIcon(resources.del_folder_icon), tr("  删除文件和文件夹\tA"), self)
+        self.menu_make_symlink = QAction(QIcon(resources.open_folder_icon), tr("  在指定位置创建软链接"), self)
         self.menu_make_symlink_in_dir = QAction(
-            QIcon(resources.open_folder_icon), "  在指定位置创建软链接（按文件名建目录）", self
+            QIcon(resources.open_folder_icon), tr("  在指定位置创建软链接（按文件名建目录）"), self
         )
-        self.menu_make_hardlink = QAction(QIcon(resources.open_folder_icon), "  在指定位置创建硬链接", self)
+        self.menu_make_hardlink = QAction(QIcon(resources.open_folder_icon), tr("  在指定位置创建硬链接"), self)
         self.menu_make_hardlink_in_dir = QAction(
-            QIcon(resources.open_folder_icon), "  在指定位置创建硬链接（按文件名建目录）", self
+            QIcon(resources.open_folder_icon), tr("  在指定位置创建硬链接（按文件名建目录）"), self
         )
-        self.menu_folder = QAction(QIcon(resources.open_folder_icon), "  打开文件夹\tF", self)
-        self.menu_nfo = QAction(QIcon(resources.open_nfo_icon), "  编辑 NFO\tE", self)
-        self.menu_play = QAction(QIcon(resources.play_icon), "  播放\tP", self)
-        self.menu_hide = QAction(QIcon(resources.hide_boss_icon), "  隐藏\tQ", self)
+        self.menu_folder = QAction(QIcon(resources.open_folder_icon), tr("  打开文件夹\tF"), self)
+        self.menu_nfo = QAction(QIcon(resources.open_nfo_icon), tr("  编辑 NFO\tE"), self)
+        self.menu_play = QAction(QIcon(resources.play_icon), tr("  播放\tP"), self)
+        self.menu_hide = QAction(QIcon(resources.hide_boss_icon), tr("  隐藏\tQ"), self)
 
         self.menu_start.triggered.connect(self.pushButton_start_scrape_clicked)
         self.menu_stop.triggered.connect(self.pushButton_start_scrape_clicked)
@@ -530,7 +530,7 @@ class MyMAinWindow(QMainWindow):
         selected_entries = self._get_selected_entries()
         selected_entry = selected_entries[0] if len(selected_entries) == 1 else None
         if len(selected_entries) > 1:
-            menu.addAction(QAction(f"已选择 {len(selected_entries)} 项", self))
+            menu.addAction(QAction(tr("已选择 {count} 项").format(count=len(selected_entries)), self))
             menu.addSeparator()
             menu.addAction(self.menu_del_file)
             menu.addAction(self.menu_del_folder)
@@ -551,7 +551,7 @@ class MyMAinWindow(QMainWindow):
             menu.addAction(QAction(file_name, self))
             menu.addSeparator()
         else:
-            menu.addAction(QAction("请刮削后使用！", self))
+            menu.addAction(QAction(tr("请刮削后使用！"), self))
             menu.addSeparator()
             if self.Ui.pushButton_start_cap.text() != tr("开始"):
                 menu.addAction(self.menu_stop)
@@ -767,7 +767,7 @@ class MyMAinWindow(QMainWindow):
 
             # print(self.window().isActiveWindow()) # 是否为活动窗口
             self.raise_()
-            box = QMessageBox(QMessageBox.Icon.Warning, "退出", "确定要退出吗？")
+            box = QMessageBox(QMessageBox.Icon.Warning, tr("退出"), tr("确定要退出吗？"))
             box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
             box.button(QMessageBox.StandardButton.Yes).setText(tr("退出 MDCx"))
             box.button(QMessageBox.StandardButton.No).setText(tr("取消"))
@@ -1006,7 +1006,7 @@ class MyMAinWindow(QMainWindow):
     # 停止确认弹窗
     def pushButton_stop_scrape_clicked(self):
         if Switch.SHOW_DIALOG_STOP_SCRAPE in manager.config.switch_on:
-            box = QMessageBox(QMessageBox.Icon.Warning, "停止刮削", "确定要停止刮削吗？")
+            box = QMessageBox(QMessageBox.Icon.Warning, tr("停止刮削"), tr("确定要停止刮削吗？"))
             box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
             box.button(QMessageBox.StandardButton.Yes).setText(tr("停止刮削"))
             box.button(QMessageBox.StandardButton.No).setText(tr("取消"))
@@ -1413,14 +1413,14 @@ class MyMAinWindow(QMainWindow):
             detail_lines.append(f"... 其余 {len(failure_details) - detail_limit} 条请查看日志")
         detail_text = "\n\n".join(detail_lines)
 
-        box = QMessageBox(QMessageBox.Icon.Warning, f"{action_name}结果", f"{action_name}完成")
+        box = QMessageBox(QMessageBox.Icon.Warning, tr("{action_name}结果").format(action_name=action_name), tr("{action_name}完成").format(action_name=action_name))
         box.setInformativeText(
             f"{self._build_action_result_text(success_count, len(failure_details), skipped_count)}\n\n"
             f"{'\n'.join(preview_lines)}"
         )
         box.setDetailedText(detail_text)
-        view_log_button = box.addButton("查看日志", QMessageBox.ButtonRole.ActionRole)
-        box.addButton("确定", QMessageBox.ButtonRole.AcceptRole)
+        view_log_button = box.addButton(tr("查看日志"), QMessageBox.ButtonRole.ActionRole)
+        box.addButton(tr("确定"), QMessageBox.ButtonRole.AcceptRole)
         self._bind_localized_message_box_detail_buttons(box)
         box.exec()
 
@@ -1767,7 +1767,7 @@ class MyMAinWindow(QMainWindow):
     def _check_main_file_path(self):
         selected_entries = self._get_selected_entries()
         if len(selected_entries) > 1:
-            QMessageBox.about(self, "选择过多", "请只选择一个项目后再使用！！")
+            QMessageBox.about(self, tr("选择过多"), tr("请只选择一个项目后再使用！！"))
             signal_qt.show_scrape_info(f"💡 请只选择一个项目后再使用！{get_current_time()}")
             return False
         if len(selected_entries) == 1:
@@ -1777,7 +1777,7 @@ class MyMAinWindow(QMainWindow):
             self.file_main_open_path = file_path
 
         if self.file_main_open_path == Path() or not self.file_main_open_path.is_file():
-            QMessageBox.about(self, "没有目标文件", "请刮削后再使用！！")
+            QMessageBox.about(self, tr("没有目标文件"), tr("请刮削后再使用！！"))
             signal_qt.show_scrape_info(f"💡 请刮削后使用！{get_current_time()}")
             return False
         return True
@@ -1901,7 +1901,7 @@ class MyMAinWindow(QMainWindow):
                 f"将要删除 {len(file_paths)} 个文件：\n{self._build_delete_preview(file_paths)}\n\n你确定要继续吗？"
             )
 
-        box = QMessageBox(QMessageBox.Icon.Warning, "删除文件", box_text)
+        box = QMessageBox(QMessageBox.Icon.Warning, tr("删除文件"), box_text)
         box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         box.button(QMessageBox.StandardButton.Yes).setText(tr("删除文件"))
         box.button(QMessageBox.StandardButton.No).setText(tr("取消"))
@@ -1972,7 +1972,7 @@ class MyMAinWindow(QMainWindow):
                 f"{self._build_delete_preview(folder_paths)}\n\n你确定要继续吗？"
             )
 
-        box = QMessageBox(QMessageBox.Icon.Warning, "删除文件", box_text)
+        box = QMessageBox(QMessageBox.Icon.Warning, tr("删除文件"), box_text)
         box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         box.button(QMessageBox.StandardButton.Yes).setText(tr("删除文件和文件夹"))
         box.button(QMessageBox.StandardButton.No).setText(tr("取消"))
@@ -2173,7 +2173,7 @@ class MyMAinWindow(QMainWindow):
 
     # region 获取/保存成功刮削列表
     def pushButton_success_list_save_clicked(self):
-        box = QMessageBox(QMessageBox.Icon.Warning, "保存成功列表", "确定要将当前列表保存为已刮削成功文件列表吗？")
+        box = QMessageBox(QMessageBox.Icon.Warning, tr("保存成功列表"), tr("确定要将当前列表保存为已刮削成功文件列表吗？"))
         box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         box.button(QMessageBox.StandardButton.Yes).setText(tr("保存"))
         box.button(QMessageBox.StandardButton.No).setText(tr("取消"))
@@ -2189,7 +2189,7 @@ class MyMAinWindow(QMainWindow):
             self.Ui.widget_show_success.hide()
 
     def pushButton_success_list_clear_clicked(self):
-        box = QMessageBox(QMessageBox.Icon.Warning, "清空成功列表", "确定要清空当前已刮削成功文件列表吗？")
+        box = QMessageBox(QMessageBox.Icon.Warning, tr("清空成功列表"), tr("确定要清空当前已刮削成功文件列表吗？"))
         box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         box.button(QMessageBox.StandardButton.Yes).setText(tr("清空"))
         box.button(QMessageBox.StandardButton.No).setText(tr("取消"))
@@ -2477,7 +2477,7 @@ class MyMAinWindow(QMainWindow):
 
     # 工具-视频移动
     def pushButton_move_mp4_clicked(self):
-        box = QMessageBox(QMessageBox.Icon.Warning, "移动视频和字幕", "确定要移动视频和字幕吗？")
+        box = QMessageBox(QMessageBox.Icon.Warning, tr("移动视频和字幕"), tr("确定要移动视频和字幕吗？"))
         box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         box.button(QMessageBox.StandardButton.Yes).setText(tr("移动"))
         box.button(QMessageBox.StandardButton.No).setText(tr("取消"))
@@ -2960,7 +2960,7 @@ class MyMAinWindow(QMainWindow):
 
     # 设置-另存为
     def pushButton_save_new_config_clicked(self):
-        new_config_name, ok = QInputDialog.getText(self, "另存为新配置", "请输入新配置的文件名")
+        new_config_name, ok = QInputDialog.getText(self, tr("另存为新配置"), tr("请输入新配置的文件名"))
         if ok and new_config_name:
             new_config_name = new_config_name.replace("/", "").replace("\\", "")
             new_config_name = re.sub(r'[\\:*?"<>|\r\n]+', "", new_config_name)

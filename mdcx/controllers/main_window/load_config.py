@@ -64,9 +64,10 @@ def load_config(self: "MyMAinWindow"):
         errors = [e for e in errors if not e.startswith("[V1]")]
     if errors:
         signal_qt.show_log_text(
-            f"⚠️ 读取配置文件出错:\n\t{'\n\t'.join(errors)}\n\n"
-            "为避免破坏配置文件, 已自动切换为 _failed.json\n"
-            f'这是非预期错误, 请提交 <a href="{GITHUB_ISSUES_URL}">GitHub Issue</a>\n'
+            tr("⚠️ 读取配置文件出错:\n\t{errors}\n\n为避免破坏配置文件, 已自动切换为 _failed.json\n"
+               '这是非预期错误, 请提交 <a href="{url}">GitHub Issue</a>\n').format(
+                errors="\n\t".join(errors), url=GITHUB_ISSUES_URL
+            )
         )
         manager.path = manager.data_folder / "_failed.json"
         return
@@ -169,7 +170,10 @@ def load_config(self: "MyMAinWindow"):
         else:
             self.Ui.comboBox_website_all.setCurrentIndex(0)
             signal_qt.show_log_text(
-                f"⚠️ 指定网站 '{website_single_value}' 不在 UI 网站列表中，已回退为 {self.Ui.comboBox_website_all.itemText(0)}\n"
+                tr("⚠️ 指定网站 '{site}' 不在 UI 网站列表中，已回退为 {fallback}\n").format(
+                    site=website_single_value,
+                    fallback=self.Ui.comboBox_website_all.itemText(0),
+                )
             )
         # 有码番号刮削网站
         self.Ui.lineEdit_website_youma.setText(",".join([site.value for site in manager.config.website_youma]))
@@ -1042,7 +1046,7 @@ def load_config(self: "MyMAinWindow"):
                 if not mdcx_config:
                     self.tray_icon.showMessage(
                         f"MDCx {self.localversion}",
-                        "配置写入失败！所在目录没有读写权限！",
+                        tr("配置写入失败！所在目录没有读写权限！"),
                         QIcon(resources.icon_ico),
                         3000,
                     )
@@ -1072,7 +1076,7 @@ def load_config(self: "MyMAinWindow"):
                     if not mdcx_config:
                         self.tray_icon.showMessage(
                             f"MDCx {self.localversion}",
-                            "配置写入失败！所在目录没有读写权限！",
+                            tr("配置写入失败！所在目录没有读写权限！"),
                             QIcon(resources.icon_ico),
                             3000,
                         )
@@ -1093,12 +1097,14 @@ def load_config(self: "MyMAinWindow"):
                 scrape_like_text += tr(" · 硬连接开")
             movie_path_text = ";".join(str(path) for path in get_movie_path_setting().movie_paths)
             signal_qt.show_log_text(
-                f" 🛠 当前配置：{manager.path} 加载完成！\n "
-                f"📂 程序目录：{manager.data_folder} \n "
-                f"📂 刮削目录：{movie_path_text} \n "
-                f"💠 刮削模式：{Flags.main_mode_text} · {scrape_like_text} \n "
-                f"🖥️ 系统信息：{platform.platform()} \n "
-                f"🐰 软件版本：{self.localversion} \n"
+                tr(" 🛠 当前配置：{config} 加载完成！\n ").format(config=manager.path)
+                + tr("📂 程序目录：{data_folder} \n ").format(data_folder=manager.data_folder)
+                + tr("📂 刮削目录：{movie_path} \n ").format(movie_path=movie_path_text)
+                + tr("💠 刮削模式：{mode} · {like} \n ").format(
+                    mode=Flags.main_mode_text, like=scrape_like_text
+                )
+                + tr("🖥️ 系统信息：{platform} \n ").format(platform=platform.platform())
+                + tr("🐰 软件版本：{version} \n").format(version=self.localversion)
             )
         except Exception:
             signal_qt.show_traceback_log(traceback.format_exc())
@@ -1112,7 +1118,7 @@ def load_config(self: "MyMAinWindow"):
         try:
             # 主界面右上角显示提示信息
             movie_path_text = ";".join(str(path) for path in get_movie_path_setting().movie_paths)
-            self.set_label_file_path.emit(f"🎈 当前刮削路径: \n {movie_path_text}")
+            self.set_label_file_path.emit(f"{tr('🎈 当前刮削路径:')} \n {movie_path_text}")
         except Exception:
             signal_qt.show_traceback_log(traceback.format_exc())
     else:  # ini不存在，重新创建

@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, Any
 from urllib.parse import quote_plus, urljoin
 
 from mdcx.config.enums import Website
+from mdcx.i18n import tr
 
 if TYPE_CHECKING:
     from mdcx.web_async import AsyncWebClient
@@ -144,13 +145,13 @@ def _is_proxy_error(error: str) -> bool:
 
 def _message_for_error(error: str) -> str:
     if not error:
-        return "请求失败"
+        return tr("请求失败")
     if _is_proxy_error(error):
-        return "代理连接失败，请检查代理地址或代理软件"
+        return tr("代理连接失败，请检查代理地址或代理软件")
     if "超时" in error or "timeout" in error.lower():
-        return "连接超时，请检查网络或代理节点"
+        return tr("连接超时，请检查网络或代理节点")
     if "dns" in error.lower() or "resolve" in error.lower():
-        return "DNS 解析失败"
+        return tr("DNS 解析失败")
     return error
 
 
@@ -173,7 +174,7 @@ def _classify_http_result(spec: NetworkCheckSpec, status_code: int, text: str) -
         if "The owner of this website has banned your access based on your browser's behaving" in text:
             ip_address = re.findall(r"(\d+\.\d+\.\d+\.\d+)", text)
             ip_text = f"{ip_address[0]} " if ip_address else ""
-            return NetworkCheckStatus.FAILED, f"当前 IP {ip_text}被 JavDB 封禁"
+            return NetworkCheckStatus.FAILED, tr("当前 IP {ip_text}被 JavDB 封禁").format(ip_text=ip_text)
         if "Due to copyright restrictions" in text or "Access denied" in text:
             return NetworkCheckStatus.FAILED, "当前 IP 被 JavDB 限制，请使用非日本节点"
         if "/logout" in text:
@@ -198,13 +199,13 @@ def _classify_http_result(spec: NetworkCheckSpec, status_code: int, text: str) -
         return NetworkCheckStatus.FAILED, "MGStage 返回空页面，通常是地域限制，请使用日本节点"
 
     if status_code in {401, 403}:
-        return NetworkCheckStatus.WARNING, f"HTTP {status_code}，可能需要 Cookie、API Token 或更换节点"
+        return NetworkCheckStatus.WARNING, tr("HTTP {status_code}，可能需要 Cookie、API Token 或更换节点").format(status_code=status_code)
     if status_code == 429:
         return NetworkCheckStatus.WARNING, "HTTP 429，请求被限流"
     if 200 <= status_code < 400:
         return NetworkCheckStatus.OK, "连接正常"
     if 500 <= status_code:
-        return NetworkCheckStatus.FAILED, f"站点服务异常 HTTP {status_code}"
+        return NetworkCheckStatus.FAILED, tr("站点服务异常 HTTP {status_code}").format(status_code=status_code)
     return NetworkCheckStatus.FAILED, f"HTTP {status_code}"
 
 
@@ -227,12 +228,12 @@ async def _try_bypass_for_check(
     try:
         from httpx import URL
     except Exception as exc:
-        return None, f"URL 解析依赖不可用: {exc}"
+        return None, tr("URL 解析依赖不可用: {exc}").format(exc=exc)
 
     try:
         host = URL(spec.url).host or ""
     except Exception as exc:
-        return None, f"URL 解析失败: {exc}"
+        return None, tr("URL 解析失败: {exc}").format(exc=exc)
     if not host:
         return None, "URL 缺少 host"
 
@@ -258,23 +259,23 @@ def _format_header() -> list[str]:
     cf_bypass_url = manager.config.cf_bypass_url.strip()
     cf_bypass_proxy = manager.config.cf_bypass_proxy.strip()
     lines = [time.strftime("%Y-%m-%d %H:%M:%S").center(88, "=")]
-    lines.append("基础环境")
-    lines.append(f"  {'代理状态':<16}{'已启用' if use_proxy else '未启用'}")
+    lines.append(tr("基础环境"))
+    lines.append(f"  {tr('代理状态'):<20}{tr('已启用') if use_proxy else tr('未启用')}")
     if use_proxy:
-        lines.append(f"  {'代理地址':<16}{manager.config.proxy}")
-    lines.append(f"  {'CF Bypass':<16}{'已配置' if cf_bypass_url else '未配置'}")
-    lines.append(f"  {'CF Bypass代理':<16}{'已配置' if cf_bypass_proxy else '未配置'}")
-    lines.append(f"  {'诊断超时':<16}{_diagnostic_timeout():.1f}s")
+        lines.append(f"  {tr('代理地址'):<20}{manager.config.proxy}")
+    lines.append(f"  {'CF Bypass':<20}{tr('已配置') if cf_bypass_url else tr('未配置')}")
+    lines.append(f"  {tr('CF Bypass代理'):<20}{tr('已配置') if cf_bypass_proxy else tr('未配置')}")
+    lines.append(f"  {tr('诊断超时'):<20}{_diagnostic_timeout():.1f}s")
     lines.append("=" * 88)
     return lines
 
 
 def format_result_line(result: NetworkCheckResult) -> str:
     icon = _status_icon(result.status)
-    name = result.spec.name[:18]
+    name = tr(result.spec.name)[:18]
     status_code = _status_code_text(result.status_code)
     elapsed = _elapsed_text(result.elapsed_ms)
-    message = result.message
+    message = tr(result.message)
     if result.error and result.status == NetworkCheckStatus.FAILED:
         if result.error not in message:
             message = f"{message}: {result.error}"
@@ -286,13 +287,15 @@ def format_summary(results: list[NetworkCheckResult], elapsed: float, cancelled:
     warning = sum(1 for result in results if result.status == NetworkCheckStatus.WARNING)
     ok = sum(1 for result in results if result.status == NetworkCheckStatus.OK)
     skipped = sum(1 for result in results if result.status == NetworkCheckStatus.SKIPPED)
-    status = "已取消" if cancelled else "已完成"
+    status = tr("已取消") if cancelled else tr("已完成")
     lines = [
         "-" * 88,
-        f"网络检测{status}：正常 {ok}，警告 {warning}，失败 {failed}，跳过 {skipped}，用时 {elapsed:.2f} 秒",
+        tr("网络检测{status}：正常 {ok}，警告 {warning}，失败 {failed}，跳过 {skipped}，用时 {elapsed:.2f} 秒").format(
+            status=status, ok=ok, warning=warning, failed=failed, skipped=skipped, elapsed=elapsed
+        ),
     ]
     if failed or warning:
-        lines.append("建议优先查看失败/警告项；若基础连通性失败，先检查代理或系统网络。")
+        lines.append(tr("建议优先查看失败/警告项；若基础连通性失败，先检查代理或系统网络。"))
     lines.append("=" * 88)
     return lines
 
@@ -498,7 +501,7 @@ async def run_network_check_item(
             return NetworkCheckResult(
                 spec=spec,
                 status=NetworkCheckStatus.WARNING,
-                message=f"响应可达，但文本解析失败: {exc}",
+                message=tr("响应可达，但文本解析失败: {exc}").format(exc=exc),
                 status_code=response.status_code,
                 elapsed_ms=elapsed_ms,
                 final_url=str(getattr(response, "url", "") or ""),
@@ -526,7 +529,7 @@ async def run_network_check_item(
                 return NetworkCheckResult(
                     spec=spec,
                     status=NetworkCheckStatus.WARNING,
-                    message=f"Bypass 响应可达，但文本解析失败: {exc}",
+                    message=tr("Bypass 响应可达，但文本解析失败: {exc}").format(exc=exc),
                     status_code=response.status_code,
                     elapsed_ms=elapsed_ms,
                     final_url=str(getattr(response, "url", "") or ""),
@@ -540,7 +543,7 @@ async def run_network_check_item(
                 status, message = _classify_http_result(spec, int(response.status_code), text)
                 if status == NetworkCheckStatus.OK:
                     mode_text = f"（{bypass_mode}）" if bypass_mode else ""
-                    message = f"连接正常，已通过 CF Bypass{mode_text}"
+                    message = tr("连接正常，已通过 CF Bypass{mode_text}").format(mode_text=mode_text)
                 return NetworkCheckResult(
                     spec=spec,
                     status=status,
@@ -628,7 +631,7 @@ async def run_network_check(
         group_specs = grouped_specs.get(group, [])
         if not group_specs or group == "基础环境":
             continue
-        progress(group)
+        progress(tr(group))
         tasks = [asyncio.create_task(run_one(spec)) for spec in group_specs]
         for task in asyncio.as_completed(tasks):
             if cancel_event and cancel_event.is_set():

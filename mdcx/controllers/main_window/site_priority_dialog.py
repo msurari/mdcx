@@ -697,7 +697,7 @@ def _open_site_editor(window: "MyMAinWindow", scraping_type: FixedScrapingType) 
         return
     sites = dialog.selected_sites()
     if not sites:
-        QMessageBox.warning(window, "网站源不能为空", f"{info.title}至少需要保留一个网站。")
+        QMessageBox.warning(window, tr("网站源不能为空"), tr("{title}至少需要保留一个网站。").format(title=info.title))
         return
     info.line_edit.setText(_sites_text(sites))
     _set_site_summary(info.line_edit)
@@ -723,7 +723,7 @@ def _open_priority_editor(window: "MyMAinWindow", scraping_type: FixedScrapingTy
     info = window._type_website_ui[scraping_type]
     type_sites = _parse_sites(info.line_edit.text())
     if not type_sites:
-        QMessageBox.warning(window, "没有可用网站", f"请先为{info.title}配置至少一个网站。")
+        QMessageBox.warning(window, tr("没有可用网站"), tr("请先为{title}配置至少一个网站。").format(title=info.title))
         return
 
     from mdcx.config.manager import manager

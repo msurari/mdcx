@@ -13,6 +13,7 @@ from mdcx.controllers.main_window.main_window import MyMAinWindow
 from mdcx.i18n import install_translator
 from mdcx.i18n.tooltips import apply_tooltips
 from mdcx.controllers.main_window.responsive import make_window_scrollable
+from mdcx.controllers.main_window.english_layout import widen_english_text_columns
 from mdcx.controllers.main_window.style import apply_application_palette
 from mdcx.utils.video import VIDEO_BACKEND
 
@@ -59,6 +60,7 @@ apply_tooltips(ui)
 # positioned get a scroll area, matching what page_tool and page_setting
 # already do. Without this, shrinking the window puts controls outside it.
 make_window_scrollable(ui)
+widen_english_text_columns(ui.page_main)
 ui.show()
 app.installEventFilter(ui)
 # newWin2 = CutWindow()
