@@ -203,7 +203,7 @@ class Config(BaseModel):
     # endregion
 
     # region: Cleaning Settings
-    folders: list[str] = Field(default_factory=lambda: ["JAV_output", "examples"], title=tr("排除的目录"))
+    folders: list[str] = Field(default_factory=lambda: ["JAV_output", "examples", "failed"], title=tr("排除的目录"))
     string: list[str] = Field(
         default_factory=lambda: [
             "h_720",
@@ -221,7 +221,7 @@ class Config(BaseModel):
         ],
         title=tr("要从文件名中删除的字符串"),
     )
-    file_size: float = Field(default=100.0, title=tr("要处理的最小文件大小（MB）"))
+    file_size: float = Field(default=50.0, title=tr("要处理的最小文件大小（MB）"))
     no_escape: list[NoEscape] = Field(
         default_factory=lambda: [NoEscape.RECORD_SUCCESS_FILE],
         title=tr("不转义的字符串"),
