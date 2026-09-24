@@ -11,6 +11,7 @@ from PyQt6.QtCore import QObject, QSize, pyqtSignal
 from PyQt6.QtGui import QImage, QImageReader, QPixmap
 
 from .signals import signal
+from .i18n import tr
 from .utils.file import delete_file_async
 
 POSTER_PREVIEW_SIZE = QSize(156, 220)
@@ -81,7 +82,7 @@ def _preview_target_size(original_width: int, original_height: int, poster: bool
 
 def _preview_placeholder(poster: bool, text: str | None = None) -> list:
     max_size = POSTER_PREVIEW_SIZE if poster else THUMB_PREVIEW_SIZE
-    default_text = "暂无封面图" if poster else "暂无缩略图"
+    default_text = tr("暂无封面图") if poster else tr("暂无缩略图")
     return [False, QImage(), text or default_text, max_size.width(), max_size.height()]
 
 

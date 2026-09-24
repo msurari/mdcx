@@ -899,7 +899,7 @@ class MyMAinWindow(QMainWindow):
             else:
                 version_info = f'基于 MDC-GUI 修改 · 当前版本: {self.localversion} （ <font color="green">你使用的是最新版本！🎉 </font>）'
 
-        feedback = f' 💌 问题反馈: <a href="{GITHUB_ISSUES_URL}">GitHub Issues</a>'
+        feedback = f' 💌 {tr("问题反馈")}: <a href="{GITHUB_ISSUES_URL}">GitHub Issues</a>'
 
         # 显示版本信息和反馈入口
         signal_qt.show_log_text(version_info)
@@ -1254,9 +1254,9 @@ class MyMAinWindow(QMainWindow):
     ) -> None:
         self.preview_request_id += 1
         if not poster_path or not poster_path.is_file():
-            self.resize_label_and_setpixmap([False, "", "暂无封面图", 156, 220], None)
+            self.resize_label_and_setpixmap([False, "", tr("暂无封面图"), 156, 220], None)
         if not thumb_path or not thumb_path.is_file():
-            self.resize_label_and_setpixmap(None, [False, "", "暂无缩略图", 328, 220])
+            self.resize_label_and_setpixmap(None, [False, "", tr("暂无缩略图"), 328, 220])
         self.preview_image_loader.load(
             self.preview_request_id,
             poster_path,
@@ -1279,8 +1279,8 @@ class MyMAinWindow(QMainWindow):
     def _apply_preview_images(self, request_id: int, poster_pix: list, thumb_pix: list) -> None:
         if request_id != self.preview_request_id:
             return
-        poster_text = poster_pix[2] if poster_pix[2] != "暂无封面图" else ""
-        thumb_text = thumb_pix[2] if thumb_pix[2] != "暂无缩略图" else ""
+        poster_text = poster_pix[2] if poster_pix[2] != tr("暂无封面图") else ""
+        thumb_text = thumb_pix[2] if thumb_pix[2] != tr("暂无缩略图") else ""
         self.Ui.label_poster_size.setText((poster_text + " " + thumb_text).strip())
         self.resize_label_and_setpixmap(poster_pix, thumb_pix)
 
@@ -1778,7 +1778,7 @@ class MyMAinWindow(QMainWindow):
 
         if self.file_main_open_path == Path() or not self.file_main_open_path.is_file():
             QMessageBox.about(self, tr("没有目标文件"), tr("请刮削后再使用！！"))
-            signal_qt.show_scrape_info(f"💡 请刮削后使用！{get_current_time()}")
+            signal_qt.show_scrape_info(f"💡 {tr('请刮削后使用！')}{get_current_time()}")
             return False
         return True
 
@@ -2296,7 +2296,7 @@ class MyMAinWindow(QMainWindow):
             try:
                 Flags.log_txt = open(log_name, "wb", buffering=0)
                 Flags.log_txt.write(text.encode("utf-8"))
-                self.main_log_queue.appendleft(f"创建日志文件: {log_name}")
+                self.main_log_queue.appendleft(f'{tr("创建日志文件")}: {log_name}')
             except Exception:
                 signal_qt.show_traceback_log(traceback.format_exc())
 

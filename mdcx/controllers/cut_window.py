@@ -16,6 +16,7 @@ from ..core.file import get_file_info_v2
 from ..core.mosaic import has_leak_mark, has_umr_mark, has_uncensored_mark, is_censored_mosaic
 from ..utils import executor
 from ..utils.file import delete_file_sync
+from ..i18n import tr
 from ..views.posterCutTool import Ui_Dialog_cut_poster
 from .main_window.style import get_theme_tokens
 
@@ -89,7 +90,7 @@ class CutWindow(QDialog):
         self.pic_new_h = self.show_h
         self.pic_w = self.show_w
         self.pic_h = self.show_h
-        self.pushButton_select_cutrange = DraggableButton("拖动选择裁剪范围", self.Ui.label_backgroud_pic, self)
+        self.pushButton_select_cutrange = DraggableButton(tr("拖动选择裁剪范围"), self.Ui.label_backgroud_pic, self)
         self.pushButton_select_cutrange.setObjectName("pushButton_select_cutrange")
         self.pushButton_select_cutrange.setGeometry(QRect(420, 0, 379, 539))
         self.pushButton_select_cutrange.setCursor(QCursor(Qt.CursorShape.OpenHandCursor))

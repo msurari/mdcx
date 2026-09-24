@@ -1,6 +1,7 @@
 import time
 
 from mdcx.config.manager import manager
+from mdcx.i18n import tr
 from mdcx.signals import signal_qt
 
 
@@ -15,18 +16,25 @@ def show_netstatus() -> None:
         manager.config.timeout,
         manager.config.retry,
     )
-    bypass_status = "已配置" if cf_bypass_url else "未配置"
-    bypass_proxy_status = "已配置" if cf_bypass_proxy else "未配置"
+    # display-only values: safe to translate (never compared against)
+    bypass_status = tr("已配置") if cf_bypass_url else tr("未配置")
+    bypass_proxy_status = tr("已配置") if cf_bypass_proxy else tr("未配置")
 
     if not use_proxy or not proxy:
         signal_qt.show_net_info(
-            f" 当前网络状态：❌ 未启用代理\n"
-            f"   CF Bypass：{bypass_status}    Bypass代理：{bypass_proxy_status}    超时：{str(timeout)}    重试：{str(retry_count)}"
+            tr("当前网络状态") + "：❌ " + tr("未启用代理") + "\n"
+            + "   " + tr("CF Bypass") + "：" + bypass_status
+            + "    " + tr("Bypass代理") + "：" + bypass_proxy_status
+            + "    " + tr("超时") + "：" + str(timeout)
+            + "    " + tr("重试") + "：" + str(retry_count)
         )
     else:
         signal_qt.show_net_info(
-            f" 当前网络状态：✅ 已启用代理\n"
-            f"   地址：{proxy}\n"
-            f"   CF Bypass：{bypass_status}    Bypass代理：{bypass_proxy_status}    超时：{str(timeout)}    重试：{str(retry_count)}"
+            tr("当前网络状态") + "：✅ " + tr("已启用代理") + "\n"
+            + "   " + tr("地址") + "：" + proxy + "\n"
+            + "   " + tr("CF Bypass") + "：" + bypass_status
+            + "    " + tr("Bypass代理") + "：" + bypass_proxy_status
+            + "    " + tr("超时") + "：" + str(timeout)
+            + "    " + tr("重试") + "：" + str(retry_count)
         )
     signal_qt.show_net_info("=" * 80)
