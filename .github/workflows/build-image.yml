@@ -52,8 +52,12 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      # build-push-action pushes without leaving the image in the local daemon, so pull it
+      # back and verify what was actually published before calling the build good.
       - name: confirm the translation map is in the published image
         run: |
-          docker run --rm --entrypoint /opt/venv/bin/python \
-            "${{ env.IMAGE }}:latest" -c \
+          docker pull "${{ env.IMAGE }}:latest"
+          docker run --rm --entrypoint /opt/venv/bin/python "${{ env.IMAGE }}:latest" -c \
             "import json,pathlib;n=len(json.loads(pathlib.Path('/app/mdcx/i18n/en.json').read_text()));print('translation map present:',n,'entries');assert n>800,f'only {n} entries'"
+          docker run --rm --entrypoint /bin/sh "${{ env.IMAGE }}:latest" -c \
+            "grep -c _bare_to_jinja /app/mdcx/config/migrations.py && grep -c _migrate_naming_marker_flags /app/mdcx/config/migrations.py"
