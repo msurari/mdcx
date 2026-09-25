@@ -110,9 +110,15 @@ def _widen_english_text_columns(target) -> int:
 #: Extra pixels a label needs around its text so the last glyph is not clipped.
 TEXT_PAD = 10
 
+#: A button (checkbox/radio) draws its indicator to the LEFT of the label text, so
+#: it needs that much more width than the text alone. Measuring with TEXT_PAD
+#: under-reports every button by the indicator width and the last glyphs clip.
+BUTTON_TEXT_PAD = 34
+
 #: A checkbox label may claim at most this share of its row; beyond that the
 #: help text would have no room left to wrap into.
 BUTTON_WIDTH_SHARE = 0.62
+BUTTON_RIGHT_MARGIN = 8
 
 
 def _label_text(widget) -> str:
@@ -186,7 +192,8 @@ def _fit_english_text(target) -> int:
             width = w.width()
             if width < 5:
                 continue
-            need = QFontMetrics(w.font()).horizontalAdvance(txt) + TEXT_PAD
+            pad = BUTTON_TEXT_PAD if isinstance(w, QAbstractButton) else TEXT_PAD
+            need = QFontMetrics(w.font()).horizontalAdvance(txt) + pad
             if need <= width:
                 continue  # already fits
 
@@ -194,10 +201,17 @@ def _fit_english_text(target) -> int:
             # truncated to a stub. Claim up to its natural width, capped so the
             # neighbouring help text still has somewhere to wrap.
             if isinstance(w, QAbstractButton):
+                # Cap on the width the row can actually give this widget: the
+                # parent's remaining width to the right of the widget, less a
+                # margin. A flat share of the parent is NOT enough - a button
+                # placed far right overflows the parent even at its own natural
+                # width, and Qt clips it at the parent's edge.
                 parent = w.parentWidget()
                 cap = need
                 if parent is not None and parent.width() > 100:
-                    cap = min(need, int(parent.width() * BUTTON_WIDTH_SHARE))
+                    room = parent.width() - w.geometry().x() - BUTTON_RIGHT_MARGIN
+                    if room > 40:
+                        cap = min(need, room)
                 if cap > w.minimumWidth():
                     w.setMinimumWidth(cap)
                     touched += 1

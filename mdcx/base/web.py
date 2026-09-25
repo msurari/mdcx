@@ -24,6 +24,7 @@ from ..network_fingerprint import build_amazon_headers
 from ..signals import signal
 from ..utils import executor
 from ..utils.file import check_pic_async
+from ..i18n import tr
 
 
 class _AdaptiveRequestThrottle:
@@ -806,7 +807,7 @@ def check_version() -> int | None:
 
 
 def check_theporndb_api_token() -> str:
-    tips = "✅ 连接正常! "
+    tips = tr("✅ 连接正常! ")
     api_token = manager.config.theporndb_api_token
     url = "https://api.theporndb.net/scenes/hash/8679fcbdd29fa735"
     headers = {
@@ -815,25 +816,25 @@ def check_theporndb_api_token() -> str:
         "Accept": "application/json",
     }
     if not api_token:
-        tips = "❌ 未填写 API Token，影响欧美刮削！可在「设置」-「网络」添加！"
+        tips = tr("❌ 未填写 API Token，影响欧美刮削！可在「设置」-「网络」添加！")
     else:
         try:
             with manager.acquire_computed() as computed:
                 response, err = executor.run(computed.async_client.request("GET", url, headers=headers))
         except CancelledError:
-            tips = "❌ ThePornDB 连接检查已取消"
+            tips = tr("❌ ThePornDB 连接检查已取消")
             signal.show_log_text(tips)
             return tips
         if response is None:
-            tips = f"❌ ThePornDB 连接失败: {err}"
+            tips = tr("❌ ThePornDB 连接失败: {err}").format(err=err)
             signal.show_log_text(tips)
             return tips
         if response.status_code == 401 and "Unauthenticated" in str(response.text):
-            tips = "❌ API Token 错误！影响欧美刮削！请到「设置」-「网络」中修改。"
+            tips = tr("❌ API Token 错误！影响欧美刮削！请到「设置」-「网络」中修改。")
         elif response.status_code == 200:
-            tips = "✅ 连接正常！" if response.json().get("data") else "❌ 返回数据异常！"
+            tips = tr("✅ 连接正常！") if response.json().get("data") else tr("❌ 返回数据异常！")
         else:
-            tips = f"❌ 连接失败！请检查网络或代理设置！ {response.status_code} {response.text}"
+            tips = tr("❌ 连接失败！请检查网络或代理设置！ {status} {text}").format(status=response.status_code, text=response.text)
     signal.show_log_text(tips.replace("❌", " ❌ ThePornDB").replace("✅", " ✅ ThePornDB"))
     return tips
 

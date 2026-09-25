@@ -892,7 +892,7 @@ class MyMAinWindow(QMainWindow):
         # newest build. Checking upstream would compare against a project we no
         # longer track, and the "click to check" affordance was a dead end. Just
         # show the version we are running.
-        version_info = f"基于 MDC-GUI 修改 当前版本: {self.localversion}"
+        version_info = tr("基于 MDC-GUI 修改 当前版本: {version}").format(version=self.localversion)
         download_link = ""
 
         feedback = f' 💌 {tr("问题反馈")}: <a href="{GITHUB_ISSUES_URL}">GitHub Issues</a>'
@@ -3039,7 +3039,7 @@ class MyMAinWindow(QMainWindow):
         input_cookie = self.Ui.plainTextEdit_cookie_javdb.toPlainText()
         if not input_cookie:
             self.set_javdb_status.emit(tr("❌ 未填写 Cookie"))
-            self.show_log_text(" ❌ JavDb 未填写 Cookie，可在「设置」-「网络」添加！")
+            self.show_log_text(tr(" ❌ JavDb 未填写 Cookie，可在「设置」-「网络」添加！"))
             return
         self.set_javdb_status.emit(tr("⏳ 正在检测中..."))
         try:
@@ -3050,12 +3050,12 @@ class MyMAinWindow(QMainWindow):
             signal_qt.show_log_text(traceback.format_exc())
 
     def _check_javdb_cookie(self, input_cookie: str):
-        tips = "❌ 未填写 Cookie，影响 FC2 刮削！"
+        tips = tr("❌ 未填写 Cookie，影响 FC2 刮削！")
         if not input_cookie:
             self.set_javdb_status.emit(tips)
             return tips
         # self.Ui.pushButton_check_javdb_cookie.setEnabled(False)
-        tips = "✅ 连接正常！"
+        tips = tr("✅ 连接正常！")
         header = {"cookie": input_cookie}
         javdb_url = manager.config.get_site_url(Website.JAVDB, "https://javdb.com") + "/v/D16Q5?locale=zh"
         try:
@@ -3063,42 +3063,42 @@ class MyMAinWindow(QMainWindow):
             if response is None:
                 if "Cookie" in error:
                     if manager.config.javdb != input_cookie:
-                        tips = "❌ Cookie 已过期！"
+                        tips = tr("❌ Cookie 已过期！")
                     else:
-                        tips = "❌ Cookie 已过期！已清理！(不清理无法访问)"
+                        tips = tr("❌ Cookie 已过期！已清理！(不清理无法访问)")
                         self.set_javdb_cookie.emit("")
                         self.exec_save_config.emit()
                 else:
-                    tips = f"❌ 连接失败！请检查网络或代理设置！ {response}"
+                    tips = tr("❌ 连接失败！请检查网络或代理设置！ {response}").format(response=response)
             else:
                 if "The owner of this website has banned your access based on your browser's behaving" in response:
                     ip_adress = re.findall(r"(\d+\.\d+\.\d+\.\d+)", response)
                     ip_adress = ip_adress[0] + " " if ip_adress else ""
-                    tips = f"❌ 你的 IP {ip_adress}被 JavDb 封了！"
+                    tips = tr("❌ 你的 IP {ip} 被 JavDb 封了！").format(ip=ip_adress)
                 elif "Due to copyright restrictions" in response or "Access denied" in response:
-                    tips = "❌ 当前 IP 被禁止访问！请使用非日本节点！"
+                    tips = tr("❌ 当前 IP 被禁止访问！请使用非日本节点！")
                 elif "ray-id" in response:
-                    tips = "❌ 访问被 CloudFlare 拦截！"
+                    tips = tr("❌ 访问被 CloudFlare 拦截！")
                 elif "/logout" in response:  # 已登录，有登出按钮
                     vip_info = "未开通 VIP"
-                    tips = f"✅ 连接正常！（{vip_info}）"
+                    tips = tr("✅ 连接正常！({vip})").format(vip=vip_info)
                     if input_cookie:
                         if "icon-diamond" in response or "/v/D16Q5" in response:  # 有钻石图标或者跳到详情页表示已开通
                             vip_info = "已开通 VIP"
                         if manager.config.javdb != input_cookie:  # 保存cookie
-                            tips = f"✅ 连接正常！（{vip_info}）Cookie 已保存！"
+                            tips = tr("✅ 连接正常！({vip})Cookie 已保存！").format(vip=vip_info)
                             self.exec_save_config.emit()
                         else:
-                            tips = f"✅ 连接正常！（{vip_info}）"
+                            tips = tr("✅ 连接正常！({vip})").format(vip=vip_info)
                 else:
                     if manager.config.javdb != input_cookie:
-                        tips = "❌ Cookie 无效！请重新填写！"
+                        tips = tr("❌ Cookie 无效！请重新填写！")
                     else:
-                        tips = "❌ Cookie 无效！已清理！"
+                        tips = tr("❌ Cookie 无效！已清理！")
                         self.set_javdb_cookie.emit("")
                         self.exec_save_config.emit()
         except Exception as e:
-            tips = f"❌ 连接失败！请检查网络或代理设置！ {e}"
+            tips = tr("❌ 连接失败！请检查网络或代理设置！ {error}").format(error=e)
             signal_qt.show_traceback_log(tips)
         if input_cookie:
             self.set_javdb_status.emit(tips)
@@ -3111,7 +3111,7 @@ class MyMAinWindow(QMainWindow):
         input_cookie = self.Ui.plainTextEdit_cookie_fc2ppvdb.toPlainText().strip()
         if not input_cookie:
             self.set_fc2ppvdb_status.emit(tr("❌ 未填写 Cookie"))
-            self.show_log_text(" ❌ FC2PPVDB 未填写 Cookie，可在「设置」-「网络」添加！")
+            self.show_log_text(tr(" ❌ FC2PPVDB 未填写 Cookie，可在「设置」-「网络」添加！"))
             return
         self.set_fc2ppvdb_status.emit(tr("⏳ 正在检测中..."))
         try:
@@ -3122,13 +3122,13 @@ class MyMAinWindow(QMainWindow):
             signal_qt.show_log_text(traceback.format_exc())
 
     def _check_fc2ppvdb_cookie(self, input_cookie: str):
-        tips = "❌ 未填写 Cookie"
+        tips = tr("❌ 未填写 Cookie")
         if not input_cookie:
             self.set_fc2ppvdb_status.emit(tips)
             return tips
 
         if "fc2ppvdb_session" not in input_cookie:
-            tips = "❌ Cookie 无效！缺少 fc2ppvdb_session"
+            tips = tr("❌ Cookie 无效！缺少 fc2ppvdb_session")
         else:
             cookies = cookie_str_to_dict(input_cookie)
             with manager.acquire_computed() as computed:
@@ -3142,14 +3142,14 @@ class MyMAinWindow(QMainWindow):
                     )
                 )
             if response is None:
-                tips = f"❌ Cookie 检查失败：{error}"
+                tips = tr("❌ Cookie 检查失败：{error}").format(error=error)
             elif not response.get("article"):
-                tips = "❌ Cookie 检查失败：返回数据异常"
+                tips = tr("❌ Cookie 检查失败：返回数据异常")
             elif manager.config.fc2ppvdb != input_cookie:
                 self.exec_save_config.emit()
-                tips = "✅ 连接正常，Cookie 已保存！"
+                tips = tr("✅ 连接正常，Cookie 已保存！")
             else:
-                tips = "✅ 连接正常！"
+                tips = tr("✅ 连接正常！")
 
         self.set_fc2ppvdb_status.emit(tips)
         self.show_log_text(tips.replace("❌", " ❌ FC2PPVDB").replace("✅", " ✅ FC2PPVDB"))
@@ -3168,7 +3168,7 @@ class MyMAinWindow(QMainWindow):
 
     def _check_javbus_cookie(self, input_cookie: str):
         # self.Ui.pushButton_check_javbus_cookie.setEnabled(False)
-        tips = "✅ 连接正常！"
+        tips = tr("✅ 连接正常！")
         headers = {"Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6", "cookie": input_cookie}
         javbus_url = manager.config.get_site_url(Website.JAVBUS, "https://javbus.com") + "/FSDSS-660"
 
@@ -3176,18 +3176,18 @@ class MyMAinWindow(QMainWindow):
             response, error = get_text_sync(javbus_url, headers=headers)
 
             if response is None:
-                tips = f"❌ 连接失败！请检查网络或代理设置！ {error}"
+                tips = tr("❌ 连接失败！请检查网络或代理设置！ {error}").format(error=error)
             elif "lostpasswd" in response:
                 if input_cookie:
-                    tips = "❌ Cookie 无效！"
+                    tips = tr("❌ Cookie 无效！")
                 else:
-                    tips = "❌ 当前节点需要 Cookie 才能刮削！请填写 Cookie 或更换节点！"
+                    tips = tr("❌ 当前节点需要 Cookie 才能刮削！请填写 Cookie 或更换节点！")
             elif manager.config.javbus != input_cookie:
                 self.exec_save_config.emit()
-                tips = "✅ 连接正常！Cookie 已保存！  "
+                tips = tr("✅ 连接正常！Cookie 已保存！  ")
 
         except Exception as e:
-            tips = f"❌ 连接失败！请检查网络或代理设置！ {e}"
+            tips = tr("❌ 连接失败！请检查网络或代理设置！ {error}").format(error=e)
 
         self.show_log_text(tips.replace("❌", " ❌ JavBus").replace("✅", " ✅ JavBus"))
         self.set_javbus_status.emit(tips)
