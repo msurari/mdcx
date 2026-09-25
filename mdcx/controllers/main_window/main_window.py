@@ -682,8 +682,14 @@ class MyMAinWindow(QMainWindow):
             else:
                 self.window_border = 0
             self.setWindowFlag(Qt.WindowType.FramelessWindowHint, True)  # 隐藏标题栏
-            self.Ui.pushButton_close.setVisible(True)
-            self.Ui.pushButton_min.setVisible(True)
+            # MDCx draws its own close/minimise circles here because the real
+            # titlebar is hidden. Inside the container the window is fullscreen
+            # and its lifecycle belongs to the container, so they serve no
+            # purpose. Kept invisible on every path - see the permanent hide in
+            # Init_Ui. Hide, never delete: the generated view still constructs
+            # them and retranslateUi() still sets their text.
+            self.Ui.pushButton_close.setVisible(False)
+            self.Ui.pushButton_min.setVisible(False)
             self.Ui.widget_buttons.move(0, 50)
 
         else:  # 显示标题栏

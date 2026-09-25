@@ -55,6 +55,16 @@ def Init_Ui(self: "MyMAinWindow"):
     self.Ui.pushButton_tree_clear.setToolTip(tr(" 清空结果列表 "))
     self.Ui.pushButton_close.setToolTip(tr(" 关闭 "))
     self.Ui.pushButton_min.setToolTip(tr(" 最小化 "))
+    # MDCx paints its own macOS-style close/minimise circles in the top-left
+    # corner because it hides the real titlebar (FramelessWindowHint). In the
+    # container the app is effectively fullscreen and its lifecycle is owned by
+    # the container, so there is nothing for them to close or minimise - they
+    # are decoration. Hidden, not deleted: the generated view still builds them
+    # and its retranslateUi() still calls setText() on them, so removing the
+    # widgets would break startup. Same pattern as pushButton_to_cut_2 in
+    # cut_window.py.
+    self.Ui.pushButton_close.hide()
+    self.Ui.pushButton_min.hide()
     self.Ui.pushButton_main.setIcon(QIcon(resources.home_icon))
     self.Ui.pushButton_log.setIcon(QIcon(resources.log_icon))
     self.Ui.pushButton_tool.setIcon(QIcon(resources.tool_icon))
