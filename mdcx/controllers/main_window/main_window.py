@@ -293,14 +293,20 @@ class MyMAinWindow(QMainWindow):
             )
         except Exception as exc:
             self.Ui.label_name_template_preview_result.setStyleSheet("color: rgb(190, 0, 0);")
-            self.Ui.label_name_template_preview_result.setText("状态：语法错误\n" + html.escape(str(exc), quote=False))
+            self.Ui.label_name_template_preview_result.setText(
+                tr("状态：语法错误\n") + html.escape(str(exc), quote=False)
+            )
             return
 
         self.Ui.label_name_template_preview_result.setStyleSheet("color: rgb(8, 128, 128);")
         self.Ui.label_name_template_preview_result.setText(
-            "状态：语法正确\n"
-            f"结果：{html.escape(rendered.text, quote=False)}\n"
-            "示例字段：number=ABC-123, studio=Studio A, originaltitle=Original Title, definition=4K"
+            tr(
+                "状态：语法正确\n"
+                "结果：{result}\n"
+                "示例字段：number=ABC-123, studio=Studio A, originaltitle=Original Title, definition=4K"
+            ).format(
+                result=html.escape(rendered.text, quote=False),
+            )
         )
 
     # region Init
@@ -362,7 +368,7 @@ class MyMAinWindow(QMainWindow):
             "                                border-radius: 1px;\n"
             '                                font: "Courier";'
         )
-        self.Ui.plainTextEdit_cookie_fc2ppvdb.setPlaceholderText("FC2 独立刮削请填写 fc2ppvdb cookie")
+        self.Ui.plainTextEdit_cookie_fc2ppvdb.setPlaceholderText(tr("FC2 独立刮削请填写 fc2ppvdb cookie"))
         self.Ui.plainTextEdit_cookie_fc2ppvdb.setObjectName("plainTextEdit_cookie_fc2ppvdb")
         self.Ui.gridLayout_10.addWidget(self.Ui.plainTextEdit_cookie_fc2ppvdb, 4, 1, 1, 1)
 
@@ -1054,7 +1060,11 @@ class MyMAinWindow(QMainWindow):
                 average_time = used_time
             signal_qt.show_scrape_info("⛔️ 刮削已手动停止！")
             self.set_label_file_path.emit(
-                f"⛔️ 刮削已手动停止！\n   已刮削 {Flags.scrape_done} 个视频, 还剩余 {Flags.total_count - Flags.scrape_done} 个! 刮削用时 {used_time} 秒"
+                tr(
+                    "⛔️ 刮削已手动停止！\n   已刮削 {scrape_done} 个视频, 还剩余 {remaining} 个! 刮削用时 {used_time} 秒"
+                ).format(
+                    scrape_done=Flags.scrape_done, remaining=Flags.total_count - Flags.scrape_done, used_time=used_time
+                )
             )
             signal_qt.show_log_text(
                 f"\n ⛔️ 刮削已手动停止！\n 😊 已刮削 {Flags.scrape_done} 个视频, 还剩余 {Flags.total_count - Flags.scrape_done} 个! 刮削用时 {used_time} 秒, 停止用时 {self.stop_used_time} 秒"
@@ -1088,7 +1098,11 @@ class MyMAinWindow(QMainWindow):
         Flags.total_kills = len(self.threads_list)
         Flags.now_kill = 0
         start_time = time.time()
-        self.set_label_file_path.emit(f"⛔️ 正在停止刮削...\n   正在停止已在运行的任务线程（1/{Flags.total_kills}）...")
+        self.set_label_file_path.emit(
+            tr("⛔️ 正在停止刮削...\n   正在停止已在运行的任务线程（1/{total_kills}）...").format(
+                total_kills=Flags.total_kills
+            )
+        )
         signal_qt.show_log_text(
             f"\n ⛔️ {get_current_time()} 已停止添加新的刮削任务，正在停止已在运行的任务线程（{Flags.total_kills}）..."
         )
@@ -1213,8 +1227,8 @@ class MyMAinWindow(QMainWindow):
             self.Ui.label_release.setText(str(data.release))
             self.Ui.label_release.setToolTip(str(data.release))
             if data.runtime:
-                self.Ui.label_runtime.setText(str(data.runtime) + " 分钟")
-                self.Ui.label_runtime.setToolTip(str(data.runtime) + " 分钟")
+                self.Ui.label_runtime.setText(str(data.runtime) + tr(" 分钟"))
+                self.Ui.label_runtime.setToolTip(str(data.runtime) + tr(" 分钟"))
             else:
                 self.Ui.label_runtime.setText("")
             self.Ui.label_director.setText(str(data.director))
@@ -1228,8 +1242,8 @@ class MyMAinWindow(QMainWindow):
             self.Ui.label_studio.setToolTip(data.studio)
             self.Ui.label_publish.setText(data.publisher)
             self.Ui.label_publish.setToolTip(data.publisher)
-            self.Ui.label_poster.setToolTip("点击裁剪图片")
-            self.Ui.label_thumb.setToolTip("点击裁剪图片")
+            self.Ui.label_poster.setToolTip(tr("点击裁剪图片"))
+            self.Ui.label_thumb.setToolTip(tr("点击裁剪图片"))
             # 生成img_path，用来裁剪使用
             img_path = other.fanart_path if other.fanart_path and other.fanart_path.is_file() else other.thumb_path
             self.img_path = img_path
@@ -1451,7 +1465,7 @@ class MyMAinWindow(QMainWindow):
         default_dir = str(get_movie_path_setting().softlink_path)
         selected_dir = QFileDialog.getExistingDirectory(
             None,
-            f"选择{link_name}目标目录",
+            tr("选择{link_name}目标目录").format(link_name=link_name),
             default_dir,
             options=self.options | QFileDialog.Option.ShowDirsOnly,
         )
@@ -1460,10 +1474,10 @@ class MyMAinWindow(QMainWindow):
     def _confirm_record_link_paths(self, link_name: str) -> bool | None:
         box = QMessageBox(
             QMessageBox.Icon.Question,
-            f"创建{link_name}",
-            f"是否将本次成功创建的{link_name}路径写入程序的刮削成功列表？",
+            tr("创建{link_name}").format(link_name=link_name),
+            tr("是否将本次成功创建的{link_name}路径写入程序的刮削成功列表？").format(link_name=link_name),
         )
-        box.setInformativeText("已存在的同源链接会自动去重；取消则中止本次创建。")
+        box.setInformativeText(tr("已存在的同源链接会自动去重；取消则中止本次创建。"))
         box.setStandardButtons(
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel
         )
@@ -1847,7 +1861,10 @@ class MyMAinWindow(QMainWindow):
             main_file_name = split_path(file_path)[1]
             default_text = os.path.splitext(main_file_name)[0].upper()
             text, ok = QInputDialog.getText(
-                self, "输入番号重新刮削", f"文件名: {main_file_name}\n请输入番号:", text=default_text
+                self,
+                tr("输入番号重新刮削"),
+                tr("文件名: {main_file_name}\n请输入番号:").format(main_file_name=main_file_name),
+                text=default_text,
             )
             if ok and text:
                 Flags.again_dic[file_path] = (text, "", "")
@@ -1864,11 +1881,13 @@ class MyMAinWindow(QMainWindow):
             main_file_name = split_path(file_path)[1]
             text, ok = QInputDialog.getText(
                 self,
-                "输入网址重新刮削",
-                f"文件名: {main_file_name}\n支持网站:airav_cc、avsex、avsox、dmm、getchu、fc2"
-                f"、fc2club、fc2hub、iqqtv、jav321、javbus、javdb、freejavbt、javlibrary、mdtv"
-                f"、madouqu、mgstage、7mmtv、xcity、mywife、giga、faleno、dahlia、fantastica、avbase"
-                f"、prestige、hdouban、lulubar、love6、cnmdb、theporndb、kin8\n请输入番号对应的网址（不是网站首页地址！！！是番号页面地址！！！）:",
+                tr("输入网址重新刮削"),
+                tr(
+                    "文件名: {main_file_name}\n支持网站:airav_cc、avsex、avsox、dmm、getchu、fc2"
+                    "、fc2club、fc2hub、iqqtv、jav321、javbus、javdb、freejavbt、javlibrary、mdtv"
+                    "、madouqu、mgstage、7mmtv、xcity、mywife、giga、faleno、dahlia、fantastica、avbase"
+                    "、prestige、hdouban、lulubar、love6、cnmdb、theporndb、kin8\n请输入番号对应的网址（不是网站首页地址！！！是番号页面地址！！！）:"
+                ).format(main_file_name=main_file_name),
             )
             if ok and text:
                 website, url = deal_url(text)
@@ -2145,10 +2164,10 @@ class MyMAinWindow(QMainWindow):
             json_data.thumb = self.Ui.lineEdit_nfo_cover.text()
             json_data.trailer = self.Ui.lineEdit_nfo_trailer.text()
             if executor.run(write_nfo(file_info, json_data, nfo_path, nfo_folder, update=True)):
-                self.Ui.label_save_tips.setText(f"已保存! {get_current_time()}")
+                self.Ui.label_save_tips.setText(tr("已保存! {time}").format(time=get_current_time()))
                 self.set_main_info(show_data)
             else:
-                self.Ui.label_save_tips.setText(f"保存失败! {get_current_time()}")
+                self.Ui.label_save_tips.setText(tr("保存失败! {time}").format(time=get_current_time()))
         except Exception:
             if not signal_qt.stop:
                 signal_qt.show_traceback_log(traceback.format_exc())
@@ -2277,7 +2296,7 @@ class MyMAinWindow(QMainWindow):
             log_name = "failed_" + time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) + ".txt"
             log_name = get_movie_path_setting().movie_path / log_name
             filename, filetype = QFileDialog.getSaveFileName(
-                None, "保存失败文件列表", log_name.as_posix(), "Text Files (*.txt)", options=self.options
+                None, tr("保存失败文件列表"), log_name.as_posix(), "Text Files (*.txt)", options=self.options
             )
             if filename:
                 with open(filename, "w", encoding="utf-8") as f:
@@ -2418,7 +2437,7 @@ class MyMAinWindow(QMainWindow):
             media_path = parse_media_paths(media_path)[0]
         file_path, filetype = QFileDialog.getOpenFileName(
             None,
-            "选取视频文件",
+            tr("选取视频文件"),
             media_path.as_posix(),
             "Movie Files(*.mp4 "
             "*.avi *.rmvb *.wmv "
@@ -2471,7 +2490,7 @@ class MyMAinWindow(QMainWindow):
         else:
             path = parse_media_paths(path)[0].as_posix()
         file_path, fileType = QFileDialog.getOpenFileName(
-            None, "选取缩略图", path, "Picture Files(*.jpg *.png);;All Files(*)", options=self.options
+            None, tr("选取缩略图"), path, "Picture Files(*.jpg *.png);;All Files(*)", options=self.options
         )
         if file_path:
             self.cutwindow.showimage(Path(file_path))
@@ -2607,7 +2626,7 @@ class MyMAinWindow(QMainWindow):
     # 设置-演员-补全信息-演员信息数据库-选择文件按钮
     def pushButton_select_actor_info_db_clicked(self):
         database_path, _ = QFileDialog.getOpenFileName(
-            None, "选择数据库文件", manager.data_folder.as_posix(), options=self.options
+            None, tr("选择数据库文件"), manager.data_folder.as_posix(), options=self.options
         )
         if database_path:
             self.Ui.lineEdit_actor_db_path.setText(database_path)
@@ -2943,8 +2962,10 @@ class MyMAinWindow(QMainWindow):
             self.check_mac = False
             box = QMessageBox(
                 QMessageBox.Icon.Warning,
-                "选择配置文件目录",
-                f"检测到当前配置文件目录为：\n {manager.data_folder}\n\n由于 MacOS 平台在每次更新 APP 版本时会覆盖该目录的配置，因此请选择其他的配置目录！\n这样下次更新 APP 时，选择相同的配置目录即可读取你之前的配置！！！",
+                tr("选择配置文件目录"),
+                tr(
+                    "检测到当前配置文件目录为：\n {data_folder}\n\n由于 MacOS 平台在每次更新 APP 版本时会覆盖该目录的配置，因此请选择其他的配置目录！\n这样下次更新 APP 时，选择相同的配置目录即可读取你之前的配置！！！"
+                ).format(data_folder=manager.data_folder),
             )
             box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
             box.button(QMessageBox.StandardButton.Yes).setText(tr("选择目录"))
@@ -3207,7 +3228,7 @@ class MyMAinWindow(QMainWindow):
     def _get_select_folder_path(self, default_source: QLineEdit | str | Path | None = None):
         media_path = self._get_select_folder_default_path(default_source).as_posix()
         media_folder_path = QFileDialog.getExistingDirectory(
-            None, "选择目录", media_path, options=self.options | QFileDialog.Option.ShowDirsOnly
+            None, tr("选择目录"), media_path, options=self.options | QFileDialog.Option.ShowDirsOnly
         )
         return media_folder_path
 
@@ -3318,7 +3339,9 @@ class MyMAinWindow(QMainWindow):
         Flags.file_mode = FileMode.Default
         self.threads_list = []
         if len(Flags.failed_list):
-            self.Ui.pushButton_scraper_failed_list.setText(f"一键重新刮削当前 {len(Flags.failed_list)} 个失败文件")
+            self.Ui.pushButton_scraper_failed_list.setText(
+                tr("一键重新刮削当前 {count} 个失败文件").format(count=len(Flags.failed_list))
+            )
         else:
             self.Ui.pushButton_scraper_failed_list.setText(tr("当有失败任务时，点击可以一键刮削当前失败列表"))
 

@@ -264,7 +264,7 @@ class CutWindow(QDialog):
     # 打开图片选择框
     def open_image(self):
         img_path, img_type = QFileDialog.getOpenFileName(
-            None, "打开图片", "", "*.jpg *.png;;All Files(*)", options=self.main_window.options
+            None, tr("打开图片"), "", "*.jpg *.png;;All Files(*)", options=self.main_window.options
         )
         if img_path:
             self.showimage(Path(img_path))
@@ -332,7 +332,7 @@ class CutWindow(QDialog):
                             break
                 json_data = executor.run(get_file_info_v2(temp_path, copy_sub=False))
 
-            self.setWindowTitle(json_data.number + " 封面图片裁剪")  # 设置窗口标题
+            self.setWindowTitle(json_data.number + tr(" 封面图片裁剪"))  # 设置窗口标题
 
             # 获取水印信息
             has_sub = json_data.has_sub

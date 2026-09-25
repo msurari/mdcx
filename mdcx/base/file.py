@@ -456,7 +456,9 @@ async def get_movie_list(file_mode: FileMode, movie_path: Path, ignore_dirs: lis
         else:
             signal.show_log_text(f" 🖥 Movie path: {movie_path}")
             signal.show_log_text(" 🔎 Searching all videos, Please wait...")
-            signal.set_label_file_path.emit(f"正在遍历待刮削视频目录中的所有视频，请等待...\n {movie_path}")
+            signal.set_label_file_path.emit(
+                tr("正在遍历待刮削视频目录中的所有视频，请等待...\n {movie_path}").format(movie_path=movie_path)
+            )
             if (
                 NoEscape.FOLDER in manager.config.no_escape
                 or manager.config.main_mode == 3

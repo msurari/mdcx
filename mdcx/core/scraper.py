@@ -247,7 +247,11 @@ class Scraper:
         used_time = str(round((end_time - Flags.start_time), 2))
         average_time = str(round((end_time - Flags.start_time) / task_count, 2)) if task_count else used_time
         signal.exec_set_processbar.emit(0)
-        signal.set_label_file_path.emit(f"🎉 恭喜！全部刮削完成！共 {task_count} 个文件！用时 {used_time} 秒")
+        signal.set_label_file_path.emit(
+            tr("🎉 恭喜！全部刮削完成！共 {task_count} 个文件！用时 {used_time} 秒").format(
+                task_count=task_count, used_time=used_time
+            )
+        )
         signal.show_traceback_log(
             f"🎉 All finished!!! Total {task_count} , Success {Flags.succ_count} , Failed {Flags.fail_count} "
         )
@@ -357,7 +361,12 @@ class Scraper:
         progress_percentage = f"{progress_value:.2f}%"
         signal.exec_set_processbar.emit(int(progress_value))
         signal.set_label_file_path.emit(
-            f"正在刮削： {Flags.scrape_started}/{count_all} {progress_percentage} \n {file_show_path}"
+            tr("正在刮削： {scrape_started}/{count_all} {progress_percentage} \n {file_show_path}").format(
+                scrape_started=Flags.scrape_started,
+                count_all=count_all,
+                progress_percentage=progress_percentage,
+                file_show_path=file_show_path,
+            )
         )
         signal.label_result.emit(
             f"{tr(' 刮削中：')}{Flags.scrape_started - Flags.succ_count - Flags.fail_count}{tr(' 成功：')}{Flags.succ_count}{tr(' 失败：')}{Flags.fail_count}"
@@ -897,7 +906,9 @@ class Scraper:
                 f" 🕷 {get_current_time()} 已停止刮削：{Flags.now_kill}/{Flags.total_kills} {show_name}"
             )
             signal.set_label_file_path.emit(
-                f"⛔️ 正在停止刮削...\n   正在停止已在运行的任务线程（{Flags.now_kill}/{Flags.total_kills}）..."
+                tr("⛔️ 正在停止刮削...\n   正在停止已在运行的任务线程（{now_kill}/{total_kills}）...").format(
+                    now_kill=Flags.now_kill, total_kills=Flags.total_kills
+                )
             )
             raise StopScrape("手动停止刮削")
 
@@ -936,7 +947,7 @@ def get_remain_list() -> bool:
     Flags.remain_list = remains
     if not len(Flags.remain_list) or Switch.REMAIN_TASK not in manager.config.switch_on:
         return False
-    box = QMessageBox(QMessageBox.Icon.Information, "继续刮削", "上次刮削未完成，是否继续刮削剩余任务？")
+    box = QMessageBox(QMessageBox.Icon.Information, tr("继续刮削"), tr("上次刮削未完成，是否继续刮削剩余任务？"))
     box.setStandardButtons(
         QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel
     )
@@ -960,10 +971,15 @@ def get_remain_list() -> bool:
     if not is_any_descendant(p, *movie_paths):
         box = QMessageBox(
             QMessageBox.Icon.Warning,
-            "提醒",
-            f"很重要！！请注意：\n当前待刮削目录：{';'.join(str(path) for path in movie_paths)}\n剩余任务文件路径：{p.resolve()}\n"
-            "文件不在当前待刮削目录中, 可能是使用其他配置扫描的！\n"
-            "请确认成功输出目录和失败目录是否正确！如果配置不正确，继续刮削可能会导致文件被移动到新配置的输出位置！\n是否继续刮削？",
+            tr("提醒"),
+            tr(
+                "很重要！！请注意：\n当前待刮削目录：{movie_paths}\n剩余任务文件路径：{remaining_path}\n"
+                "文件不在当前待刮削目录中, 可能是使用其他配置扫描的！\n"
+                "请确认成功输出目录和失败目录是否正确！如果配置不正确，继续刮削可能会导致文件被移动到新配置的输出位置！\n是否继续刮削？"
+            ).format(
+                movie_paths=";".join(str(path) for path in movie_paths),
+                remaining_path=p.resolve(),
+            ),
         )
         box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         box.button(QMessageBox.StandardButton.Yes).setText(tr("继续"))

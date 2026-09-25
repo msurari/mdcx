@@ -63,17 +63,24 @@ def Init_Ui(self: "MyMAinWindow"):
     help_icon = QIcon(resources.help_icon)
     self.Ui.pushButton_about.setIcon(help_icon)
     self.Ui.pushButton_tips_normal_mode.setIcon(help_icon)
-    self.Ui.pushButton_tips_normal_mode.setToolTip("""<html><head/><body><p><b>正常模式：</b><br/>1）适合海报墙用户。正常模式将联网刮削视频字段信息，并执行翻译字段信息，移动和重命名视频文件及文件夹，下载图片、剧照、预告片，添加字幕、4K水印等一系列自动化操作<br/>2）刮削目录请在「设置」-「刮削目录」-「待刮削目录」中设置<br/>3）刮削网站请在「设置」-「刮削网站」中设置。部分网站需要代理访问，可在「设置」-「代理」中设置代理和免翻网址。你可以点击左侧的「检测网络」查看网络连通性<br/>\
+    self.Ui.pushButton_tips_normal_mode.setToolTip(
+        tr("""<html><head/><body><p><b>正常模式：</b><br/>1）适合海报墙用户。正常模式将联网刮削视频字段信息，并执行翻译字段信息，移动和重命名视频文件及文件夹，下载图片、剧照、预告片，添加字幕、4K水印等一系列自动化操作<br/>2）刮削目录请在「设置」-「刮削目录」-「待刮削目录」中设置<br/>3）刮削网站请在「设置」-「刮削网站」中设置。部分网站需要代理访问，可在「设置」-「代理」中设置代理和免翻网址。你可以点击左侧的「检测网络」查看网络连通性<br/>\
         4）字段翻译请在「设置」-「翻译」中设置<br/>5）图片、剧照、预告片请在「设置」-「下载」中设置<br/>6）视频文件命名请在「设置」-「命名」中设置<br/>7）如果刮削后不需要重命名，请在下面的「刮削成功后重命名文件」设置为「关」<br/>8）如果刮削后不需要移动文件，请在下面的「刮削成功后移动文件」设置为「关」<br/>9）如果想自动刮削，请在「设置」-「高级」中勾选「自动刮削」<br/>10）其他设置项和功能玩法可自行研究</p></body></html>""")
+    )
     self.Ui.pushButton_tips_sort_mode.setIcon(help_icon)
     self.Ui.pushButton_tips_sort_mode.setToolTip(
-        """<html><head/><body><p><b>视频模式：</b><br/>1，适合不需要图片墙的情况。视频模式将联网刮削视频相关字段信息，然后根据「设置」-「命名」中设置的命名规则重命名、移动视频文件<br/>2，仅整理视频，不会下载和重命名图片、nfo 文件<br/>3，如果是海报墙用户，请不要使用视频模式。</p></body></html>"""
+        tr(
+            """<html><head/><body><p><b>视频模式：</b><br/>1，适合不需要图片墙的情况。视频模式将联网刮削视频相关字段信息，然后根据「设置」-「命名」中设置的命名规则重命名、移动视频文件<br/>2，仅整理视频，不会下载和重命名图片、nfo 文件<br/>3，如果是海报墙用户，请不要使用视频模式。</p></body></html>"""
+        )
     )
     self.Ui.pushButton_tips_update_mode.setIcon(help_icon)
-    self.Ui.pushButton_tips_update_mode.setToolTip("""<html><head/><body><p><b>更新模式：</b><br/>1，适合视频已经归类好的情况。更新模式将在不改动文件位置结构的前提下重新刮削更新一些信息<br/>2，更新规则在下面的「更新模式规则中」定义：<br/>-1）如果只更新视频文件名，请选择「只更新C」，视频文件名命名规则请到「设置-」「命名规则」中设置<br/>-2）如果要更新视频所在的目录名，请选择「更新B和C」；如果要更新视频目录的上层目录，请勾选「同时更新A目录」<br/>-3），如果要在视频目录为视频再创建一级目录，请选择「创建D目录」<br/>\
+    self.Ui.pushButton_tips_update_mode.setToolTip(
+        tr("""<html><head/><body><p><b>更新模式：</b><br/>1，适合视频已经归类好的情况。更新模式将在不改动文件位置结构的前提下重新刮削更新一些信息<br/>2，更新规则在下面的「更新模式规则中」定义：<br/>-1）如果只更新视频文件名，请选择「只更新C」，视频文件名命名规则请到「设置-」「命名规则」中设置<br/>-2）如果要更新视频所在的目录名，请选择「更新B和C」；如果要更新视频目录的上层目录，请勾选「同时更新A目录」<br/>-3），如果要在视频目录为视频再创建一级目录，请选择「创建D目录」<br/>\
         3，更新模式将会对「待刮削目录」下的所有视频进行联网刮削和更新。<br/>4，当有部分内容没有更新成功，下次想只刮削这些内容时，请选择「读取模式」，同时勾选「不存在 nfo 时，刮削并执行更新模式规则」，它将查询并读取所有视频本地的 nfo 文件（不联网），当没有 nfo 文件时，则会自动进行联网刮削<br/>5，当部分内容确实无法刮削时，你可以到「日志」页面，点击「失败」按钮，点击左下角的保存按钮，就可以把失败列表保存到本地，然后可以手动查看和处理这些视频信息。</p></body></html>""")
+    )
     self.Ui.pushButton_tips_read_mode.setIcon(help_icon)
-    self.Ui.pushButton_tips_read_mode.setToolTip("""<html><head/><body><p><b>读取模式：</b><br/>\
+    self.Ui.pushButton_tips_read_mode.setToolTip(
+        tr("""<html><head/><body><p><b>读取模式：</b><br/>\
         1，读取模式通过读取本地的 nfo 文件中的字段信息，可以无需联网，实现查看或更新视频命名等操作<br/>\
         2，如果仅想查看和检查已刮削的视频信息和图片是否存在问题，可以：<br/>\
         -1）不勾选「本地已刮削成功的文件，重新整理分类」；<br/>\
@@ -90,8 +97,10 @@ def Init_Ui(self: "MyMAinWindow"):
         -1）勾选「本地已刮削成功的文件，重新整理分类」；<br/>\
         -2）勾选「重新下载图片等文件」。<br/>\
         软件将按照「设置」-「下载」中的设置项，进行下载、保留等操作。</p></body></html>""")
+    )
     self.Ui.pushButton_tips_soft.setIcon(help_icon)
-    self.Ui.pushButton_tips_soft.setToolTip("""<html><head/><body><p><b>创建软链接：</b><br/>\
+    self.Ui.pushButton_tips_soft.setToolTip(
+        tr("""<html><head/><body><p><b>创建软链接：</b><br/>\
         1，软链接适合网盘用户。软链接类似快捷方式，是指向真实文件的一个符号链接。它体积小，支持跨盘指向，删除后不影响原文件（当原文件删除后，软链接会失效）。<br/>\
         <span style=" font-weight:700; color:red;">注意：\
         <br/>Windows版：软链接保存位置必须是本地磁盘（平台限制），真实文件则网盘或本地盘都可以。<br/>\
@@ -108,9 +117,12 @@ def Init_Ui(self: "MyMAinWindow"):
         -2）MDCx 设置待刮削目录为网盘视频目录，输出目录为本地磁盘文件夹<br/>\
         -3）设置中选择「创建软链接」，其他配置设置好后保存配置，点击开始刮削<br/>\
         -4）Emby、Jellyfin 媒体库路径设置为本地刮削后保存的磁盘文件夹扫描即可</p></body></html>""")
+    )
     self.Ui.pushButton_tips_hard.setIcon(help_icon)
     self.Ui.pushButton_tips_hard.setToolTip(
-        """<html><head/><body><p><b>创建硬链接：</b><br/>1，硬链接适合 PT 用户。PT 用户视频文件一般存放在 NAS 中，为保证上传分享率，不能修改原文件信息。<br/>2，硬链接指向和原文件相同的硬盘索引，和原文件必须同盘。使用硬链接，可以在同盘单独存放刮削资料，不影响原文件信息。<br/>3，删除硬链接，原文件还在；删除原文件，硬链接还在。两个都删除，文件才会被删除。<br/><span style=" font-weight:700; color:#ff2600;">注意：Mac 平台仅支持本地磁盘创建硬链接（权限问题），非本地磁盘请选择创建软链接。Windows 平台没有这个问题。</span></p></body></html>"""
+        tr(
+            """<html><head/><body><p><b>创建硬链接：</b><br/>1，硬链接适合 PT 用户。PT 用户视频文件一般存放在 NAS 中，为保证上传分享率，不能修改原文件信息。<br/>2，硬链接指向和原文件相同的硬盘索引，和原文件必须同盘。使用硬链接，可以在同盘单独存放刮削资料，不影响原文件信息。<br/>3，删除硬链接，原文件还在；删除原文件，硬链接还在。两个都删除，文件才会被删除。<br/><span style=" font-weight:700; color:#ff2600;">注意：Mac 平台仅支持本地磁盘创建硬链接（权限问题），非本地磁盘请选择创建软链接。Windows 平台没有这个问题。</span></p></body></html>"""
+        )
     )
     self.Ui.textBrowser_log_main_3.hide()  # 失败列表隐藏
     self.Ui.pushButton_scraper_failed_list.hide()
@@ -337,7 +349,7 @@ def Init_QSystemTrayIcon(self: "MyMAinWindow"):
     self.tray_icon.setToolTip(tr("MDCx {version}（左键显示/隐藏 | 右键退出）").format(version=self.localversion))
     show_action = QAction(tr("显示"), self)
     hide_action = QAction(tr("隐藏\tQ"), self)
-    quit_action = QAction("退出 MDCx", self)
+    quit_action = QAction(tr("退出 MDCx"), self)
     show_action.triggered.connect(self.tray_icon_show)
     hide_action.triggered.connect(self.hide)
     quit_action.triggered.connect(self.ready_to_exit)

@@ -429,10 +429,10 @@ class SiteListEditorDialog(QDialog):
         layout.addWidget(self._build_panel("启用网站（从左到右优先级递减）", self.selected_list), 1)
 
         actions = QHBoxLayout()
-        add_button = QPushButton("添加选中")
-        remove_button = QPushButton("移除选中")
-        add_all_button = QPushButton("全部添加")
-        clear_button = QPushButton("清空")
+        add_button = QPushButton(tr("添加选中"))
+        remove_button = QPushButton(tr("移除选中"))
+        add_all_button = QPushButton(tr("全部添加"))
+        clear_button = QPushButton(tr("清空"))
         actions.addWidget(add_button)
         actions.addWidget(remove_button)
         actions.addWidget(add_all_button)
@@ -522,9 +522,9 @@ class FieldPriorityDialog(QDialog):
         layout.addWidget(self._build_palette_panel())
 
         quick_actions = QHBoxLayout()
-        reset_button = QPushButton("全部使用类型顺序")
-        keep_button = QPushButton("只保留已启用网站")
-        clear_button = QPushButton("清空全部字段")
+        reset_button = QPushButton(tr("全部使用类型顺序"))
+        keep_button = QPushButton(tr("只保留已启用网站"))
+        clear_button = QPushButton(tr("清空全部字段"))
         quick_actions.addWidget(reset_button)
         quick_actions.addWidget(keep_button)
         quick_actions.addWidget(clear_button)
@@ -554,8 +554,8 @@ class FieldPriorityDialog(QDialog):
             configured = self._field_configs.get(field, FieldPriorityConfig()).site_prority
             sites = [site for site in configured if site in self._type_sites]
             _setup_site_list(list_widget, sites)
-            remove_button = QPushButton("移除")
-            reset_field_button = QPushButton("重置")
+            remove_button = QPushButton(tr("移除"))
+            reset_field_button = QPushButton(tr("重置"))
             _style_inline_button(remove_button, self._dark)
             _style_inline_button(reset_field_button, self._dark)
             remove_button.clicked.connect(partial(self._remove_from_field, field))
@@ -587,7 +587,7 @@ class FieldPriorityDialog(QDialog):
     def _build_palette_panel(self) -> QWidget:
         panel = QWidget()
         panel_layout = QVBoxLayout(panel)
-        label = QLabel("可用网站（拖到下方字段中；字段内从左到右优先级递减）")
+        label = QLabel(tr("可用网站（拖到下方字段中；字段内从左到右优先级递减）"))
         label.setStyleSheet(f"font-weight: bold; color: {get_theme_tokens(self._dark)['text']};")
         panel_layout.addWidget(label)
         panel_layout.addWidget(SitePaletteList(self._type_sites, self, dark=self._dark))
