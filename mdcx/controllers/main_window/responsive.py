@@ -1,16 +1,31 @@
-"""Let the window be resized freely, with every control still reachable.
+"""Fit the interface to the REAL display, and keep it fitted when that changes.
 
 The interface is built from absolute geometry (447 ``setGeometry`` calls) with no
 reflow, so it only holds together at its design size of 1030x700. ``centralwidget``
 is a plain absolute-positioned widget: the nav column sits at x=0..210 and the
-``stackedWidget`` at x=210..1030. Make the window narrower than 1030 and the
-content does not reflow -- the right-hand and lower controls land outside the
-window, where a click can never reach them.
+``stackedWidget`` at x=210..1030.
 
-The fix is the idiom two pages already use: ``page_tool`` and ``page_setting``
-survive resizing because their content is inside a ``QScrollArea``. Here the same
-treatment is applied once, at the top level, so the whole 1030x700 interface
-scrolls inside whatever window size the user chooses.
+The display is NOT 1030x700. Under jlesage's base image the X server runs a
+virtual display whose size comes from ``DISPLAY_WIDTH``/``DISPLAY_HEIGHT`` in the
+container environment (1200x750 on the live host, and v1 used the same). The app
+never asked; it just pinned itself to its design size. So the window floated in a
+mostly-empty desktop and every "does this text fit" measurement taken at an
+invented size disagreed with what the user actually saw.
+
+The contract now is:
+
+* **Ask the screen.** The window and the scroll container take their size from the
+  real screen, never from a hard-coded constant.
+* **Never shrink below the design.** Absolute geometry is the design; going under
+  1030x700 would push controls out of reach. Below that, the scroll area scrolls.
+* **Re-adapt when the display changes.** VNC can be resized under a running app
+  (and ``DISPLAY_WIDTH``/``DISPLAY_HEIGHT`` can be changed on the host), so the
+  screen's ``geometryChanged`` signal re-runs the fit instead of leaving the
+  window stuck at the size it happened to start with.
+* **Nothing re-pins it.** ``MyMAinWindow.showEvent`` used to call
+  ``resize(1030, 700)`` on every show, which put the window back at the design
+  size after startup and made this fitting a no-op on any display that was not
+  1030x700; it now calls :func:`fit_window_to_display` instead.
 
 Deliberately additive: no .ui regeneration, no geometry rewritten, every
 ``Ui.<name>`` reference and every signal connection untouched -- the widgets are
@@ -30,6 +45,95 @@ DESIGN_SIZE: Tuple[int, int] = (1030, 700)
 OVERLAYS: List[str] = ["widget_nfo"]
 
 
+def real_display_size(window=None):
+    """The size of the display the interface is ACTUALLY drawn into.
+
+    Under jlesage's base image the X server is a virtual display sized by
+    ``DISPLAY_WIDTH``/``DISPLAY_HEIGHT`` (1200x750 on the live host). This asks
+    the screen, so the answer tracks reality instead of a constant, and it keeps
+    tracking it after a VNC resize.
+
+    Returns a QSize, or None when no screen can be determined.
+    """
+    from PyQt6.QtGui import QGuiApplication
+
+    screen = None
+    try:
+        if window is not None:
+            screen = window.screen()
+    except Exception:
+        screen = None
+    if screen is None:
+        screen = QGuiApplication.primaryScreen()
+    if screen is None:
+        return None
+    return screen.availableGeometry().size()
+
+
+def fit_size_for(window=None):
+    """The size the scroll container should take: the display, never below design.
+
+    Growing is free - the content is absolutely positioned from (0,0), so extra
+    room only appears to the right and below and no control moves. Shrinking is
+    not free: below DESIGN_SIZE the right-hand and lower controls would land
+    outside the window, so the design size is the floor and the scroll area
+    handles anything smaller.
+    """
+    from PyQt6.QtCore import QSize
+
+    design_w, design_h = DESIGN_SIZE
+    size = real_display_size(window)
+    if size is None or not size.isValid():
+        return design_w, design_h
+    return max(design_w, size.width()), max(design_h, size.height())
+
+
+def _resize_container(window, size=None) -> bool:
+    """Re-apply the fitted size to the scroll container, when there is one."""
+    from PyQt6.QtCore import QSize
+    from PyQt6.QtWidgets import QWidget
+
+    container = window.findChild(QWidget, "scrollContainer_window")
+    if container is None:
+        return False
+    if size is None:
+        size = fit_size_for(window)
+    container.setFixedSize(QSize(size[0], size[1]))
+    return True
+
+
+def _hook_display_changes(window) -> None:
+    """Re-fit when the display itself changes (VNC / ``DISPLAY_WIDTH``), once."""
+    from PyQt6.QtGui import QGuiApplication
+
+    if getattr(window, "_mdcx_display_hook", False):
+        return
+    screen = window.screen() or QGuiApplication.primaryScreen()
+    if screen is None:
+        return
+    screen.geometryChanged.connect(lambda *_a: fit_window_to_display(window))
+    window._mdcx_display_hook = True
+
+
+def fit_window_to_display(window) -> bool:
+    """Size the window, and its scroll container, from the display it is drawn into.
+
+    The single entry point: ``main.py`` calls it once at startup and
+    ``MyMAinWindow.showEvent`` calls it on every show, so no later resize can put
+    the window back at the hard-coded design size. It is safe to call more than
+    once and never raises -- a display that cannot be queried leaves the size
+    alone rather than breaking startup.
+    """
+    try:
+        size = fit_size_for(window)
+        _resize_container(window, size)  # no-op when the scroll wrapper is absent
+        window.resize(size[0], size[1])
+        _hook_display_changes(window)
+        return True
+    except Exception:
+        return False
+
+
 def make_window_scrollable(window) -> bool:
     """Put the whole interface inside a scroll area.
 
@@ -45,10 +149,11 @@ def make_window_scrollable(window) -> bool:
     if central.layout() is not None:
         return False  # already wrapped
 
-    width, height = DESIGN_SIZE
+    # 1. the container takes the REAL display size, but never less than the design:
+    #    every child's absolute geometry is preserved either way, because the
+    #    origin stays (0,0) and growing only adds room to the right and bottom.
+    width, height = fit_size_for(window)
 
-    # 1. container keeps the design size, so every child's absolute geometry
-    #    stays exactly as designed and nothing needs repositioning
     container = QWidget()
     container.setObjectName("scrollContainer_window")
     container.setFixedSize(QSize(width, height))

@@ -12,7 +12,10 @@ from mdcx.consts import IS_DOCKER, IS_MAC, IS_NFC, IS_PYINSTALLER, IS_WINDOWS, M
 from mdcx.controllers.main_window.main_window import MyMAinWindow
 from mdcx.i18n import install_translator
 from mdcx.i18n.tooltips import apply_tooltips
-from mdcx.controllers.main_window.responsive import make_window_scrollable
+from mdcx.controllers.main_window.responsive import (
+    fit_window_to_display,
+    make_window_scrollable,
+)
 from mdcx.controllers.main_window.english_layout import (
     fit_english_text,
     widen_english_text_columns,
@@ -63,6 +66,7 @@ apply_tooltips(ui)
 # positioned get a scroll area, matching what page_tool and page_setting
 # already do. Without this, shrinking the window puts controls outside it.
 make_window_scrollable(ui)
+fit_window_to_display(ui)
 widen_english_text_columns(ui)
 fit_english_text(ui)
 ui.show()
