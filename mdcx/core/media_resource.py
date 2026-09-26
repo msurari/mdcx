@@ -3,6 +3,7 @@
 """
 
 import asyncio
+import errno
 from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
@@ -338,6 +339,13 @@ class MediaResourceContext:
             return True
         except Exception as e:
             LogBuffer.log().write(f"{tr("\n 🔴 文件写入失败: ")}{url} {file_path} {str(e)}")
+            if isinstance(e, OSError) and getattr(e, "errno", None) == errno.ENAMETOOLONG:
+                LogBuffer.log().write(
+                    f"\n 🔴 Image name too long for the target folder: "
+                    f"{len(file_path.name.encode())} bytes > the 255-byte per-name limit of most "
+                    f"NAS/SMB shares. Shorten the video name (rename after scrape, or use simple "
+                    f"image names): no image can be written while the name stays this long."
+                )
             return False
 
     @staticmethod

@@ -855,6 +855,18 @@ class Scraper:
                 await extrafanart_copy2(folder_new_path)
                 await extrafanart_extras_copy(folder_new_path)
 
+        # No-image guard: a title that finishes with NO image file must say WHY. Several paths
+        # can skip the images without writing a single log line, which makes a miss look like a
+        # quiet success (CJOD-536, 2026-09-26). Display-only: no behaviour change.
+        await log_missing_images(
+            res,
+            poster_final_path,
+            thumb_final_path,
+            fanart_final_path,
+            pic_final_catched=pic_final_catched,
+            file_can_download=file_can_download,
+        )
+
         if file_can_download:
             # trailer 有带文件名、不带文件名两种命名方式，不能依赖图片处理权。
             await trailer_download(res, folder_new_path, folder_old_path, naming_rule)
@@ -917,6 +929,56 @@ class Scraper:
         if await aiofiles.os.path.islink(p):
             info_str = f"{'🔴 ' + count + '.':<3} {p} \n    指向文件: {p.resolve()} \n    失败原因: {error_info} \n"
         signal.logs_failed_show.emit(info_str)
+
+
+async def log_missing_images(
+    res: CrawlersResult,
+    poster_final_path: Path,
+    thumb_final_path: Path,
+    fanart_final_path: Path,
+    *,
+    pic_final_catched: bool,
+    file_can_download: bool,
+) -> None:
+    """Say WHY a finished title ended up with no image file at all.
+
+    Nothing here re-runs or repairs anything: each branch names one of the paths that already
+    skipped the images silently, so a no-image title can never again read as a clean success.
+    """
+    for path in (poster_final_path, thumb_final_path, fanart_final_path):
+        if await aiofiles.os.path.exists(path):
+            return  # at least one image landed: nothing to report
+
+    download_files = manager.config.download_files
+    images_off = (
+        DownloadableFile.POSTER not in download_files
+        and DownloadableFile.THUMB not in download_files
+        and DownloadableFile.FANART not in download_files
+    )
+    if images_off:
+        LogBuffer.log().write(
+            f"\n 🟠 No image: poster/thumb/fanart are all unchecked in [Settings]-[Download] ({res.number})"
+        )
+        return
+    if not file_can_download:
+        LogBuffer.log().write(
+            f"\n 🟠 No image: read mode without 're-download images' - tick it in "
+            f"[Settings]-[Read] to fetch them ({res.number})"
+        )
+        return
+    if not pic_final_catched:
+        LogBuffer.log().write(
+            f"\n 🟠 No image: another file in this run already owns the image path "
+            f"{thumb_final_path} ({res.number})"
+        )
+        return
+    if not res.poster and not res.thumb:
+        LogBuffer.log().write(f"\n 🟠 No image: no source returned a poster or a thumb URL ({res.number})")
+        return
+    LogBuffer.log().write(
+        f"\n 🟠 No image: URLs existed but no file was written"
+        f" (poster={res.poster or 'none'} | thumb={res.thumb or 'none'}) ({res.number})"
+    )
 
 
 def start_new_scrape(file_mode: FileMode, movie_list: list[Path] | None = None) -> None:

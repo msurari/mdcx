@@ -768,6 +768,10 @@ async def thumb_download(
         ):
             pass
         else:
+            LogBuffer.log().write(
+                f"\n 🟠 Thumb not downloaded: 'thumb' is unchecked in [Settings]-[Download] "
+                f"(and no poster/fanart is wanted) ({result.number})"
+            )
             return True
 
     # 尝试复制其他分集。看分集有没有下载，如果下载完成则可以复制，否则就自行下载
@@ -980,6 +984,10 @@ async def poster_download(
     if poster_policy.should_remove_existing:
         if poster_path:
             await delete_file_async(poster_path)
+        LogBuffer.log().write(
+            f"\n 🟠 Poster skipped: 'poster' is unchecked in [Settings]-[Download] and not kept "
+            f"({result.number})"
+        )
         return True
 
     # 本地有poster时，且勾选保留旧文件时，不下载
@@ -989,6 +997,9 @@ async def poster_download(
 
     # 不下载时返回
     if not poster_policy.should_download:
+        LogBuffer.log().write(
+            f"\n 🟠 Poster not downloaded: 'poster' is unchecked in [Settings]-[Download] ({result.number})"
+        )
         return True
 
     # 尝试复制其他分集。看分集有没有下载，如果下载完成则可以复制，否则就自行下载
