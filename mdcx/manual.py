@@ -348,13 +348,13 @@ class ManualConfig:
         "zb": "ZoliBoy",
     }
     OFFICIAL = {
-        "https://s1s1s1.com": "sivr|ssis|ssni|snis|soe|oned|one|onsd|ofje|sps|tksoe",  # https://s1s1s1.com/search/list?keyword=soe
-        "https://moodyz.com": "mdvr|midv|mide|midd|mibd|mimk|miid|migd|mifd|miae|miad|miaa|mdl|mdj|mdi|mdg|mdf|mde|mdld|mded|mizd|mird|mdjd|rmid|mdid|mdmd|mimu|mdpd|mivd|mdud|mdgd|mdvd|mias|miqd|mint|rmpd|mdrd|tkmide|tkmidd|kmide|tkmigd|mdfd|rmwd|miab",
-        "https://www.madonna-av.com": "juvr|jusd|juq|juy|jux|jul|juk|juc|jukd|jusd|oba|jufd|roeb|roe|ure|mdon|jfb|obe|jums",
+        "https://s1s1s1.com": "sivr|ssis|ssni|snis|soe|oned|one|onsd|ofje|sps|tksoe|snos|sone",  # https://s1s1s1.com/search/list?keyword=soe
+        "https://moodyz.com": "mdvr|midv|mide|midd|mibd|mimk|miid|migd|mifd|miae|miad|miaa|mdl|mdj|mdi|mdg|mdf|mde|mdld|mded|mizd|mird|mdjd|rmid|mdid|mdmd|mimu|mdpd|mivd|mdud|mdgd|mdvd|mias|miqd|mint|rmpd|mdrd|tkmide|tkmidd|kmide|tkmigd|mdfd|rmwd|miab|mida|mngs",
+        "https://www.madonna-av.com": "juvr|jusd|juq|juy|jux|jul|juk|juc|jukd|jusd|oba|jufd|roeb|roe|ure|mdon|jfb|obe|jums|jur",
         "https://www.wanz-factory.com": "wavr|waaa|bmw|wanz",
         "https://ideapocket.com": "ipvr|ipx|ipz|iptd|ipsd|idbd|supd|ipit|and|hpd|tkipz|ipzz|cosd|anpd|dan|alad|kipx",
         "https://kirakira-av.com": "kivr|blk|kibd|kifd|kird|kisd|set",
-        "https://www.av-e-body.com": "ebvr|ebod|mkck|eyan",
+        "https://www.av-e-body.com": "ebvr|ebod|mkck|eyan|ebwh",
         "https://bi-av.com": "cjvr|cjod|bbi|bib|cjob|beb|bid|bist|bwb",
         "https://premium-beauty.com": "prvr|pgd|pred|pbd|pjd|prtd|pxd|pid|ptv",
         "https://miman.jp": "mmvr|mmnd|mmxd|aom",
@@ -362,10 +362,10 @@ class ManualConfig:
         "https://fitch-av.com": "fcvr|jufe|jufd|jfb|juny|nyb|finh|gcf|nima",
         "https://kawaiikawaii.jp": "kavr|cawd|kwbd|kawd|kwsr|kwsd|kane",
         "https://befreebe.com": "bf",
-        "https://muku.tv": "mucd|mudr|mukd|smcd|mukc",
+        "https://muku.tv": "mucd|mudr|mukd|smcd|mukc|muka",
         "https://attackers.net": "atvr|rbk|rbd|same|shkd|atid|adn|atkd|jbd|sspd|atad|azsd",
         "https://mko-labo.net": "mvr|mism|emlb",
-        "https://dasdas.jp": "dsvr|dass|dazd|dasd|pla",
+        "https://dasdas.jp": "dsvr|dass|dazd|dasd|pla|dsod",
         "https://mvg.jp": "mvsd|mvbd",
         "https://av-opera.jp": "opvr|opbd|opud",
         "https://oppai-av.com": "ppvr|pppe|ppbd|pppd|ppsd|ppfd",
@@ -374,10 +374,17 @@ class ManualConfig:
         "https://bibian-av.com": "bbvr|bban",
         "https://honnaka.jp": "hnvr|hmn|hndb|hnd|krnd|hnky|hnjc|hnse",
         "https://rookie-av.jp": "rvr|rbb|rki",
-        "https://nanpa-japan.jp": "njvr|nnpj|npjb",
+        "https://nanpa-japan.jp": "njvr|nnpj|npjb|npjs",
         "https://hajimekikaku.com": "hjbb|hjmo|avgl",
         "https://hhh-av.com": "huntb|hunta|hunt|hunbl|royd|tysf",
-        "https://www.prestige-av.com": "abp|mbm|ezd|docp|onez|yrh|abw|abs|chn|mgt|tre|edd|ult|cmi|mbd|dnw|sga|rdd|dcx|evo|rdt|ppt|gets|sim|kil|tus|dtt|gnab|man|mas|tbl|rtp|ctd|fiv|dic|esk|kbi|tem|ama|kfne|trd|har|yrz|srs|mzq|zzr|gzap|tgav|rix|aka|bgn|lxv|afs|goal|giro|cpde|nmp|mct|abc|inu|shl|mbms|pxh|nrs|ftn|prdvr|fst|blo|shs|kum|gsx|ndx|atd|dld|kbh|bcv|raw|soud|job|chs|yok|bsd|fsb|nnn|hyk|sor|hsp|jbs|xnd|mei|day|mmy|kzd|jan|gyan|tdt|tok|dms|fnd|cdc|jcn|pvrbst|sdvr|docvr|fcp|abf",
+        "https://www.prestige-av.com": "abp|mbm|ezd|docp|onez|yrh|abw|abs|chn|mgt|tre|edd|ult|cmi|mbd|dnw|sga|rdd|dcx|evo|rdt|ppt|gets|sim|kil|tus|dtt|gnab|man|mas|tbl|rtp|ctd|fiv|dic|esk|kbi|tem|ama|kfne|trd|har|yrz|srs|mzq|zzr|gzap|tgav|rix|aka|bgn|lxv|afs|goal|giro|cpde|nmp|mct|abc|inu|shl|mbms|pxh|nrs|ftn|prdvr|fst|blo|shs|kum|gsx|ndx|atd|dld|kbh|bcv|raw|soud|job|chs|yok|bsd|fsb|nnn|hyk|sor|hsp|jbs|xnd|mei|day|mmy|kzd|jan|gyan|tdt|tok|dms|fnd|cdc|jcn|pvrbst|sdvr|docvr|fcp|abf|pasn|thn|rebd|rebdb|fig|jns|yrk",
+        "https://www.km-produce.com": "vrkm|mkmp|savr|bibivr",
+        "https://dahlia-av.jp": "dldss",
+        "https://naturalhigh.co.jp": "nhdtb",
+        "https://www.s-cute.com": "sqte",
+        "https://www.alicejapan.co.jp": "dv|ajvr",
+        "https://www.sod.co.jp": "start|stars|star|sdjs",
+        "https://faleno.jp": "fsdss|fsvss",
     }
     SUREN_DIC = {
         "SHN-": "116",  # 116SHN-045
