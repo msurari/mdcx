@@ -46,6 +46,8 @@ from .amazon import (
 from .image import cut_thumb_to_poster
 from .media_resource import MediaResourceContext
 from .mosaic import has_leak_mark, has_umr_mark
+from mdcx.i18n import tr
+from mdcx.i18n import tr_message
 
 AMAZON_SEARCH_SCRAPING_TYPES = {FixedScrapingType.YOUMA}
 AMAZON_SEARCH_SPECIAL_MOSAICS = {"里番", "裏番", "动漫", "動漫"}
@@ -218,7 +220,7 @@ def _select_best_poster_candidate(
 ) -> PosterCandidate | None:
     known_candidates = [each for each in candidates if _is_known_image_size(each.size)]
     if not known_candidates:
-        LogBuffer.log().write("\n 🖼 Poster选优: 无可比较的 Poster 尺寸，保持原策略")
+        LogBuffer.log().write(tr("\n 🖼 Poster选优: 无可比较的 Poster 尺寸，保持原策略"))
         return candidates[0] if candidates else None
 
     best = max(known_candidates, key=lambda item: _image_area(item.size))
@@ -229,10 +231,10 @@ def _select_best_poster_candidate(
             best_area < crop_area * POSTER_AUTO_BEST_MIN_CROP_AREA_RATIO
             or best.size[1] < crop_size[1] * POSTER_AUTO_BEST_MIN_CROP_HEIGHT_RATIO
         ):
-            LogBuffer.log().write(f"\n 🖼 Poster选优: 直下/搜索图{best.size}明显小于thumb右裁剪{crop_size}，改用裁剪")
+            LogBuffer.log().write(f"{tr("\n 🖼 Poster选优: 直下/搜索图")}{best.size}{tr("明显小于thumb右裁剪")}{crop_size}{tr("，改用裁剪")}")
             return None
 
-    LogBuffer.log().write(f"\n 🖼 Poster选优: 使用 {best.source} {best.size}")
+    LogBuffer.log().write(f"{tr("\n 🖼 Poster选优: 使用 ")}{best.source} {best.size}")
     return best
 
 
@@ -257,7 +259,7 @@ async def _select_poster_auto_best(
 
     known_candidates = [each for each in candidates if _is_known_image_size(each[2])]
     if not known_candidates:
-        LogBuffer.log().write("\n 🖼 Poster选优: 无可比较的 Poster 尺寸，保持原策略")
+        LogBuffer.log().write(tr("\n 🖼 Poster选优: 无可比较的 Poster 尺寸，保持原策略"))
         return
 
     best_url, best_from, best_size = max(known_candidates, key=lambda item: _image_area(item[2]))
@@ -270,13 +272,13 @@ async def _select_poster_auto_best(
             or best_size[1] < crop_size[1] * POSTER_AUTO_BEST_MIN_CROP_HEIGHT_RATIO
         ):
             result.image_download = False
-            LogBuffer.log().write(f"\n 🖼 Poster选优: 直下/搜索图{best_size}明显小于thumb右裁剪{crop_size}，改用裁剪")
+            LogBuffer.log().write(f"{tr("\n 🖼 Poster选优: 直下/搜索图")}{best_size}{tr("明显小于thumb右裁剪")}{crop_size}{tr("，改用裁剪")}")
             return
 
     result.poster = best_url
     result.poster_from = best_from
     result.image_download = True
-    LogBuffer.log().write(f"\n 🖼 Poster选优: 使用 {best_from} {best_size}")
+    LogBuffer.log().write(f"{tr("\n 🖼 Poster选优: 使用 ")}{best_from} {best_size}")
 
 
 async def _is_existing_poster_better_than_youma_crop(
@@ -286,7 +288,7 @@ async def _is_existing_poster_better_than_youma_crop(
 ) -> bool:
     poster_size = await _get_image_size(result.poster, media_context)
     if not _is_known_image_size(poster_size):
-        LogBuffer.log().write("\n 🖼 Amazon搜索：当前 Poster 尺寸未知，继续搜索高清图")
+        LogBuffer.log().write(tr("\n 🖼 Amazon搜索：当前 Poster 尺寸未知，继续搜索高清图"))
         return False
 
     crop_size = await _get_thumb_right_crop_size_from_path(other.fanart_path or other.thumb_path)
@@ -300,7 +302,7 @@ async def _is_existing_poster_better_than_youma_crop(
         or poster_size[1] < crop_size[1] * POSTER_AUTO_BEST_MIN_CROP_HEIGHT_RATIO
     ):
         LogBuffer.log().write(
-            f"\n 🖼 Amazon搜索：当前 Poster{poster_size} 明显小于 thumb 右裁剪{crop_size}，继续搜索高清图"
+            f"{tr("\n 🖼 Amazon搜索：当前 Poster")}{poster_size}{tr(" 明显小于 thumb 右裁剪")}{crop_size}{tr("，继续搜索高清图")}"
         )
         return False
 
@@ -321,7 +323,7 @@ async def _should_skip_amazon_for_existing_poster(
         if not await _is_existing_poster_better_than_youma_crop(result, other, media_context):
             return False
     elif not _is_known_image_size(await _get_image_size(result.poster, media_context)):
-        LogBuffer.log().write("\n 🖼 Amazon搜索：当前 Poster 尺寸未知，继续搜索高清图")
+        LogBuffer.log().write(tr("\n 🖼 Amazon搜索：当前 Poster 尺寸未知，继续搜索高清图"))
         return False
 
     content_length = (
@@ -330,16 +332,16 @@ async def _should_skip_amazon_for_existing_poster(
         else await get_url_content_length(result.poster)
     )
     if not content_length:
-        LogBuffer.log().write("\n 🖼 Amazon搜索：当前 Poster 大小未知，继续搜索高清图")
+        LogBuffer.log().write(tr("\n 🖼 Amazon搜索：当前 Poster 大小未知，继续搜索高清图"))
         return False
 
     if content_length < POSTER_SKIP_AMAZON_MIN_BYTES:
-        LogBuffer.log().write(f"\n 🖼 Amazon搜索：当前 Poster 大小({content_length // 1024}KB)低于阈值，继续搜索高清图")
+        LogBuffer.log().write(f"{tr("\n 🖼 Amazon搜索：当前 Poster 大小(")}{content_length // 1024}{tr("KB)低于阈值，继续搜索高清图")}")
         return False
 
     if result.scraping_type == FixedScrapingType.YOUMA and not poster_auto_best:
         result.image_download = True
-    LogBuffer.log().write(f"\n 🖼 Amazon搜索：当前 Poster 已足够清晰({content_length // 1024}KB)，跳过 Amazon")
+    LogBuffer.log().write(f"{tr("\n 🖼 Amazon搜索：当前 Poster 已足够清晰(")}{content_length // 1024}{tr("KB)，跳过 Amazon")}")
     return True
 
 
@@ -414,13 +416,13 @@ async def _download_image_to_memory(url: str, media_context: MediaResourceContex
     if media_context is not None:
         img = await media_context.open_rgb_image(url)
         if img is None:
-            LogBuffer.log().write("\n 🟡 Amazon图片校验：读取参考图失败")
+            LogBuffer.log().write(tr("\n 🟡 Amazon图片校验：读取参考图失败"))
         return img
     async with manager.acquire_computed() as computed:
         content, error = await computed.async_client.get_content(url)
     if not content:
         if error:
-            LogBuffer.log().write(f"\n 🟡 Amazon图片校验：读取参考图失败 {error}")
+            LogBuffer.log().write(f"{tr("\n 🟡 Amazon图片校验：读取参考图失败 ")}{tr_message(error)}")
         return None
     return await to_thread(_open_rgb_image_from_bytes, content)
 
@@ -435,10 +437,10 @@ async def _verify_soft_amazon_poster(
     strict: bool = False,
 ) -> bool:
     verify_mode = "严格模式" if strict else "软匹配"
-    LogBuffer.log().write(f"\n 🔎 Amazon图片校验：{verify_mode}，开始与已获取图片比对")
+    LogBuffer.log().write(f"{tr("\n 🔎 Amazon图片校验：")}{verify_mode}{tr("，开始与已获取图片比对")}")
     amazon_img = await _download_image_to_memory(amazon_url, media_context)
     if amazon_img is None:
-        LogBuffer.log().write("\n 🟡 Amazon图片校验未通过：Amazon图片读取失败")
+        LogBuffer.log().write(tr("\n 🟡 Amazon图片校验未通过：Amazon图片读取失败"))
         return False
 
     reference_images: list[tuple[str, Image.Image]] = []
@@ -460,7 +462,7 @@ async def _verify_soft_amazon_poster(
 
     if not reference_images:
         amazon_img.close()
-        LogBuffer.log().write("\n 🟡 Amazon图片校验跳过：没有可用参考图，已放弃软匹配图片")
+        LogBuffer.log().write(tr("\n 🟡 Amazon图片校验跳过：没有可用参考图，已放弃软匹配图片"))
         return False
 
     best: tuple[float, str, float, float] = (0.0, "", 0.0, 0.0)
@@ -471,8 +473,8 @@ async def _verify_soft_amazon_poster(
                 best = (score, source, hash_similarity, hist_similarity)
             if score >= 0.82 and hash_similarity >= 0.86 and hist_similarity >= 0.70:
                 LogBuffer.log().write(
-                    f"\n 🟢 Amazon图片校验通过：参考({source}) "
-                    f"相似度({score:.2f}) hash({hash_similarity:.2f}) hist({hist_similarity:.2f})"
+                    f"{tr('\n 🟢 Amazon图片校验通过：参考(')}{source}) "
+                    f"{tr('相似度(')}{score:.2f}) hash({hash_similarity:.2f}) hist({hist_similarity:.2f})"
                 )
                 return True
     finally:
@@ -482,8 +484,8 @@ async def _verify_soft_amazon_poster(
 
     score, source, hash_similarity, hist_similarity = best
     LogBuffer.log().write(
-        f"\n 🟡 Amazon图片校验未通过：最高参考({source or 'none'}) "
-        f"相似度({score:.2f}) hash({hash_similarity:.2f}) hist({hist_similarity:.2f})，已放弃软匹配图片"
+        f"{tr('\n 🟡 Amazon图片校验未通过：最高参考(')}{source or 'none'}) "
+        f"{tr('相似度(')}{score:.2f}) hash({hash_similarity:.2f}) hist({hist_similarity:.2f}){tr('，已放弃软匹配图片')}"
     )
     return False
 
@@ -637,7 +639,7 @@ async def trailer_download(
                     trailer_new_folder_path
                 ):
                     await to_thread(shutil.rmtree, trailer_new_folder_path, ignore_errors=True)
-        LogBuffer.log().write("\n 🟠 Trailer download failed! 将继续使用之前的本地文件！")
+        LogBuffer.log().write(tr("\n 🟠 Trailer download failed! 将继续使用之前的本地文件！"))
         LogBuffer.log().write(f"\n 🍀 Trailer done! (old)({get_used_time(start_time)}s)")
         return True
 
@@ -662,11 +664,11 @@ async def _get_big_poster(
 
     # 保持原有类型白名单，仅额外排除素人番号
     if result.scraping_type == FixedScrapingType.SUREN:
-        LogBuffer.log().write("\n 🔎 Amazon搜索：检测为素人番号，已跳过")
+        LogBuffer.log().write(tr("\n 🔎 Amazon搜索：检测为素人番号，已跳过"))
     elif _should_search_amazon(result):
         skip_poster_size_precheck = manager.config.amazon_skip_poster_size_precheck
         if skip_poster_size_precheck:
-            LogBuffer.log().write("\n 🖼 Amazon搜索：已跳过前置 Poster 大小校验，继续搜索高清图")
+            LogBuffer.log().write(tr("\n 🖼 Amazon搜索：已跳过前置 Poster 大小校验，继续搜索高清图"))
         elif await _should_skip_amazon_for_existing_poster(
             result,
             other,
@@ -827,20 +829,20 @@ async def thumb_download(
 
     # 下载失败，本地有图
     if thumb_path:
-        LogBuffer.log().write("\n 🟠 Thumb download failed! 将继续使用之前的图片！")
+        LogBuffer.log().write(tr("\n 🟠 Thumb download failed! 将继续使用之前的图片！"))
         LogBuffer.log().write(f"\n 🍀 Thumb done! (old)({get_used_time(start_time)}s) ")
         return True
     else:
         if DownloadableFile.IGNORE_PIC_FAIL in manager.config.download_files:
-            LogBuffer.log().write("\n 🟠 Thumb download failed! (你已勾选「图片下载失败时，不视为失败！」) ")
+            LogBuffer.log().write(tr("\n 🟠 Thumb download failed! (你已勾选「图片下载失败时，不视为失败！」) "))
             LogBuffer.log().write(f"\n 🍀 Thumb done! (none)({get_used_time(start_time)}s)")
             return True
         else:
             LogBuffer.log().write(
-                "\n 🔴 Thumb download failed! 你可以到「设置」-「下载」，勾选「图片下载失败时，不视为失败！」 "
+                tr("\n 🔴 Thumb download failed! 你可以到「设置」-「下载」，勾选「图片下载失败时，不视为失败！」 ")
             )
             LogBuffer.error().write(
-                "Thumb download failed! 你可以到「设置」-「下载」，勾选「图片下载失败时，不视为失败！」"
+                tr("Thumb download failed! 你可以到「设置」-「下载」，勾选「图片下载失败时，不视为失败！」")
             )
             return False
 
@@ -913,7 +915,7 @@ async def _download_poster_candidate(
     poster_final_path_temp: Path,
     media_context: MediaResourceContext | None = None,
 ) -> bool:
-    LogBuffer.log().write(f"\n 🖼 Poster策略: 尝试直下 Poster ({candidate.source})")
+    LogBuffer.log().write(f"{tr("\n 🖼 Poster策略: 尝试直下 Poster (")}{candidate.source})")
     start_time = time.time()
     if media_context is not None:
         downloaded = await media_context.save_image(candidate.url, poster_final_path_temp, folder_new_path)
@@ -951,7 +953,7 @@ async def _allow_youma_direct_poster_without_auto_best(
         return
     if await _is_existing_poster_better_than_youma_crop(result, other, media_context):
         result.image_download = True
-        LogBuffer.log().write("\n 🖼 Poster策略: 当前 Poster 不弱于 thumb 右裁剪，允许直下")
+        LogBuffer.log().write(tr("\n 🖼 Poster策略: 当前 Poster 不弱于 thumb 右裁剪，允许直下"))
 
 
 async def poster_download(
@@ -1011,7 +1013,7 @@ async def poster_download(
             other.poster_marked = other.thumb_marked
             result.poster_from = "copy thumb"
             other.poster_path = poster_final_path
-            LogBuffer.log().write(f"\n 🖼 Poster策略: 命中直复制缩略图({result.scraping_type.value})")
+            LogBuffer.log().write(f"{tr("\n 🖼 Poster策略: 命中直复制缩略图(")}{result.scraping_type.value})")
             LogBuffer.log().write(f"\n 🍀 Poster done! (copy thumb)({get_used_time(start_time)}s)")
             return True
 
@@ -1031,7 +1033,7 @@ async def poster_download(
     if _is_vr_result(result) and result.poster:
         result.image_download = True
         if poster_auto_best:
-            LogBuffer.log().write("\n 🖼 Poster选优: VR作品保持直下 Poster 策略")
+            LogBuffer.log().write(tr("\n 🖼 Poster选优: VR作品保持直下 Poster 策略"))
     if not poster_auto_best:
         await _allow_youma_direct_poster_without_auto_best(result, other, media_context)
 
@@ -1077,7 +1079,7 @@ async def poster_download(
             ):
                 return True
             failed_urls.add(MediaResourceContext.normalize_url(best_candidate.url))
-            LogBuffer.log().write("\n 🖼 Poster选优: 移除失败候选后重新比较")
+            LogBuffer.log().write(tr("\n 🖼 Poster选优: 移除失败候选后重新比较"))
     else:
         for candidate in poster_candidates:
             if await _download_poster_candidate(
@@ -1096,15 +1098,15 @@ async def poster_download(
     if not poster_path and not thumb_path:
         other.poster_path = None
         if DownloadableFile.IGNORE_PIC_FAIL in download_files:
-            LogBuffer.log().write("\n 🟠 Poster download failed! (你已勾选「图片下载失败时，不视为失败！」) ")
+            LogBuffer.log().write(tr("\n 🟠 Poster download failed! (你已勾选「图片下载失败时，不视为失败！」) "))
             LogBuffer.log().write(f"\n 🍀 Poster done! (none)({get_used_time(start_time)}s)")
             return True
         else:
             LogBuffer.log().write(
-                "\n 🔴 Poster download failed! 你可以到「设置」-「下载」，勾选「图片下载失败时，不视为失败！」 "
+                tr("\n 🔴 Poster download failed! 你可以到「设置」-「下载」，勾选「图片下载失败时，不视为失败！」 ")
             )
             LogBuffer.error().write(
-                "Poster download failed! 你可以到「设置」-「下载」，勾选「图片下载失败时，不视为失败！」"
+                tr("Poster download failed! 你可以到「设置」-「下载」，勾选「图片下载失败时，不视为失败！」")
             )
             return False
 
@@ -1126,19 +1128,19 @@ async def poster_download(
 
     # 裁剪失败，本地有图
     if poster_path:
-        LogBuffer.log().write("\n 🟠 Poster cut failed! 将继续使用之前的图片！")
+        LogBuffer.log().write(tr("\n 🟠 Poster cut failed! 将继续使用之前的图片！"))
         LogBuffer.log().write(f"\n 🍀 Poster done! (old)({get_used_time(start_time)}s) ")
         return True
     else:
         if DownloadableFile.IGNORE_PIC_FAIL in download_files:
-            LogBuffer.log().write("\n 🟠 Poster cut failed! (你已勾选「图片下载失败时，不视为失败！」) ")
+            LogBuffer.log().write(tr("\n 🟠 Poster cut failed! (你已勾选「图片下载失败时，不视为失败！」) "))
             LogBuffer.log().write(f"\n 🍀 Poster done! (none)({get_used_time(start_time)}s)")
             return True
         else:
             LogBuffer.log().write(
-                "\n 🔴 Poster cut failed! 你可以到「设置」-「下载」，勾选「图片下载失败时，不视为失败！」 "
+                tr("\n 🔴 Poster cut failed! 你可以到「设置」-「下载」，勾选「图片下载失败时，不视为失败！」 ")
             )
-            LogBuffer.error().write("Poster failed！你可以到「设置」-「下载」，勾选「图片下载失败时，不视为失败！」")
+            LogBuffer.error().write(tr("Poster failed！你可以到「设置」-「下载」，勾选「图片下载失败时，不视为失败！」"))
             return False
 
 
@@ -1207,21 +1209,21 @@ async def fanart_download(
     else:
         # 本地有 fanart 时，不下载
         if fanart_path:
-            LogBuffer.log().write("\n 🟠 Fanart copy failed! 未找到 thumb 图片，将继续使用之前的图片！")
+            LogBuffer.log().write(tr("\n 🟠 Fanart copy failed! 未找到 thumb 图片，将继续使用之前的图片！"))
             LogBuffer.log().write(f"\n 🍀 Fanart done! (old)({get_used_time(start_time)}s)")
             return True
 
         else:
             if DownloadableFile.IGNORE_PIC_FAIL in download_files:
-                LogBuffer.log().write("\n 🟠 Fanart failed! (你已勾选「图片下载失败时，不视为失败！」) ")
+                LogBuffer.log().write(tr("\n 🟠 Fanart failed! (你已勾选「图片下载失败时，不视为失败！」) "))
                 LogBuffer.log().write(f"\n 🍀 Fanart done! (none)({get_used_time(start_time)}s)")
                 return True
             else:
                 LogBuffer.log().write(
-                    "\n 🔴 Fanart failed! 你可以到「设置」-「下载」，勾选「图片下载失败时，不视为失败！」 "
+                    tr("\n 🔴 Fanart failed! 你可以到「设置」-「下载」，勾选「图片下载失败时，不视为失败！」 ")
                 )
                 LogBuffer.error().write(
-                    "Fanart 下载失败！你可以到「设置」-「下载」，勾选「图片下载失败时，不视为失败！」"
+                    tr("Fanart 下载失败！你可以到「设置」-「下载」，勾选「图片下载失败时，不视为失败！」")
                 )
                 return False
 
@@ -1298,7 +1300,7 @@ async def extrafanart_download(extrafanart: list[str], extrafanart_from: str, fo
             else:
                 LogBuffer.log().write(f"\n 🍀 ExtraFanart done! (incomplete)({get_used_time(start_time)}s)")
                 return False
-        LogBuffer.log().write("\n 🟠 ExtraFanart download failed! 将继续使用之前的本地文件！")
+        LogBuffer.log().write(tr("\n 🟠 ExtraFanart download failed! 将继续使用之前的本地文件！"))
     if await aiofiles.os.path.exists(extrafanart_folder_path):  # 使用旧文件
         LogBuffer.log().write(f"\n 🍀 ExtraFanart done! (old)({get_used_time(start_time)}s)")
         return True

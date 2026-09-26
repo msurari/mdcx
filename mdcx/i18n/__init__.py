@@ -177,6 +177,43 @@ def tr(source_text: str) -> str:
     return translated or source_text
 
 
+#: Chinese marker vocabulary that leads dynamic, data-carrying messages (network and
+#: parse errors). Those messages are matched against by the retry classifier and by the
+#: transport-failure bookkeeping, so the message itself must never be rewritten; only the
+#: wording that reaches the screen is swapped here. Longest first.
+MESSAGE_MARKERS = (
+    "mirror 目标 URL 解析失败",
+    "Cloudflare 挑战页且 bypass 失败",
+    "mirror 连接错误",
+    "请求等待超时",
+    "curl-cffi 异常",
+    "连接超时",
+    "连接错误",
+    "请求异常",
+    "文本解析失败",
+    "JSON解析失败",
+    "未知错误",
+    "任务已取消",
+)
+
+
+def tr_message(message: str) -> str:
+    """UI copy of a dynamic message whose original wording has to stay untouched.
+
+    A whole-message key wins; otherwise the leading marker phrase is translated and the
+    technical tail (a URL, a library error) is left exactly as the library produced it.
+    """
+    if not message:
+        return message
+    whole = tr(message)
+    if whole != message:
+        return whole
+    for marker in MESSAGE_MARKERS:
+        if message.startswith(marker):
+            return tr(marker) + message[len(marker):]
+    return message
+
+
 def _main(argv: list[str] | None = None) -> int:
     """``python -m mdcx.i18n [language]`` -- report what a mapping file covers."""
     argv = list(sys.argv[1:] if argv is None else argv)

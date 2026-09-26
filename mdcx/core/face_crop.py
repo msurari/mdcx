@@ -11,6 +11,7 @@ from PIL import Image
 
 from ..config.manager import manager
 from ..models.log_buffer import LogBuffer
+from mdcx.i18n import tr
 
 YUNET_MODEL_URL = "https://huggingface.co/opencv/opencv_zoo/resolve/main/models/face_detection_yunet/face_detection_yunet_2023mar.onnx"
 YUNET_MODEL_NAME = "face_detection_yunet_2023mar.onnx"
@@ -69,7 +70,7 @@ def _download_face_model(model_path: Path) -> bool:
             with tmp_path.open("wb") as fp:
                 fp.write(response.read())
         tmp_path.replace(model_path)
-        LogBuffer.log().write("\n 🖼 人脸识别模型已自动缓存")
+        LogBuffer.log().write(tr("\n 🖼 人脸识别模型已自动缓存"))
         return True
     except (OSError, URLError, ValueError):
         if tmp_path.exists():
@@ -102,7 +103,7 @@ def _load_yunet_model() -> Path | None:
             model_path.unlink()
         except OSError:
             pass
-        LogBuffer.log().write("\n 🖼 人脸裁剪: 检测到 LFS 占位模型，准备重新下载")
+        LogBuffer.log().write(tr("\n 🖼 人脸裁剪: 检测到 LFS 占位模型，准备重新下载"))
     if _download_face_model(model_path):
         return model_path
     return None

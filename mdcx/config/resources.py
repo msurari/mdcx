@@ -13,6 +13,7 @@ from ..signals import signal
 from ..utils import singleton
 from ..utils.file import copy_file_sync
 from .manager import manager
+from mdcx.i18n import tr
 
 
 @singleton
@@ -188,7 +189,7 @@ class Resources:
             self.info_mapping_data = etree.HTML(content.encode("utf-8"), parser=parser)
         except Exception as e:
             signal.show_log_text(
-                f" {actor_map_local_path} 读取失败！请检查该文件是否存在问题！如需重置请删除该文件！错误信息：\n{str(e)}"
+                f" {actor_map_local_path}{tr(" 读取失败！请检查该文件是否存在问题！如需重置请删除该文件！错误信息：\n")}{str(e)}"
             )
             signal.show_traceback_log(traceback.format_exc())
             signal.show_log_text(traceback.format_exc())

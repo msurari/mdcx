@@ -115,8 +115,8 @@ class PreviewImageLoader(QObject):
             poster_image, thumb_image = future.result()
         except Exception:
             signal.show_log_text(traceback.format_exc())
-            poster_image = _preview_placeholder(True, "加载失败")
-            thumb_image = _preview_placeholder(False, "加载失败")
+            poster_image = _preview_placeholder(True, tr("加载失败"))
+            thumb_image = _preview_placeholder(False, tr("加载失败"))
         self.loaded.emit(request_id, poster_image, thumb_image)
 
     def _load_pair(
@@ -172,7 +172,7 @@ class PreviewImageLoader(QObject):
             return [True, image, msg, target_size.width(), target_size.height()]
         except Exception:
             signal.show_log_text(traceback.format_exc())
-            return _preview_placeholder(poster, "加载失败")
+            return _preview_placeholder(poster, tr("加载失败"))
 
 
 async def get_pixmap(pic_path: Path, poster=True, pic_from=""):

@@ -15,6 +15,7 @@ from ..models.types import CrawlerInput, CrawlerResponse, CrawlerResult, Crawler
 from ..number import is_uncensored
 from ..utils.dataclass import update
 from .mosaic import is_guochan_mosaic, is_plain_uncensored_mosaic, normalize_mosaic
+from mdcx.i18n import tr
 
 if TYPE_CHECKING:
     from ..config.models import Config
@@ -556,17 +557,17 @@ class FileScraper:
             try:
                 web_data = await self._call_crawler(task_input, website)
             except TimeoutError:
-                failed_info.append(f"{website.value}(请求超时)")
+                failed_info.append(f"{website.value}{tr("(请求超时)")}")
                 continue
             except Exception as e:
-                failed_info.append(f"{website.value}(失败: {e})")
+                failed_info.append(f"{website.value}{tr("(失败: ")}{e})")
                 continue
 
             if web_data.data is None:
                 if e := web_data.debug_info.error:
-                    failed_info.append(f"{website.value}(失败: {e})")
+                    failed_info.append(f"{website.value}{tr("(失败: ")}{e})")
                 else:
-                    failed_info.append(f"{website.value}(返回空数据)")
+                    failed_info.append(f"{website.value}{tr("(返回空数据)")}")
                 continue
 
             res = self._convert_specific_crawler_result(

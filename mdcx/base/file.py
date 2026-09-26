@@ -35,7 +35,7 @@ _SUCCESS_REPLACE_RETRY_BASE_SLEEP = 0.15
 def _path_lines_for_write(paths: list[Path] | set[Path], list_name: str):
     if len(paths) > LARGE_LIST_SORT_THRESHOLD:
         if list_name not in _large_list_warned:
-            signal.show_log_text(f" ⚠ {list_name} 数量较大（{len(paths)}），保存时将跳过排序以降低内存占用。")
+            signal.show_log_text(f" ⚠ {list_name}{tr(" 数量较大（")}{len(paths)}{tr("），保存时将跳过排序以降低内存占用。")}")
             _large_list_warned.add(list_name)
         for path in paths:
             yield str(path) + "\n"
@@ -60,7 +60,7 @@ async def _replace_success_file_with_retry(success_tmp_path: Path, success_path:
     try:
         await asyncio.to_thread(_ensure_file_writable, success_path)
     except Exception:
-        signal.show_log_text(" ⚠ success.txt 文件属性检查失败，将继续尝试保存。")
+        signal.show_log_text(tr(" ⚠ success.txt 文件属性检查失败，将继续尝试保存。"))
 
     for attempt in range(1, _SUCCESS_REPLACE_RETRY_MAX + 1):
         try:
@@ -68,7 +68,7 @@ async def _replace_success_file_with_retry(success_tmp_path: Path, success_path:
             return
         except PermissionError:
             if attempt == 1:
-                signal.show_log_text(" ⚠ success.txt 正在被占用，正在重试保存...")
+                signal.show_log_text(tr(" ⚠ success.txt 正在被占用，正在重试保存..."))
             if attempt >= _SUCCESS_REPLACE_RETRY_MAX:
                 raise
             await asyncio.sleep(_SUCCESS_REPLACE_RETRY_BASE_SLEEP * attempt)
@@ -225,7 +225,7 @@ async def save_success_list(old_path: Path | None = None, new_path: Path | None 
         finally:
             if success_tmp_path:
                 await _cleanup_success_tmp_file(success_tmp_path)
-        signal.view_success_file_settext.emit(f"查看 ({len(Flags.success_list)})")
+        signal.view_success_file_settext.emit(f"{tr("查看 (")}{len(Flags.success_list)})")
 
 
 def save_remain_list() -> None:
@@ -339,7 +339,7 @@ def get_success_list() -> None:
         with open(success_path, encoding="utf-8", errors="ignore") as f:
             Flags.success_list = {p for path in f if (line := path.strip()) and (p := Path(line)).suffix}
         executor.run(save_success_list())
-    signal.view_success_file_settext.emit(f"查看 ({len(Flags.success_list)})")
+    signal.view_success_file_settext.emit(f"{tr("查看 (")}{len(Flags.success_list)})")
 
 
 async def movie_lists(ignore_dirs: list[Path], media_type: list[str], movie_path: Path) -> list[Path]:
@@ -348,7 +348,7 @@ async def movie_lists(ignore_dirs: list[Path], media_type: list[str], movie_path
     skip_list = ["skip", ".skip", ".ignore"]
     not_skip_success = NoEscape.SKIP_SUCCESS_FILE not in manager.config.no_escape
 
-    signal.show_traceback_log("🔎 遍历待刮削目录....")
+    signal.show_traceback_log(tr("🔎 遍历待刮削目录...."))
 
     def task():
         i = 100
@@ -423,12 +423,12 @@ async def movie_lists(ignore_dirs: list[Path], media_type: list[str], movie_path
             signal.show_traceback_log(
                 f"✅ Found ({found_count})! "
                 f"Skip successfully scraped ({skip}) repeat softlink ({skip_repeat_softlink})! "
-                f"({get_used_time(start_time)}s)... Still searching, please wait... \u3000"
+                f"({get_used_time(start_time)}{tr("s)... Still searching, please wait... 　")}"
             )
             signal.show_log_text(
                 f"    {get_current_time()} Found ({found_count})! "
                 f"Skip successfully scraped ({skip}) repeat softlink ({skip_repeat_softlink})! "
-                f"({get_used_time(start_time)}s)... Still searching, please wait... \u3000"
+                f"({get_used_time(start_time)}{tr("s)... Still searching, please wait... 　")}"
             )
         return total, skip, skip_repeat_softlink
 
@@ -438,12 +438,12 @@ async def movie_lists(ignore_dirs: list[Path], media_type: list[str], movie_path
     signal.show_traceback_log(
         f"🎉 Done!!! Found ({len(total)})! "
         f"Skip successfully scraped ({skip}) repeat softlink ({skip_repeat_softlink})! "
-        f"({get_used_time(start_time)}s) \u3000"
+        f"({get_used_time(start_time)}{tr("s) 　")}"
     )
     signal.show_log_text(
         f"    Done!!! Found ({len(total)})! "
         f"Skip successfully scraped ({skip}) repeat softlink ({skip_repeat_softlink})! "
-        f"({get_used_time(start_time)}s) \u3000"
+        f"({get_used_time(start_time)}{tr("s) 　")}"
     )
     return total
 
@@ -501,11 +501,11 @@ async def newtdisk_creat_symlink(
         netdisk_path = Path(manager.config.netdisk_path)
     if not local_path:
         local_path = Path(manager.config.localdisk_path)
-    signal.show_log_text("🍯 🍯 🍯 开始创建符号链接")
-    signal.show_log_text(f" 📁 源路径: {netdisk_path} \n 📁 目标路径：{local_path} \n")
+    signal.show_log_text(tr("🍯 🍯 🍯 开始创建符号链接"))
+    signal.show_log_text(f"{tr(" 📁 源路径: ")}{netdisk_path}{tr(" \n 📁 目标路径：")}{local_path} \n")
     try:
         if not netdisk_path or not local_path:
-            signal.show_log_text(f" 🔴 网盘目录和本地目录不能为空！请重新设置！({get_used_time(start_time)}s)")
+            signal.show_log_text(f"{tr(" 🔴 网盘目录和本地目录不能为空！请重新设置！(")}{get_used_time(start_time)}s)")
             signal.show_log_text("================================================================================")
             if from_tool:
                 signal.reset_buttons_status.emit()
@@ -544,11 +544,11 @@ async def newtdisk_creat_symlink(
                     net_file = root / f
                     local_file = local_dir / f
                     if local_file.is_file():
-                        signal.show_log_text(f" {total} 🟠 跳过: 已存在文件或有效的符号链接\n {net_file} ")
+                        signal.show_log_text(f" {total}{tr(" 🟠 跳过: 已存在文件或有效的符号链接\n ")}{net_file} ")
                         skip_num += 1
                         continue
                     if local_file.is_symlink():
-                        signal.show_log_text(f" {total} 🔴 删除: 无效的符号链接\n {net_file} ")
+                        signal.show_log_text(f" {total}{tr(" 🔴 删除: 无效的符号链接\n ")}{net_file} ")
                         local_file.unlink()
 
                     if ext in copy_exts:  # 直接复制的文件
@@ -672,13 +672,13 @@ async def check_file(file_path: Path, file_escape_size: float) -> bool:
             return True
 
     if not await aiofiles.os.path.exists(file_path):
-        LogBuffer.error().write("文件不存在")
+        LogBuffer.error().write(tr("文件不存在"))
         return False
     if NoEscape.NO_SKIP_SMALL_FILE not in manager.config.no_escape:
         file_size = await aiofiles.os.path.getsize(file_path) / float(1024 * 1024)
         if file_size < file_escape_size:
             LogBuffer.error().write(
-                f"文件小于 {file_escape_size} MB 被过滤!（实际大小 {round(file_size, 2)} MB）已跳过刮削！"
+                f"{tr("文件小于 ")}{file_escape_size}{tr(" MB 被过滤!（实际大小 ")}{round(file_size, 2)}{tr(" MB）已跳过刮削！")}"
             )
             return False
     return True

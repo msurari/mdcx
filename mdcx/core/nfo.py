@@ -23,6 +23,7 @@ from ..utils.language import is_japanese
 from .mosaic import normalize_mosaic
 from .naming import NameRenderOptions, NamingTarget, render_name
 from .tag_priority import prioritize_nfo_tags
+from mdcx.i18n import tr
 
 
 def get_external_id_tag_name(site: Website | str) -> str:
@@ -378,7 +379,7 @@ async def get_nfo_data(file_path: Path, movie_number: str) -> tuple[CrawlersResu
     json_data.field_sources = dict.fromkeys(CrawlerResultFields, "local")
 
     if not await aiofiles.os.path.exists(local_nfo_path):
-        LogBuffer.error().write("nfo文件不存在")
+        LogBuffer.error().write(tr("nfo文件不存在"))
         json_data.outline = file_path.name
         json_data.tag = str(file_path)
         return None, None
@@ -393,7 +394,7 @@ async def get_nfo_data(file_path: Path, movie_number: str) -> tuple[CrawlersResu
     title = "".join(xml_nfo.xpath("//title/text()"))
     # 获取不到标题，表示xml错误，重新刮削
     if not title:
-        LogBuffer.error().write("nfo文件损坏")
+        LogBuffer.error().write(tr("nfo文件损坏"))
         json_data.outline = file_path.name
         json_data.tag = str(file_path)
         return None, None

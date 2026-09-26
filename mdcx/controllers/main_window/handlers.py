@@ -22,19 +22,19 @@ def show_netstatus() -> None:
 
     if not use_proxy or not proxy:
         signal_qt.show_net_info(
-            tr("当前网络状态") + "：❌ " + tr("未启用代理") + "\n"
-            + "   " + tr("CF Bypass") + "：" + bypass_status
-            + "    " + tr("Bypass代理") + "：" + bypass_proxy_status
-            + "    " + tr("超时") + "：" + str(timeout)
-            + "    " + tr("重试") + "：" + str(retry_count)
+            tr("当前网络状态") + tr("：❌ ") + tr("未启用代理") + "\n"
+            + "   " + tr("CF Bypass") + tr("：") + bypass_status
+            + "    " + tr("Bypass代理") + tr("：") + bypass_proxy_status
+            + "    " + tr("超时") + tr("：") + str(timeout)
+            + "    " + tr("重试") + tr("：") + str(retry_count)
         )
     else:
         signal_qt.show_net_info(
-            tr("当前网络状态") + "：✅ " + tr("已启用代理") + "\n"
-            + "   " + tr("地址") + "：" + proxy + "\n"
-            + "   " + tr("CF Bypass") + "：" + bypass_status
-            + "    " + tr("Bypass代理") + "：" + bypass_proxy_status
-            + "    " + tr("超时") + "：" + str(timeout)
-            + "    " + tr("重试") + "：" + str(retry_count)
+            tr("当前网络状态") + tr("：✅ ") + tr("已启用代理") + "\n"
+            + "   " + tr("地址") + tr("：") + proxy + "\n"
+            + "   " + tr("CF Bypass") + tr("：") + bypass_status
+            + "    " + tr("Bypass代理") + tr("：") + bypass_proxy_status
+            + "    " + tr("超时") + tr("：") + str(timeout)
+            + "    " + tr("重试") + tr("：") + str(retry_count)
         )
     signal_qt.show_net_info("=" * 80)

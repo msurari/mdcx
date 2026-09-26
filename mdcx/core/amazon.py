@@ -19,6 +19,7 @@ from ..models.log_buffer import LogBuffer
 from ..models.types import CrawlersResult
 from ..utils import convert_half
 from .media_resource import MediaResourceContext
+from mdcx.i18n import tr
 
 
 def _set_amazon_match_state(result: CrawlersResult, *, is_hard: bool, reason: str, url: str = "") -> None:
@@ -535,18 +536,18 @@ async def try_get_amazon_barcodes_from_covers(
         cover_candidates.append((str(source or "").strip() or "unknown", cover))
 
     if not cover_candidates:
-        LogBuffer.log().write("\n 🟡 Amazon条码快路径：没有可扫描的封面来源")
+        LogBuffer.log().write(tr("\n 🟡 Amazon条码快路径：没有可扫描的封面来源"))
         return []
 
     cover_candidates = cover_candidates[:3]
-    LogBuffer.log().write(f"\n 🔎 Amazon条码快路径：开始扫描封面条码，共 {len(cover_candidates)} 张候选封面")
+    LogBuffer.log().write(f"{tr("\n 🔎 Amazon条码快路径：开始扫描封面条码，共 ")}{len(cover_candidates)}{tr(" 张候选封面")}")
 
     if skip_reason := await to_thread(_get_amazon_barcode_detector_skip_reason):
-        LogBuffer.log().write(f"\n 🟡 Amazon条码快路径跳过：{skip_reason}")
+        LogBuffer.log().write(f"{tr("\n 🟡 Amazon条码快路径跳过：")}{skip_reason}")
         return []
 
     for index, (source, cover) in enumerate(cover_candidates, start=1):
-        LogBuffer.log().write(f"\n 🔎 Amazon条码识别：扫描封面[{index}/{len(cover_candidates)}] ({source}) {cover}")
+        LogBuffer.log().write(f"{tr("\n 🔎 Amazon条码识别：扫描封面[")}{index}/{len(cover_candidates)}] ({source}) {cover}")
         content: bytes | None = None
         error = ""
         if re.match(r"^https?://", cover, flags=re.I):
@@ -564,7 +565,7 @@ async def try_get_amazon_barcodes_from_covers(
                     error = str(exc)
         if not content:
             if error:
-                LogBuffer.log().write(f"\n 🟡 Amazon条码识别：读取封面失败 ({source}) {error}")
+                LogBuffer.log().write(f"{tr("\n 🟡 Amazon条码识别：读取封面失败 (")}{source}) {error}")
             continue
         barcodes, detect_reason = await to_thread(
             _detect_amazon_barcode_candidates_from_image_bytes_with_reason, content
@@ -573,14 +574,14 @@ async def try_get_amazon_barcodes_from_covers(
             primary_barcode = barcodes[0]
             if detect_reason == "ocr_digits":
                 LogBuffer.log().write(
-                    f"\n 🔢 Amazon条码识别：OCR回退命中 EAN/JAN {primary_barcode} ({source}) 候选{len(barcodes)}个"
+                    f"{tr("\n 🔢 Amazon条码识别：OCR回退命中 EAN/JAN ")}{primary_barcode} ({source}{tr(") 候选")}{len(barcodes)}{tr("个")}"
                 )
             else:
-                LogBuffer.log().write(f"\n 🔢 Amazon条码识别：命中 EAN/JAN {primary_barcode} ({source})")
+                LogBuffer.log().write(f"{tr("\n 🔢 Amazon条码识别：命中 EAN/JAN ")}{primary_barcode} ({source})")
             return barcodes
-        LogBuffer.log().write(f"\n 🟡 Amazon条码识别：未识别到条码 ({source}) {detect_reason}")
+        LogBuffer.log().write(f"{tr("\n 🟡 Amazon条码识别：未识别到条码 (")}{source}) {detect_reason}")
 
-    LogBuffer.log().write("\n 🟡 Amazon条码快路径：封面未识别到可用 EAN/JAN，回退标题搜索")
+    LogBuffer.log().write(tr("\n 🟡 Amazon条码快路径：封面未识别到可用 EAN/JAN，回退标题搜索"))
     return []
 
 
@@ -665,7 +666,7 @@ async def get_big_pic_by_amazon(
     has_valid_actor = bool(actor_groups_normalized)
     expected_actor_count = len(actor_groups_normalized)
     if not has_valid_actor:
-        LogBuffer.log().write("\n 🔎 Amazon搜索：未找到有效演员，切换为标题/番号模式")
+        LogBuffer.log().write(tr("\n 🔎 Amazon搜索：未找到有效演员，切换为标题/番号模式"))
 
     def build_number_regex(number_text: str) -> re.Pattern[str] | None:
         normalized_number = convert_half(number_text or "").upper().strip()
@@ -757,7 +758,7 @@ async def get_big_pic_by_amazon(
     series = strip_trailing_media_noise(re.sub(r"【.*?】", "", series).strip())
     series_raw = strip_trailing_media_noise(re.sub(r"【.*?】", "", series_raw).strip())
     if originaltitle_amazon_simplified or originaltitle_amazon_raw_simplified:
-        LogBuffer.log().write("\n 🔎 Amazon清洗关键词: 已移除标题尾部的演员/媒介噪音")
+        LogBuffer.log().write(tr("\n 🔎 Amazon清洗关键词: 已移除标题尾部的演员/媒介噪音"))
     search_queue: list[tuple[str, str, bool]] = []
     search_keyword_set: set[str] = set()
     split_keyword_added = False
@@ -900,7 +901,7 @@ async def get_big_pic_by_amazon(
             result.amazon_raw_publisher and result.amazon_raw_publisher != result.publisher,
         ]
     ):
-        LogBuffer.log().write("\n 🔎 Amazon清洗关键词: 已优先使用未映射字段")
+        LogBuffer.log().write(tr("\n 🔎 Amazon清洗关键词: 已优先使用未映射字段"))
     metadata_keywords: list[str] = []
     for field in metadata_source_fields:
         for each in re.split(r"[,，/／|｜]", field):
@@ -1079,7 +1080,7 @@ async def get_big_pic_by_amazon(
             if best_rejected_candidate is None or score > best_rejected_candidate[0]:
                 best_rejected_candidate = (score, actor_name, pic_title, reason)
 
-        LogBuffer.log().write("\n 🔎 Amazon兜底：开始按演员名搜索并匹配标题置信度")
+        LogBuffer.log().write(tr("\n 🔎 Amazon兜底：开始按演员名搜索并匹配标题置信度"))
         for actor_name in actor_search_keywords:
             success, html_search = await search_amazon(actor_name)
             if not success or not html_search or is_no_result(html_search):
@@ -1129,11 +1130,11 @@ async def get_big_pic_by_amazon(
             if best_rejected_candidate:
                 score, rejected_actor, rejected_title, rejected_reason = best_rejected_candidate
                 LogBuffer.log().write(
-                    f"\n 🟡 Amazon兜底未命中：最高候选分({score:.2f}) 演员({rejected_actor}) "
-                    f"原因({rejected_reason}) 标题({rejected_title})"
+                    f"{tr('\n 🟡 Amazon兜底未命中：最高候选分(')}{score:.2f}{tr(') 演员(')}{rejected_actor} "
+                    f"{tr('原因(')}{rejected_reason}{tr(') 标题(')}{rejected_title})"
                 )
             else:
-                LogBuffer.log().write("\n 🟡 Amazon兜底未命中：演员搜索无可评估候选结果")
+                LogBuffer.log().write(tr("\n 🟡 Amazon兜底未命中：演员搜索无可评估候选结果"))
             return ""
 
         fallback_candidates = sorted(fallback_candidates, key=lambda item: item[0], reverse=True)
@@ -1146,8 +1147,8 @@ async def get_big_pic_by_amazon(
             if is_hd_candidate_width(width):
                 number_match, confidence, _ = current_match
                 LogBuffer.log().write(
-                    f"\n 🟢 Amazon兜底命中：演员({matched_actor}) 置信度({confidence:.2f}) "
-                    f"番号命中({bool(number_match)}) 标题({matched_title})"
+                    f"{tr('\n 🟢 Amazon兜底命中：演员(')}{matched_actor}{tr(') 置信度(')}{confidence:.2f} "
+                    f"{tr('番号命中(')}{bool(number_match)}{tr(') 标题(')}{matched_title})"
                 )
                 _set_amazon_match_state(
                     result,
@@ -1161,8 +1162,8 @@ async def get_big_pic_by_amazon(
             return ""
         (number_match, confidence, _), matched_url, matched_title, matched_actor, _ = best_fallback_match
         LogBuffer.log().write(
-            f"\n 🟢 Amazon兜底命中：演员({matched_actor}) 置信度({confidence:.2f}) 番号命中({bool(number_match)})"
-            f" 标题({matched_title})"
+            f"{tr('\n 🟢 Amazon兜底命中：演员(')}{matched_actor}{tr(') 置信度(')}{confidence:.2f}{tr(') 番号命中(')}{bool(number_match)})"
+            f"{tr(' 标题(')}{matched_title})"
         )
         result.poster = matched_url
         result.poster_from = "Amazon"
@@ -1416,30 +1417,30 @@ async def get_big_pic_by_amazon(
     async def try_get_big_pic_by_amazon_via_barcode() -> str:
         barcodes = (await try_get_amazon_barcodes_from_covers(result, media_context))[:3]
         if not barcodes:
-            LogBuffer.log().write("\n 🟡 Amazon条码快路径跳过：未获取到条码，回退标题搜索")
+            LogBuffer.log().write(tr("\n 🟡 Amazon条码快路径跳过：未获取到条码，回退标题搜索"))
             return ""
 
         async def try_get_big_pic_by_amazon_via_single_barcode(
             barcode: str, barcode_index: int, total_barcodes: int
         ) -> str:
             LogBuffer.log().write(
-                f"\n 🔎 Amazon条码快路径：开始搜索 EAN/JAN[{barcode_index}/{total_barcodes}] {barcode}"
+                f"{tr("\n 🔎 Amazon条码快路径：开始搜索 EAN/JAN[")}{barcode_index}/{total_barcodes}] {barcode}"
             )
             success, html_search = await search_amazon(barcode)
             if not success or not html_search or is_no_result(html_search):
-                LogBuffer.log().write(f"\n 🟡 Amazon条码快路径未命中：搜索无结果 {barcode}")
+                LogBuffer.log().write(f"{tr("\n 🟡 Amazon条码快路径未命中：搜索无结果 ")}{barcode}")
                 return ""
 
             total_result_count = _get_amazon_total_result_count(html_search)
             html = etree.fromstring(html_search, etree.HTMLParser())
             pic_card = html.xpath('//div[@data-component-type="s-search-result" and @data-asin]')
             if not pic_card:
-                LogBuffer.log().write(f"\n 🟡 Amazon条码快路径未命中：结果页无有效卡片 {barcode}")
+                LogBuffer.log().write(f"{tr("\n 🟡 Amazon条码快路径未命中：结果页无有效卡片 ")}{barcode}")
                 return ""
             result_count_desc = str(len(pic_card))
             if total_result_count is not None:
                 result_count_desc += f"/{total_result_count}"
-            LogBuffer.log().write(f"\n 🔎 Amazon条码快路径：条码搜索命中 {result_count_desc} 条候选")
+            LogBuffer.log().write(f"{tr("\n 🔎 Amazon条码快路径：条码搜索命中 ")}{result_count_desc}{tr(" 条候选")}")
 
             barcode_candidates: dict[str, dict[str, object]] = {}
             for search_rank, each in enumerate(pic_card[:8]):
@@ -1496,12 +1497,12 @@ async def get_big_pic_by_amazon(
                 candidate["quick_number_match"] = bool(candidate["quick_number_match"] or quick_number_match)
 
             if not barcode_candidates:
-                LogBuffer.log().write(f"\n 🟡 Amazon条码快路径未命中：结果页没有可评估候选 {barcode}")
+                LogBuffer.log().write(f"{tr("\n 🟡 Amazon条码快路径未命中：结果页没有可评估候选 ")}{barcode}")
                 return ""
 
             probe_limit = 3 if total_result_count is not None and total_result_count <= 5 else 5
             LogBuffer.log().write(
-                f"\n 🔎 Amazon条码快路径：开始详情页校验，候选 {len(barcode_candidates)} 条，探测前 {min(probe_limit, len(barcode_candidates))} 条"
+                f"{tr("\n 🔎 Amazon条码快路径：开始详情页校验，候选 ")}{len(barcode_candidates)}{tr(" 条，探测前 ")}{min(probe_limit, len(barcode_candidates))}{tr(" 条")}"
             )
             probe_candidates = sorted(barcode_candidates.values(), key=barcode_candidate_sort_key, reverse=True)[
                 : min(probe_limit, len(barcode_candidates))
@@ -1527,8 +1528,8 @@ async def get_big_pic_by_amazon(
                 best_candidate = sorted(confirmed_candidates, key=barcode_candidate_sort_key, reverse=True)[0]
                 if is_hd_candidate_width(int(best_candidate["width"])):
                     LogBuffer.log().write(
-                        f"\n 🟢 Amazon条码快路径命中：EAN/JAN({barcode}) "
-                        f"介质({best_candidate['pic_ver'] or 'unknown'}) 标题({best_candidate['pic_title']})"
+                        f"{tr('\n 🟢 Amazon条码快路径命中：EAN/JAN(')}{barcode}) "
+                        f"{tr('介质(')}{best_candidate['pic_ver'] or 'unknown'}{tr(') 标题(')}{best_candidate['pic_title']})"
                     )
                     _set_amazon_match_state(result, is_hard=True, reason="barcode", url=str(best_candidate["url"]))
                     return str(best_candidate["url"])
@@ -1536,8 +1537,8 @@ async def get_big_pic_by_amazon(
                 result.poster_from = "Amazon"
                 _set_amazon_match_state(result, is_hard=True, reason="barcode", url=str(best_candidate["url"]))
                 LogBuffer.log().write(
-                    f"\n 🟡 Amazon条码快路径命中低清图：EAN/JAN({barcode}) "
-                    f"介质({best_candidate['pic_ver'] or 'unknown'}) 标题({best_candidate['pic_title']})"
+                    f"{tr('\n 🟡 Amazon条码快路径命中低清图：EAN/JAN(')}{barcode}) "
+                    f"{tr('介质(')}{best_candidate['pic_ver'] or 'unknown'}{tr(') 标题(')}{best_candidate['pic_title']})"
                 )
                 return ""
 
@@ -1545,9 +1546,9 @@ async def get_big_pic_by_amazon(
                 best_candidate = sorted(accepted_candidates, key=barcode_candidate_sort_key, reverse=True)[0]
                 if is_hd_candidate_width(int(best_candidate["width"])):
                     LogBuffer.log().write(
-                        f"\n 🟢 Amazon条码快路径弱确认命中：标题置信度({float(best_candidate['title_confidence']):.2f}) "
-                        f"番号命中({candidate_number_match(best_candidate)}) "
-                        f"介质({best_candidate['pic_ver'] or 'unknown'}) 标题({best_candidate['pic_title']})"
+                        f"{tr('\n 🟢 Amazon条码快路径弱确认命中：标题置信度(')}{float(best_candidate['title_confidence']):.2f}) "
+                        f"{tr('番号命中(')}{candidate_number_match(best_candidate)}) "
+                        f"{tr('介质(')}{best_candidate['pic_ver'] or 'unknown'}{tr(') 标题(')}{best_candidate['pic_title']})"
                     )
                     _set_amazon_match_state(
                         result,
@@ -1565,13 +1566,13 @@ async def get_big_pic_by_amazon(
                     url=str(best_candidate["url"]),
                 )
                 LogBuffer.log().write(
-                    f"\n 🟡 Amazon条码快路径弱确认低清图：标题置信度({float(best_candidate['title_confidence']):.2f}) "
-                    f"番号命中({candidate_number_match(best_candidate)}) "
-                    f"介质({best_candidate['pic_ver'] or 'unknown'}) 标题({best_candidate['pic_title']})"
+                    f"{tr('\n 🟡 Amazon条码快路径弱确认低清图：标题置信度(')}{float(best_candidate['title_confidence']):.2f}) "
+                    f"{tr('番号命中(')}{candidate_number_match(best_candidate)}) "
+                    f"{tr('介质(')}{best_candidate['pic_ver'] or 'unknown'}{tr(') 标题(')}{best_candidate['pic_title']})"
                 )
                 return ""
 
-            LogBuffer.log().write(f"\n 🟡 Amazon条码快路径未命中：候选详情页无条码确认 {barcode}")
+            LogBuffer.log().write(f"{tr("\n 🟡 Amazon条码快路径未命中：候选详情页无条码确认 ")}{barcode}")
             return ""
 
         for barcode_index, barcode in enumerate(barcodes, start=1):
@@ -1580,7 +1581,7 @@ async def get_big_pic_by_amazon(
             if result.poster_from == "Amazon":
                 return ""
 
-        LogBuffer.log().write("\n 🟡 Amazon条码快路径未命中：所有条码候选均未通过校验，回退标题搜索")
+        LogBuffer.log().write(tr("\n 🟡 Amazon条码快路径未命中：所有条码候选均未通过校验，回退标题搜索"))
         return ""
 
     hd_pic_url = await try_get_big_pic_by_amazon_via_barcode()
@@ -1693,10 +1694,10 @@ async def get_big_pic_by_amazon(
                     best_fallback_candidate = each_candidate
                 if is_hd_candidate_width(int(each_candidate["width"])):
                     LogBuffer.log().write(
-                        f"\n 🟢 Amazon命中：标题置信度({float(each_candidate['title_confidence']):.2f}) "
-                        f"番号命中({candidate_number_match(each_candidate)}) "
-                        f"演员命中({candidate_actor_match_count(each_candidate)}/{expected_actor_count or 0}) "
-                        f"介质({each_candidate['pic_ver'] or 'unknown'}) 标题({each_candidate['pic_title']})"
+                        f"{tr('\n 🟢 Amazon命中：标题置信度(')}{float(each_candidate['title_confidence']):.2f}) "
+                        f"{tr('番号命中(')}{candidate_number_match(each_candidate)}) "
+                        f"{tr('演员命中(')}{candidate_actor_match_count(each_candidate)}/{expected_actor_count or 0}) "
+                        f"{tr('介质(')}{each_candidate['pic_ver'] or 'unknown'}{tr(') 标题(')}{each_candidate['pic_title']})"
                     )
                     _set_amazon_match_state(
                         result,
@@ -1715,18 +1716,18 @@ async def get_big_pic_by_amazon(
                     url=str(best_fallback_candidate["url"]),
                 )
                 LogBuffer.log().write(
-                    f"\n 🟡 Amazon命中低清图：标题置信度({float(best_fallback_candidate['title_confidence']):.2f}) "
-                    f"番号命中({candidate_number_match(best_fallback_candidate)}) "
-                    f"介质({best_fallback_candidate['pic_ver'] or 'unknown'}) 标题({best_fallback_candidate['pic_title']})"
+                    f"{tr('\n 🟡 Amazon命中低清图：标题置信度(')}{float(best_fallback_candidate['title_confidence']):.2f}) "
+                    f"{tr('番号命中(')}{candidate_number_match(best_fallback_candidate)}) "
+                    f"{tr('介质(')}{best_fallback_candidate['pic_ver'] or 'unknown'}{tr(') 标题(')}{best_fallback_candidate['pic_title']})"
                 )
         else:
             best_rejected_candidate = sorted(candidate_pool.values(), key=candidate_sort_key, reverse=True)[0]
             LogBuffer.log().write(
-                f"\n 🟡 Amazon搜索未命中：最高候选分({candidate_score(best_rejected_candidate):.2f}) "
-                f"标题置信度({float(best_rejected_candidate['title_confidence']):.2f}) "
-                f"番号命中({candidate_number_match(best_rejected_candidate)}) "
-                f"演员命中({candidate_actor_match_count(best_rejected_candidate)}/{expected_actor_count or 0}) "
-                f"标题({best_rejected_candidate['pic_title']})"
+                f"{tr('\n 🟡 Amazon搜索未命中：最高候选分(')}{candidate_score(best_rejected_candidate):.2f}) "
+                f"{tr('标题置信度(')}{float(best_rejected_candidate['title_confidence']):.2f}) "
+                f"{tr('番号命中(')}{candidate_number_match(best_rejected_candidate)}) "
+                f"{tr('演员命中(')}{candidate_actor_match_count(best_rejected_candidate)}/{expected_actor_count or 0}) "
+                f"{tr('标题(')}{best_rejected_candidate['pic_title']})"
             )
 
     if not hd_pic_url and result.poster_from != "Amazon" and not candidate_pool:

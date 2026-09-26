@@ -19,6 +19,7 @@ from ..number import get_number_letters
 from ..utils import clean_list, get_used_time
 from ..utils.language import is_japanese, is_probably_english_for_translation
 from .mosaic import normalize_mosaic
+from mdcx.i18n import tr
 
 AVWIKI_SCRAPING_TYPES = {
     FixedScrapingType.YOUMA,
@@ -312,7 +313,7 @@ async def translate_title_outline(json_data: CrawlersResult, cd_part: str, movie
             break
         else:
             LogBuffer.log().write(
-                f"\n 🔴 Translation failed! {translate_by} 均失败或不可用！({get_used_time(start_time)}s)"
+                f"\n 🔴 Translation failed! {translate_by}{tr(" 均失败或不可用！(")}{get_used_time(start_time)}s)"
             )
 
     # 简繁转换

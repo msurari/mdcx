@@ -16,6 +16,7 @@ from ..signals import signal
 from ..utils import get_used_time
 from ..utils.video import get_video_metadata
 from .naming import NameRenderOptions, NamingTarget, render_name
+from mdcx.i18n import tr
 
 
 def replace_word(json_data: BaseCrawlerResult):
@@ -230,7 +231,7 @@ async def get_video_size(file_path: Path, file_number: str = ""):
         try:
             height, codec = await asyncio.to_thread(get_video_metadata, file_path)
         except Exception as e:
-            signal.show_log_text(f" 🔴 无法获取视频分辨率! 文件地址: {file_path}  错误信息: {e}")
+            signal.show_log_text(f"{tr(" 🔴 无法获取视频分辨率! 文件地址: ")}{file_path}{tr("  错误信息: ")}{e}")
     elif hd_get == "path":
         height = _detect_height_from_path(file_path, file_number)
 

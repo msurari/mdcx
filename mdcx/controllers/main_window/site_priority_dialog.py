@@ -425,8 +425,8 @@ class SiteListEditorDialog(QDialog):
         )
         self.available_list.on_removed = self._sync_selected_from_list
 
-        layout.addWidget(self._build_panel("可用网站", self.available_list))
-        layout.addWidget(self._build_panel("启用网站（从左到右优先级递减）", self.selected_list), 1)
+        layout.addWidget(self._build_panel(tr("可用网站"), self.available_list))
+        layout.addWidget(self._build_panel(tr("启用网站（从左到右优先级递减）"), self.selected_list), 1)
 
         actions = QHBoxLayout()
         add_button = QPushButton(tr("添加选中"))
@@ -626,8 +626,8 @@ def setup_site_priority_ui(window: "MyMAinWindow") -> None:
         FixedScrapingType.GUOCHAN: TypeWebsiteUi(FixedScrapingType.GUOCHAN, "国产", ui.lineEdit_website_guochan, 10),
     }
     for info in window._type_website_ui.values():
-        edit_button = _make_inline_button("编辑网站")
-        priority_button = _make_inline_button("字段优先级")
+        edit_button = _make_inline_button(tr("编辑网站"))
+        priority_button = _make_inline_button(tr("字段优先级"))
         info.edit_button = edit_button
         info.priority_button = priority_button
         edit_button.clicked.connect(partial(_open_site_editor, window, info.scraping_type))

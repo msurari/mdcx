@@ -33,6 +33,8 @@ from .network_fingerprint import (
     should_apply_fingerprint,
 )
 from .utils import collapse_inline_script_splits
+from mdcx.i18n import tr
+from mdcx.i18n import tr_message
 
 
 class AsyncWebLimiters:
@@ -961,9 +963,9 @@ class AsyncWebClient:
                 return None, "mirror 目标 URL 缺少 host"
 
             if redirect_index == 0 and self._resolve_cf_bypass_proxy(use_proxy=use_proxy):
-                self._log_cf("🌐 mirror bypass 将使用独立代理", target_host)
+                self._log_cf(tr("🌐 mirror bypass 将使用独立代理"), target_host)
             if redirect_index == 0 and bypass_cache:
-                self._log_cf("♻️ mirror bypass 将强制刷新 cookies", target_host)
+                self._log_cf(tr("♻️ mirror bypass 将强制刷新 cookies"), target_host)
 
             mirror_url = self._build_mirror_url(current_url)
             mirror_headers = self._prepare_mirror_headers(
@@ -1032,7 +1034,7 @@ class AsyncWebClient:
             next_url = urljoin(current_url, location)
             if not next_url:
                 return None, "mirror 重定向 Location 为空"
-            self._log_cf(f"➡️ mirror 跟随重定向: {current_url} -> {next_url}", target_host)
+            self._log_cf(f"{tr("➡️ mirror 跟随重定向: ")}{current_url} -> {next_url}", target_host)
 
             if current_method not in ("GET", "HEAD") and response.status_code in (301, 302, 303):
                 current_method = "GET"
@@ -1059,10 +1061,10 @@ class AsyncWebClient:
         bypass_proxy = self._resolve_cf_bypass_proxy(use_proxy=use_proxy)
         if bypass_proxy:
             params["proxy"] = bypass_proxy
-            self._log_cf("🌐 /html bypass 将使用独立代理")
+            self._log_cf(tr("🌐 /html bypass 将使用独立代理"))
         if bypass_cache:
             params["bypassCookieCache"] = "true"
-            self._log_cf("♻️ /html bypass 将强制刷新 cookies")
+            self._log_cf(tr("♻️ /html bypass 将强制刷新 cookies"))
 
         response, error = await self.request(
             "GET",
@@ -1119,16 +1121,16 @@ class AsyncWebClient:
 
                 wait_seconds = self._cf_bypass_min_interval - elapsed
                 if wait_seconds >= 0.2:
-                    self._log_cf(f"🕒 bypass 冷却中 {wait_seconds:.2f}s，等待后继续", host)
+                    self._log_cf(f"{tr("🕒 bypass 冷却中 ")}{wait_seconds:.2f}{tr("s，等待后继续")}", host)
                 await asyncio.sleep(wait_seconds)
 
             self._cf_last_bypass_attempt_at[host] = time.monotonic()
             error = ""
             for i in range(self._cf_bypass_retries):
                 if i == 0:
-                    self._log_cf(f"🔐 尝试 mirror bypass: {target_url}", host)
+                    self._log_cf(f"{tr("🔐 尝试 mirror bypass: ")}{target_url}", host)
                 else:
-                    self._log_cf(f"🔁 mirror bypass 重试 ({i + 1}/{self._cf_bypass_retries})", host)
+                    self._log_cf(f"{tr("🔁 mirror bypass 重试 (")}{i + 1}/{self._cf_bypass_retries})", host)
                 force_bypass_cache = i > 0
 
                 can_retry = True
@@ -1152,7 +1154,7 @@ class AsyncWebClient:
                 if self._is_mirror_cf_challenge_error(mirror_error) and not force_bypass_cache:
                     refresh_lock = await self._get_cf_force_refresh_lock(host)
                     async with refresh_lock:
-                        self._log_cf("♻️ mirror 命中挑战页，判定缓存可能失效，强制刷新后重试 mirror", host)
+                        self._log_cf(tr("♻️ mirror 命中挑战页，判定缓存可能失效，强制刷新后重试 mirror"), host)
                         bypass_response, mirror_error = await self._call_bypass_mirror(
                             method=method,
                             target_url=target_url,
@@ -1178,9 +1180,9 @@ class AsyncWebClient:
                     self._log_cf(f"⚠️ {error}", host)
                 elif str(method).upper() == "GET":
                     if html_bypass_cache:
-                        self._log_cf(f"↩️ mirror 失败（强刷已启用），回退 /html: {mirror_error}", host)
+                        self._log_cf(f"{tr("↩️ mirror 失败（强刷已启用），回退 /html: ")}{mirror_error}", host)
                     else:
-                        self._log_cf(f"↩️ mirror 失败，回退 /html: {mirror_error}", host)
+                        self._log_cf(f"{tr("↩️ mirror 失败，回退 /html: ")}{mirror_error}", host)
                     bypass_response, html_error = await self._call_bypass_html(
                         target_url, use_proxy=use_proxy, bypass_cache=html_bypass_cache
                     )
@@ -1189,7 +1191,7 @@ class AsyncWebClient:
                         bypass_headers = {str(k): str(v) for k, v in bypass_response.headers.items()}
                         final_url = self._extract_header_case_insensitive(bypass_headers, "x-cf-bypasser-final-url")
                         if final_url and final_url.strip() and final_url.strip() != target_url:
-                            self._log_cf(f"🌐 /html 最终地址: {final_url}", host)
+                            self._log_cf(f"{tr("🌐 /html 最终地址: ")}{final_url}", host)
                         return bypass_response, ""
                     error = f"mirror: {mirror_error}; html: {html_error}"
                 else:
@@ -1202,7 +1204,7 @@ class AsyncWebClient:
 
                 if i < self._cf_bypass_retries - 1:
                     sleep_seconds = self._calc_retry_sleep_seconds(i, after_cf_bypass=True)
-                    self._log_cf(f"⚠️ bypass 获取失败，{sleep_seconds:.2f}s 后重试: {error}", host)
+                    self._log_cf(f"{tr("⚠️ bypass 获取失败，")}{sleep_seconds:.2f}{tr("s 后重试: ")}{tr_message(error)}", host)
                     await asyncio.sleep(sleep_seconds)
 
             return None, error or "bypass HTML 获取失败"
@@ -1243,7 +1245,7 @@ class AsyncWebClient:
             original_url = url
             url, sanitized = self._sanitize_url(url)
             if sanitized:
-                self._log(f"⚠️ 检测到异常 URL，已清理: {original_url} -> {url}")
+                self._log(f"{tr("⚠️ 检测到异常 URL，已清理: ")}{original_url} -> {url}")
 
             u = httpx.URL(url)
             host = u.host or ""
@@ -1330,7 +1332,7 @@ class AsyncWebClient:
                         )
 
                     if enable_cf_bypass and self._cf_bypass_enabled and host and self._is_cf_challenge_response(resp):
-                        self._log_cf(f"🛑 检测到 Cloudflare 挑战页: {method} {url}", host)
+                        self._log_cf(f"{tr("🛑 检测到 Cloudflare 挑战页: ")}{method} {url}", host)
                         self._cf_host_challenge_hits[host] = self._cf_host_challenge_hits.get(host, 0) + 1
                         if bypass_round >= self._cf_request_bypass_rounds:
                             error_msg = f"Cloudflare 挑战页持续存在，bypass 已达上限 ({self._cf_request_bypass_rounds})"
@@ -1370,12 +1372,12 @@ class AsyncWebClient:
                                         bypass_response.status_code
                                     )
                                     self._log_cf(
-                                        f"⚠️ bypass 返回非成功状态: {error_msg}，将{'重试' if retry else '停止重试'}",
+                                        f"{tr("⚠️ bypass 返回非成功状态: ")}{tr_message(error_msg)}{tr("，将")}{'重试' if retry else '停止重试'}",
                                         host,
                                     )
                                 else:
                                     self._log_cf(
-                                        f"✅ bypass 成功（模式: {bypass_mode or 'unknown'}），直接使用 bypass 响应",
+                                        f"{tr("✅ bypass 成功（模式: ")}{bypass_mode or 'unknown'}{tr("），直接使用 bypass 响应")}",
                                         host,
                                     )
                                     if stream:
@@ -1386,10 +1388,10 @@ class AsyncWebClient:
                                 terminal_status = self._extract_terminal_bypass_status(bypass_error)
                                 if terminal_status is not None and not self._is_retryable_status_code(terminal_status):
                                     retry = False
-                                    self._log_cf(f"🧱 bypass 命中终态 HTTP {terminal_status}，停止重试", host)
+                                    self._log_cf(f"{tr("🧱 bypass 命中终态 HTTP ")}{terminal_status}{tr("，停止重试")}", host)
                                 else:
                                     retry = attempt < retry_count - 1 and bypass_round < self._cf_request_bypass_rounds
-                                    self._log_cf(f"⚠️ bypass 失败: {bypass_error}", host)
+                                    self._log_cf(f"{tr("⚠️ bypass 失败: ")}{tr_message(bypass_error)}", host)
 
                     # 检查响应状态
                     elif resp.status_code >= 300 and not (resp.status_code == 302 and resp.headers.get("Location")):
@@ -1398,7 +1400,7 @@ class AsyncWebClient:
                         if retry and attempt < retry_count - 1:
                             await self._record_retryable_response_failure(error_msg, pool_key=pool_key)
                     else:
-                        self._log(f"✅ {method} {url} 成功")
+                        self._log(f"✅ {method} {url}{tr(" 成功")}")
                         if host:
                             self._cf_host_challenge_hits[host] = 0
                         await self._record_transport_success(pool_key=pool_key)
@@ -1427,14 +1429,14 @@ class AsyncWebClient:
                     if stream:
                         await self._close_response(resp)
                     break
-                self._log(f"🔴 {method} {url} 失败: {error_msg} ({attempt + 1}/{retry_count})")
+                self._log(f"🔴 {method} {url}{tr(" 失败: ")}{tr_message(error_msg)} ({attempt + 1}/{retry_count})")
                 if stream:
                     await self._close_response(resp)
                 # 重试前等待
                 if should_sleep_before_retry and attempt < retry_count - 1:
                     sleep_seconds = self._calc_retry_sleep_seconds(attempt, after_cf_bypass=sleep_after_cf_bypass)
                     if sleep_after_cf_bypass and host:
-                        self._log_cf(f"⏳ bypass 后退避 {sleep_seconds:.2f}s", host)
+                        self._log_cf(f"{tr("⏳ bypass 后退避 ")}{sleep_seconds:.2f}s", host)
                     await asyncio.sleep(sleep_seconds)
             return None, f"{method} {url} 失败: {error_msg}"
         except Exception as e:
@@ -1594,7 +1596,7 @@ class AsyncWebClient:
         """获取文件大小"""
         response, error = await self.request("HEAD", url, use_proxy=use_proxy)
         if response is None:
-            self._log(f"🔴 获取文件大小失败: {url} {error}")
+            self._log(f"{tr("🔴 获取文件大小失败: ")}{url} {tr_message(error)}")
             return None
         if response.status_code < 400:
             content_length = self._extract_header_case_insensitive(
@@ -1605,9 +1607,9 @@ class AsyncWebClient:
             try:
                 return int(content_length)
             except ValueError:
-                self._log(f"🔴 获取文件大小失败: {url} Content-Length 解析错误")
+                self._log(f"{tr("🔴 获取文件大小失败: ")}{url}{tr(" Content-Length 解析错误")}")
                 return None
-        self._log(f"🔴 获取文件大小失败: {url} HTTP {response.status_code}")
+        self._log(f"{tr("🔴 获取文件大小失败: ")}{url} HTTP {response.status_code}")
         return None
 
     async def download(self, url: str, file_path: Path, *, use_proxy: bool = True) -> bool:
@@ -1636,7 +1638,7 @@ class AsyncWebClient:
 
         content, error = await self.get_content(url, use_proxy=use_proxy)
         if not content:
-            self._log(f"🔴 下载失败: {url} {error}")
+            self._log(f"{tr("🔴 下载失败: ")}{url} {tr_message(error)}")
             return False
         if not webp:
             return await self._write_file_content(url, file_path, content)
@@ -1649,7 +1651,7 @@ class AsyncWebClient:
             img.close()
             return True
         except Exception as e:
-            self._log(f"🔴 WebP转换失败: {url} {file_path} {str(e)}")
+            self._log(f"{tr("🔴 WebP转换失败: ")}{url} {file_path} {str(e)}")
             return False
 
     async def _write_file_content(self, url: str, file_path: Path, content: bytes) -> bool:
@@ -1658,7 +1660,7 @@ class AsyncWebClient:
                 await f.write(content)
             return True
         except Exception as e:
-            self._log(f"🔴 文件写入失败: {url} {file_path} {str(e)}")
+            self._log(f"{tr("🔴 文件写入失败: ")}{url} {file_path} {str(e)}")
             return False
 
     async def _download_whole_file(
@@ -1671,10 +1673,10 @@ class AsyncWebClient:
     ) -> bool:
         content, error = await self.get_content(url, use_proxy=use_proxy)
         if not content:
-            self._log(f"🔴 下载失败: {url} {error}")
+            self._log(f"{tr("🔴 下载失败: ")}{url} {tr_message(error)}")
             return False
         if expected_size is not None and len(content) != expected_size:
-            self._log(f"🔴 下载大小不匹配: {url} {len(content)}/{expected_size}")
+            self._log(f"{tr("🔴 下载大小不匹配: ")}{url} {len(content)}/{expected_size}")
             return False
         return await self._write_file_content(url, file_path, content)
 
@@ -1686,14 +1688,14 @@ class AsyncWebClient:
         parts = [(s, min(s + each_size - 1, file_size - 1)) for s in range(0, file_size, each_size)]
         part_file_path = file_path.with_name(f"{file_path.name}.part")
 
-        self._log(f"📦 分块下载: {url} {len(parts)} 个分块, 总大小: {file_size} bytes")
+        self._log(f"{tr("📦 分块下载: ")}{url} {len(parts)}{tr(" 个分块, 总大小: ")}{file_size} bytes")
 
         # 先写入临时分块文件，全部成功后再替换目标文件，避免留下不可播放的成品文件。
         try:
             async with aiofiles.open(part_file_path, "wb") as f:
                 await f.truncate(file_size)
         except Exception as e:
-            self._log(f"🔴 文件创建失败: {url} {str(e)}")
+            self._log(f"{tr("🔴 文件创建失败: ")}{url} {str(e)}")
             return False
 
         try:
@@ -1705,11 +1707,11 @@ class AsyncWebClient:
             )
             if first_error:
                 if self._is_range_unsupported_error(first_error):
-                    self._log(f"🟡 服务器不支持分块下载，回退普通下载: {url}")
+                    self._log(f"{tr("🟡 服务器不支持分块下载，回退普通下载: ")}{url}")
                     with contextlib.suppress(Exception):
                         await aiofiles.os.remove(part_file_path)
                     return await self._download_whole_file(url, file_path, use_proxy=use_proxy, expected_size=file_size)
-                self._log(f"🔴 分块 0 下载失败: {url} {first_error}")
+                self._log(f"{tr("🔴 分块 0 下载失败: ")}{url} {first_error}")
                 return False
 
             tasks = []
@@ -1723,16 +1725,16 @@ class AsyncWebClient:
             # 检查所有任务是否成功
             for i, err in enumerate(errors, start=1):
                 if isinstance(err, Exception):
-                    self._log(f"🔴 分块 {i} 下载失败: {url} {str(err)}")
+                    self._log(f"{tr("🔴 分块 ")}{i}{tr(" 下载失败: ")}{url} {str(err)}")
                     return False
                 elif err:
-                    self._log(f"🔴 分块 {i} 下载失败: {url} {err}")
+                    self._log(f"{tr("🔴 分块 ")}{i}{tr(" 下载失败: ")}{url} {tr_message(err)}")
                     return False
             await asyncio.to_thread(os.replace, part_file_path, file_path)
-            self._log(f"✅ 多分块下载完成: {url} {file_path}")
+            self._log(f"{tr("✅ 多分块下载完成: ")}{url} {file_path}")
             return True
         except Exception as e:
-            self._log(f"🔴 并发下载异常: {url} {str(e)}")
+            self._log(f"{tr("🔴 并发下载异常: ")}{url} {str(e)}")
             return False
         finally:
             if await aiofiles.os.path.exists(part_file_path):

@@ -28,6 +28,7 @@ from ..utils.file import (
 from ..utils.path import showFilePath
 from .mosaic import normalize_mosaic
 from .naming import FIELD_DESCRIPTIONS, NameRenderOptions, NamingTarget, render_name
+from mdcx.i18n import tr
 
 
 def _has_umr_suffix_marker(file_name: str, movie_number: str) -> bool:
@@ -83,13 +84,13 @@ async def creat_folder(
             return True
         except Exception as e:
             if not await aiofiles.os.path.exists(folder_new_path):
-                LogBuffer.log().write(f"\n 🔴 创建目录失败! \n    {str(e)}")
+                LogBuffer.log().write(f"{tr("\n 🔴 创建目录失败! \n    ")}{str(e)}")
                 if len(str(folder_new_path)) > 250:
-                    LogBuffer.log().write("可能是目录名过长！")
-                    LogBuffer.error().write("创建文件夹失败！可能是目录名过长！")
+                    LogBuffer.log().write(tr("可能是目录名过长！"))
+                    LogBuffer.error().write(tr("创建文件夹失败！可能是目录名过长！"))
                 else:
-                    LogBuffer.log().write("请检查是否有写入权限！")
-                    LogBuffer.error().write("创建文件夹失败！请检查是否有写入权限！")
+                    LogBuffer.log().write(tr("请检查是否有写入权限！"))
+                    LogBuffer.error().write(tr("创建文件夹失败！请检查是否有写入权限！"))
                 return False
 
     try:
@@ -109,7 +110,7 @@ async def creat_folder(
         return True
     else:
         json_data.title = "成功文件夹已存在同名文件!"
-        LogBuffer.error().write(f"成功文件夹已存在同名文件! \n ❗️ 当前文件: {file_path} \n ❗️ 已存在: {file_new_path} ")
+        LogBuffer.error().write(f"{tr("成功文件夹已存在同名文件! \n ❗️ 当前文件: ")}{file_path}{tr(" \n ❗️ 已存在: ")}{file_new_path} ")
         return False
 
 
@@ -136,15 +137,15 @@ async def move_movie(other: OtherInfo, file_info: FileInfo, file_path: Path, fil
         try:
             await aiofiles.os.symlink(file_path, file_new_path)
             file_info.file_path = file_new_path
-            LogBuffer.log().write(f"\n 🍀 创建软链接完成 \n    软链接文件: {file_new_path} \n    源文件: {file_path}")
+            LogBuffer.log().write(f"{tr("\n 🍀 创建软链接完成 \n    软链接文件: ")}{file_new_path}{tr(" \n    源文件: ")}{file_path}")
             return True
         except Exception as e:
             if IS_WINDOWS:
                 LogBuffer.log().write(
-                    f"\n 🔴 创建软链接失败. 注意：Windows 平台输出目录必须是本地磁盘, 不支持挂载的 NAS 盘或网盘. 如果是本地磁盘, 请尝试以管理员身份运行！\n{str(e)}\n 🙉 [Movie] {raw}"
+                    f"{tr("\n 🔴 创建软链接失败. 注意：Windows 平台输出目录必须是本地磁盘, 不支持挂载的 NAS 盘或网盘. 如果是本地磁盘, 请尝试以管理员身份运行！\n")}{str(e)}\n 🙉 [Movie] {raw}"
                 )
             else:
-                LogBuffer.log().write(f"\n 🔴 创建软链接失败\n{str(e)}\n 🙉 [Movie] {raw}")
+                LogBuffer.log().write(f"{tr("\n 🔴 创建软链接失败\n")}{str(e)}\n 🙉 [Movie] {raw}")
             signal.show_traceback_log(traceback.format_exc())
             signal.show_log_text(traceback.format_exc())
             return False
@@ -155,23 +156,23 @@ async def move_movie(other: OtherInfo, file_info: FileInfo, file_path: Path, fil
             await delete_file_async(file_new_path)
             await aiofiles.os.link(file_path, file_new_path)
             file_info.file_path = file_new_path
-            LogBuffer.log().write(f"\n 🍀 硬链接! \n    HadrLink file: {file_new_path} \n    Source file: {file_path}")
+            LogBuffer.log().write(f"{tr("\n 🍀 硬链接! \n    HadrLink file: ")}{file_new_path} \n    Source file: {file_path}")
             return True
         except Exception as e:
             if IS_MAC:
                 LogBuffer.log().write(
-                    "\n 🔴 创建硬链接失败. "
-                    "注意：硬链接要求待刮削文件和输出目录必须是同盘, 不支持跨卷, 如要跨卷可以尝试软链接模式. "
-                    "另外, Mac 平台非本地磁盘不支持创建硬链接, 请选择软链接模式. "
+                    f"{tr('\n 🔴 创建硬链接失败. ')}"
+                    f"{tr('注意：硬链接要求待刮削文件和输出目录必须是同盘, 不支持跨卷, 如要跨卷可以尝试软链接模式. ')}"
+                    f"{tr('另外, Mac 平台非本地磁盘不支持创建硬链接, 请选择软链接模式. ')}"
                     f"\n{str(e)}"
                 )
             else:
                 LogBuffer.log().write(
-                    f"\n 🔴 创建硬链接失败. "
-                    f"硬链接要求待刮削文件和输出目录必须是同盘, 不支持跨卷. "
-                    f"如要跨卷可以尝试软链接模式.\n{str(e)} "
+                    f"{tr('\n 🔴 创建硬链接失败. ')}"
+                    f"{tr('硬链接要求待刮削文件和输出目录必须是同盘, 不支持跨卷. ')}"
+                    f"{tr('如要跨卷可以尝试软链接模式.\n')}{str(e)} "
                 )
-            LogBuffer.error().write("创建硬链接失败")
+            LogBuffer.error().write(tr("创建硬链接失败"))
             signal.show_traceback_log(traceback.format_exc())
             signal.show_log_text(traceback.format_exc())
             return False
@@ -181,7 +182,7 @@ async def move_movie(other: OtherInfo, file_info: FileInfo, file_path: Path, fil
     if result:
         LogBuffer.log().write(f"\n 🍀 Movie done! \n 🙉 [Movie] {file_new_path}")
         if await aiofiles.os.path.islink(file_new_path):
-            LogBuffer.log().write(f"\n    此文件是软链接. 源文件: {file_new_path.resolve()}")
+            LogBuffer.log().write(f"{tr("\n    此文件是软链接. 源文件: ")}{file_new_path.resolve()}")
         file_info.file_path = file_new_path
         return True
     else:
@@ -194,7 +195,7 @@ async def move_movie(other: OtherInfo, file_info: FileInfo, file_path: Path, fil
             LogBuffer.log().write(f"\n 🍀 Movie done! \n 🙉 [Movie] {file_new_path}")
             file_info.file_path = file_new_path
             return True
-        LogBuffer.log().write(f"\n 🔴 移动视频文件到成功文件夹失败!\n    {error_info}")
+        LogBuffer.log().write(f"{tr("\n 🔴 移动视频文件到成功文件夹失败!\n    ")}{error_info}")
         return False
 
 
@@ -247,7 +248,7 @@ def _get_folder_path(success_folder: Path, file_info: FileInfo, res: CrawlersRes
     folder_new_name = result.text
     if result.truncated_fields:
         fields = "、".join(FIELD_DESCRIPTIONS.get(field, field) for field in result.truncated_fields)
-        LogBuffer.log().write(f"\n 💡 当前目录名超过最大长度 {folder_name_max}，已智能缩短：{fields}")
+        LogBuffer.log().write(f"{tr("\n 💡 当前目录名超过最大长度 ")}{folder_name_max}{tr("，已智能缩短：")}{fields}")
 
     return success_folder / folder_new_name, folder_new_name
 
@@ -296,7 +297,7 @@ def _generate_file_name(cd_part, file_info: FileInfo, res: CrawlersResult) -> st
             file_name = file_name[:max_total_basename_length].rstrip(" ,，、;；:：._+-")
     if result.truncated_fields:
         fields = "、".join(FIELD_DESCRIPTIONS.get(field, field) for field in result.truncated_fields)
-        LogBuffer.log().write(f"\n 💡 当前文件名超过最大长度 {file_name_max}，已智能缩短：{fields}")
+        LogBuffer.log().write(f"{tr("\n 💡 当前文件名超过最大长度 ")}{file_name_max}{tr("，已智能缩短：")}{fields}")
 
     return file_name
 

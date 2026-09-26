@@ -65,6 +65,7 @@ from mdcx.tools.emby_actor_info import creat_kodi_actors, show_emby_actor_list, 
 from mdcx.tools.missing import check_missing_number
 from mdcx.tools.subtitle import add_sub_for_all_video
 from mdcx.i18n import tr
+from mdcx.i18n import tr_message
 from mdcx.utils import (
     add_html,
     add_html_plain_text,
@@ -823,7 +824,7 @@ class MyMAinWindow(QMainWindow):
             self.preview_image_loader.shutdown()
         if hasattr(self, "tray_icon"):
             self.tray_icon.hide()
-        signal_qt.show_traceback_log("\n\n\n\n************ 程序正常退出！************\n")
+        signal_qt.show_traceback_log(tr("\n\n\n\n************ 程序正常退出！************\n"))
         os._exit(0)
 
     # endregion
@@ -1036,7 +1037,7 @@ class MyMAinWindow(QMainWindow):
             Flags.rest_time_convert = 0
             self.Ui.pushButton_start_cap.setText(tr(" ■ 停止中 "))
             self.Ui.pushButton_start_cap2.setText(tr(" ■ 停止中 "))
-            signal_qt.show_scrape_info("⛔️ 刮削停止中...")
+            signal_qt.show_scrape_info(tr("⛔️ 刮削停止中..."))
             executor.cancel_async()  # 取消异步任务
             if not self.threads_list:
                 self.stop_used_time = 0.0
@@ -1051,9 +1052,9 @@ class MyMAinWindow(QMainWindow):
         try:
             Flags.rest_time_convert = Flags.rest_time_convert_
             if Flags.stop_other:
-                signal_qt.show_scrape_info("⛔️ 已手动停止！")
+                signal_qt.show_scrape_info(tr("⛔️ 已手动停止！"))
                 signal_qt.show_log_text(
-                    "⛔️ 已手动停止！\n================================================================================"
+                    tr("⛔️ 已手动停止！\n================================================================================")
                 )
                 self.set_label_file_path.emit(tr("⛔️ 已手动停止！"))
                 return
@@ -1064,7 +1065,7 @@ class MyMAinWindow(QMainWindow):
                 average_time = str(round((end_time - Flags.start_time) / Flags.scrape_done, 2))
             else:
                 average_time = used_time
-            signal_qt.show_scrape_info("⛔️ 刮削已手动停止！")
+            signal_qt.show_scrape_info(tr("⛔️ 刮削已手动停止！"))
             self.set_label_file_path.emit(
                 tr(
                     "⛔️ 刮削已手动停止！\n   已刮削 {scrape_done} 个视频, 还剩余 {remaining} 个! 刮削用时 {used_time} 秒"
@@ -1073,7 +1074,7 @@ class MyMAinWindow(QMainWindow):
                 )
             )
             signal_qt.show_log_text(
-                f"\n ⛔️ 刮削已手动停止！\n 😊 已刮削 {Flags.scrape_done} 个视频, 还剩余 {Flags.total_count - Flags.scrape_done} 个! 刮削用时 {used_time} 秒, 停止用时 {self.stop_used_time} 秒"
+                f"{tr("\n ⛔️ 刮削已手动停止！\n 😊 已刮削 ")}{Flags.scrape_done}{tr(" 个视频, 还剩余 ")}{Flags.total_count - Flags.scrape_done}{tr(" 个! 刮削用时 ")}{used_time}{tr(" 秒, 停止用时 ")}{self.stop_used_time}{tr(" 秒")}"
             )
             signal_qt.show_log_text("================================================================================")
             signal_qt.show_log_text(
@@ -1110,15 +1111,15 @@ class MyMAinWindow(QMainWindow):
             )
         )
         signal_qt.show_log_text(
-            f"\n ⛔️ {get_current_time()} 已停止添加新的刮削任务，正在停止已在运行的任务线程（{Flags.total_kills}）..."
+            f"\n ⛔️ {get_current_time()}{tr(" 已停止添加新的刮削任务，正在停止已在运行的任务线程（")}{Flags.total_kills}{tr("）...")}"
         )
-        signal_qt.show_traceback_log(f"⛔️ 正在停止正在运行的任务线程 ({Flags.total_kills}) ...")
+        signal_qt.show_traceback_log(f"{tr("⛔️ 正在停止正在运行的任务线程 (")}{Flags.total_kills}) ...")
         i = 0
         for each in self.threads_list:
             i += 1
-            signal_qt.show_traceback_log(f"正在停止线程: {i}/{Flags.total_kills} {each.name} ...")
+            signal_qt.show_traceback_log(f"{tr("正在停止线程: ")}{i}/{Flags.total_kills} {each.name} ...")
         signal_qt.show_traceback_log(
-            "线程正在停止中，请稍后...\n 🍯 停止时间与线程数量及线程正在执行的任务有关，比如正在执行网络请求、文件下载等IO操作时，需要等待其释放资源。。。\n"
+            tr("线程正在停止中，请稍后...\n 🍯 停止时间与线程数量及线程正在执行的任务有关，比如正在执行网络请求、文件下载等IO操作时，需要等待其释放资源。。。\n")
         )
         signal_qt.stop = True
         for each in self.threads_list:  # 线程池的线程
@@ -1127,9 +1128,9 @@ class MyMAinWindow(QMainWindow):
                 pass
 
         self.stop_used_time = get_used_time(start_time)
-        signal_qt.show_log_text(f" 🕷 {get_current_time()} 已停止线程：{Flags.total_kills}/{Flags.total_kills}")
-        signal_qt.show_traceback_log(f"所有线程已停止！！！({self.stop_used_time}s)\n ⛔️ 刮削已手动停止！\n")
-        signal_qt.show_log_text(f" ⛔️ {get_current_time()} 所有线程已停止！({self.stop_used_time}s)")
+        signal_qt.show_log_text(f" 🕷 {get_current_time()}{tr(" 已停止线程：")}{Flags.total_kills}/{Flags.total_kills}")
+        signal_qt.show_traceback_log(f"{tr("所有线程已停止！！！(")}{self.stop_used_time}{tr("s)\n ⛔️ 刮削已手动停止！\n")}")
+        signal_qt.show_log_text(f" ⛔️ {get_current_time()}{tr(" 所有线程已停止！(")}{self.stop_used_time}s)")
         thread_remain_list = []
         [thread_remain_list.append(t.name) for t in threading.enumerate()]  # 剩余线程名字列表
         thread_remain = ", ".join(thread_remain_list)
@@ -1402,11 +1403,11 @@ class MyMAinWindow(QMainWindow):
         return lines[-1]
 
     def _build_action_result_text(self, success_count: int, failure_count: int, skipped_count: int = 0) -> str:
-        parts = [f"成功 {success_count} 个"]
+        parts = [f"{tr('成功 ')}{success_count}"]
         if skipped_count:
-            parts.append(f"跳过 {skipped_count} 个")
-        parts.append(f"失败 {failure_count} 个")
-        return "，".join(parts)
+            parts.append(f"{tr('跳过 ')}{skipped_count}")
+        parts.append(f"{tr('失败 ')}{failure_count}")
+        return tr("，").join(parts)
 
     def _show_action_failure_feedback(
         self,
@@ -1424,7 +1425,7 @@ class MyMAinWindow(QMainWindow):
             for path, reason in failure_details[:preview_limit]
         ]
         if len(failure_details) > preview_limit:
-            preview_lines.append(f"... 其余 {len(failure_details) - preview_limit} 条请展开“显示详情”或查看日志")
+            preview_lines.append(f"{tr("... 其余 ")}{len(failure_details) - preview_limit}{tr(" 条请展开“显示详情”或查看日志")}")
 
         detail_limit = 20
         detail_lines = [
@@ -1432,7 +1433,7 @@ class MyMAinWindow(QMainWindow):
             for index, (path, reason) in enumerate(failure_details[:detail_limit], start=1)
         ]
         if len(failure_details) > detail_limit:
-            detail_lines.append(f"... 其余 {len(failure_details) - detail_limit} 条请查看日志")
+            detail_lines.append(f"{tr("... 其余 ")}{len(failure_details) - detail_limit}{tr(" 条请查看日志")}")
         detail_text = "\n\n".join(detail_lines)
 
         box = QMessageBox(QMessageBox.Icon.Warning, tr("{action_name}结果").format(action_name=action_name), tr("{action_name}完成").format(action_name=action_name))
@@ -1512,7 +1513,7 @@ class MyMAinWindow(QMainWindow):
         dir_name, dir_notes = self._sanitize_link_dir_name(raw_dir_name)
         target_dir, collision_note = self._get_available_link_target_dir(output_dir, dir_name, file_name)
         if collision_note:
-            dir_notes.append(f"链接目录名已自动避让冲突: {dir_name} -> {target_dir.name}")
+            dir_notes.append(f"{tr("链接目录名已自动避让冲突: ")}{dir_name} -> {target_dir.name}")
         return target_dir / file_name, dir_notes
 
     def _get_link_dir_name_max(self) -> int:
@@ -1544,18 +1545,18 @@ class MyMAinWindow(QMainWindow):
 
         if not sanitized or not sanitized.strip("._- "):
             sanitized = DEFAULT_LINK_DIR_NAME
-            notes.append(f"链接目录名清洗后为空，已回退为默认目录名: {raw_name} -> {sanitized}")
+            notes.append(f"{tr("链接目录名清洗后为空，已回退为默认目录名: ")}{raw_name} -> {sanitized}")
         elif sanitized != raw_name:
-            notes.append(f"链接目录名已清洗: {raw_name} -> {sanitized}")
+            notes.append(f"{tr("链接目录名已清洗: ")}{raw_name} -> {sanitized}")
 
         if self._is_windows_reserved_dir_name(sanitized):
             original_name = sanitized
             sanitized = f"{sanitized}_"
-            notes.append(f"链接目录名命中 Windows 保留名，已自动调整: {original_name} -> {sanitized}")
+            notes.append(f"{tr("链接目录名命中 Windows 保留名，已自动调整: ")}{original_name} -> {sanitized}")
 
         fitted_name = self._fit_link_dir_name_length(sanitized)
         if fitted_name != sanitized:
-            notes.append(f"链接目录名过长，已按最大长度截断: {sanitized} -> {fitted_name}")
+            notes.append(f"{tr("链接目录名过长，已按最大长度截断: ")}{sanitized} -> {fitted_name}")
         return fitted_name, notes
 
     def _can_reuse_link_target_dir(self, target_dir: Path, file_name: str) -> bool:
@@ -1612,10 +1613,10 @@ class MyMAinWindow(QMainWindow):
         try:
             if target_dir.exists() and target_dir.is_dir() and not any(target_dir.iterdir()):
                 target_dir.rmdir()
-                signal_qt.show_log_text(f" ↩ 创建失败，已回滚空目录: {target_dir}")
+                signal_qt.show_log_text(f"{tr(" ↩ 创建失败，已回滚空目录: ")}{target_dir}")
         except Exception as error:
             signal_qt.show_log_text(
-                f" ⚠ 回滚空目录失败: {target_dir}\n    原因: {self._normalize_delete_error_reason(str(error))}"
+                f"{tr(" ⚠ 回滚空目录失败: ")}{target_dir}{tr("\n    原因: ")}{self._normalize_delete_error_reason(str(error))}"
             )
 
     def _create_links_for_selected_files(
@@ -1642,9 +1643,9 @@ class MyMAinWindow(QMainWindow):
         if output_dir is None:
             return
 
-        signal_qt.show_log_text(f" 🔗 开始创建{link_name}")
-        signal_qt.show_log_text(f" 📁 目标目录: {output_dir}")
-        signal_qt.show_log_text(f" 📝 成功列表写入: {'是' if should_record_success else '否'}")
+        signal_qt.show_log_text(f"{tr(" 🔗 开始创建")}{link_name}")
+        signal_qt.show_log_text(f"{tr(" 📁 目标目录: ")}{output_dir}")
+        signal_qt.show_log_text(f"{tr(" 📝 成功列表写入: ")}{'是' if should_record_success else '否'}")
 
         success_count = 0
         skipped_count = 0
@@ -1655,7 +1656,7 @@ class MyMAinWindow(QMainWindow):
             if not success:
                 failure_details.append((file_path, self._normalize_delete_error_reason(error_info)))
                 signal_qt.show_log_text(
-                    f" ❌ {link_name}失败: {file_path}\n    原因: {self._normalize_delete_error_reason(error_info)}"
+                    f" ❌ {link_name}{tr("失败: ")}{file_path}{tr("\n    原因: ")}{self._normalize_delete_error_reason(error_info)}"
                 )
                 continue
 
@@ -1668,7 +1669,7 @@ class MyMAinWindow(QMainWindow):
             if not ok:
                 failure_details.append((target_path, dir_error))
                 signal_qt.show_log_text(
-                    f" ❌ {link_name}失败: {target_path}\n    源文件: {source_path}\n    原因: {dir_error}"
+                    f" ❌ {link_name}{tr("失败: ")}{target_path}{tr("\n    源文件: ")}{source_path}{tr("\n    原因: ")}{dir_error}"
                 )
                 continue
 
@@ -1690,48 +1691,48 @@ class MyMAinWindow(QMainWindow):
                     if should_record_success:
                         success_paths_to_record.add(success_record_path)
                     if record_info:
-                        signal_qt.show_log_text(f" ℹ 成功列表记录路径: {success_record_path}\n    说明: {record_info}")
-                    signal_qt.show_log_text(f" ⏭ 已跳过{link_name}: {target_path}\n    原因: {info}")
+                        signal_qt.show_log_text(f"{tr(" ℹ 成功列表记录路径: ")}{success_record_path}{tr("\n    说明: ")}{record_info}")
+                    signal_qt.show_log_text(f"{tr(" ⏭ 已跳过")}{link_name}: {target_path}{tr("\n    原因: ")}{info}")
                 else:
                     success_count += 1
                     if should_record_success:
                         success_paths_to_record.add(success_record_path)
                     if record_info:
-                        signal_qt.show_log_text(f" ℹ 成功列表记录路径: {success_record_path}\n    说明: {record_info}")
-                    signal_qt.show_log_text(f" ✅ 已创建{link_name}: {target_path}\n    源文件: {source_path}")
+                        signal_qt.show_log_text(f"{tr(" ℹ 成功列表记录路径: ")}{success_record_path}{tr("\n    说明: ")}{record_info}")
+                    signal_qt.show_log_text(f"{tr(" ✅ 已创建")}{link_name}: {target_path}{tr("\n    源文件: ")}{source_path}")
             else:
                 self._cleanup_empty_link_target_dir(target_path, created_dir)
                 failure_details.append((target_path, self._normalize_delete_error_reason(info)))
                 signal_qt.show_log_text(
-                    f" ❌ {link_name}失败: {target_path}\n    源文件: {source_path}\n    原因: {self._normalize_delete_error_reason(info)}"
+                    f" ❌ {link_name}{tr("失败: ")}{target_path}{tr("\n    源文件: ")}{source_path}{tr("\n    原因: ")}{self._normalize_delete_error_reason(info)}"
                 )
 
         if should_record_success and success_paths_to_record:
             Flags.success_list.update(success_paths_to_record)
             executor.run(save_success_list())
-            signal_qt.show_log_text(f" 💾 已写入成功列表 {len(success_paths_to_record)} 项")
+            signal_qt.show_log_text(f"{tr(" 💾 已写入成功列表 ")}{len(success_paths_to_record)}{tr(" 项")}")
 
         fail_count = len(failure_details)
         signal_qt.show_log_text(
-            f" 🎉 创建{link_name}完成：成功 {success_count} 个，跳过 {skipped_count} 个，失败 {fail_count} 个"
+            f"{tr(" 🎉 创建")}{link_name}{tr("完成：成功 ")}{success_count}{tr(" 个，跳过 ")}{skipped_count}{tr(" 个，失败 ")}{fail_count}{tr(" 个")}"
         )
         if fail_count:
             signal_qt.show_scrape_info(
-                f"💡 创建{link_name}完成，成功 {success_count} 个，跳过 {skipped_count} 个，失败 {fail_count} 个！{get_current_time()}"
+                f"{tr("💡 创建")}{link_name}{tr("完成，成功 ")}{success_count}{tr(" 个，跳过 ")}{skipped_count}{tr(" 个，失败 ")}{fail_count}{tr(" 个！")}{get_current_time()}"
             )
-            self._show_action_failure_feedback(f"创建{link_name}", success_count, failure_details, skipped_count)
+            self._show_action_failure_feedback(f"{tr("创建")}{link_name}", success_count, failure_details, skipped_count)
         elif skipped_count and not success_count:
             signal_qt.show_scrape_info(
-                f"💡 所选文件的{link_name}已存在，已跳过 {skipped_count} 个！{get_current_time()}"
+                f"{tr("💡 所选文件的")}{link_name}{tr("已存在，已跳过 ")}{skipped_count}{tr(" 个！")}{get_current_time()}"
             )
         elif skipped_count:
             signal_qt.show_scrape_info(
-                f"💡 创建{link_name}完成，成功 {success_count} 个，跳过 {skipped_count} 个！{get_current_time()}"
+                f"{tr("💡 创建")}{link_name}{tr("完成，成功 ")}{success_count}{tr(" 个，跳过 ")}{skipped_count}{tr(" 个！")}{get_current_time()}"
             )
         elif success_count == 1:
-            signal_qt.show_scrape_info(f"💡 已创建{link_name}！{get_current_time()}")
+            signal_qt.show_scrape_info(f"{tr("💡 已创建")}{link_name}{tr("！")}{get_current_time()}")
         else:
-            signal_qt.show_scrape_info(f"💡 已创建 {success_count} 个{link_name}！{get_current_time()}")
+            signal_qt.show_scrape_info(f"{tr("💡 已创建 ")}{success_count}{tr(" 个")}{link_name}{tr("！")}{get_current_time()}")
 
     def _find_result_item_by_name(self, show_name: str) -> QTreeWidgetItem | None:
         for root_item in (self.item_succ, self.item_fail):
@@ -1790,7 +1791,7 @@ class MyMAinWindow(QMainWindow):
         selected_entries = self._get_selected_entries()
         if len(selected_entries) > 1:
             QMessageBox.about(self, tr("选择过多"), tr("请只选择一个项目后再使用！！"))
-            signal_qt.show_scrape_info(f"💡 请只选择一个项目后再使用！{get_current_time()}")
+            signal_qt.show_scrape_info(f"{tr("💡 请只选择一个项目后再使用！")}{get_current_time()}")
             return False
         if len(selected_entries) == 1:
             _, show_name, show_data, file_path = selected_entries[0]
@@ -1874,7 +1875,7 @@ class MyMAinWindow(QMainWindow):
             )
             if ok and text:
                 Flags.again_dic[file_path] = (text, "", "")
-                signal_qt.show_scrape_info(f"💡 已添加刮削！{get_current_time()}")
+                signal_qt.show_scrape_info(f"{tr("💡 已添加刮削！")}{get_current_time()}")
                 if self.Ui.pushButton_start_cap.text() == tr("开始"):
                     again_search()
 
@@ -1899,11 +1900,11 @@ class MyMAinWindow(QMainWindow):
                 website, url = deal_url(text)
                 if website:
                     Flags.again_dic[file_path] = ("", url, website)
-                    signal_qt.show_scrape_info(f"💡 已添加刮削！{get_current_time()}")
+                    signal_qt.show_scrape_info(f"{tr("💡 已添加刮削！")}{get_current_time()}")
                     if self.Ui.pushButton_start_cap.text() == tr("开始"):
                         again_search()
                 else:
-                    signal_qt.show_scrape_info(f"💡 不支持的网站！{get_current_time()}")
+                    signal_qt.show_scrape_info(f"{tr("💡 不支持的网站！")}{get_current_time()}")
 
     def main_del_file_click(self):
         """
@@ -1937,8 +1938,8 @@ class MyMAinWindow(QMainWindow):
         if reply != QMessageBox.StandardButton.Yes:
             return
 
-        signal_qt.show_log_text(" 🗑 开始删除文件")
-        signal_qt.show_log_text(f" 📦 本次待删除文件数: {len(file_paths)}")
+        signal_qt.show_log_text(tr(" 🗑 开始删除文件"))
+        signal_qt.show_log_text(f"{tr(" 📦 本次待删除文件数: ")}{len(file_paths)}")
 
         success_show_names = []
         failure_details: list[tuple[Path, str]] = []
@@ -1947,25 +1948,25 @@ class MyMAinWindow(QMainWindow):
             if result:
                 if show_name:
                     success_show_names.append(show_name)
-                signal_qt.show_log_text(f" ✅ 已删除文件: {file_path}")
+                signal_qt.show_log_text(f"{tr(" ✅ 已删除文件: ")}{file_path}")
             else:
                 reason = self._normalize_delete_error_reason(error_info)
                 failure_details.append((file_path, reason))
-                signal_qt.show_log_text(f" ❌ 删除文件失败: {file_path}\n    原因: {reason}")
+                signal_qt.show_log_text(f"{tr(" ❌ 删除文件失败: ")}{file_path}{tr("\n    原因: ")}{tr_message(reason)}")
 
         self._remove_deleted_result_items(success_show_names)
         fail_count = len(failure_details)
         success_count = len(file_paths) - fail_count
-        signal_qt.show_log_text(f" 🎉 删除文件完成：成功 {success_count} 个，失败 {fail_count} 个")
+        signal_qt.show_log_text(f"{tr(" 🎉 删除文件完成：成功 ")}{success_count}{tr(" 个，失败 ")}{fail_count}{tr(" 个")}")
         if fail_count:
             signal_qt.show_scrape_info(
-                f"💡 文件删除完成，成功 {success_count} 个，失败 {fail_count} 个！{get_current_time()}"
+                f"{tr("💡 文件删除完成，成功 ")}{success_count}{tr(" 个，失败 ")}{fail_count}{tr(" 个！")}{get_current_time()}"
             )
-            self._show_action_failure_feedback("删除文件", success_count, failure_details)
+            self._show_action_failure_feedback(tr("删除文件"), success_count, failure_details)
         elif success_count == 1:
-            signal_qt.show_scrape_info(f"💡 已删除文件！{get_current_time()}")
+            signal_qt.show_scrape_info(f"{tr("💡 已删除文件！")}{get_current_time()}")
         else:
-            signal_qt.show_scrape_info(f"💡 已删除 {success_count} 个文件！{get_current_time()}")
+            signal_qt.show_scrape_info(f"{tr("💡 已删除 ")}{success_count}{tr(" 个文件！")}{get_current_time()}")
 
     def main_del_folder_click(self):
         """
@@ -2008,8 +2009,8 @@ class MyMAinWindow(QMainWindow):
         if reply != QMessageBox.StandardButton.Yes:
             return
 
-        signal_qt.show_log_text(" 🗑 开始删除文件夹")
-        signal_qt.show_log_text(f" 📦 本次待删除文件夹数: {len(folder_paths)}")
+        signal_qt.show_log_text(tr(" 🗑 开始删除文件夹"))
+        signal_qt.show_log_text(f"{tr(" 📦 本次待删除文件夹数: ")}{len(folder_paths)}")
 
         success_folder_count = 0
         success_show_names: list[str] = []
@@ -2019,30 +2020,30 @@ class MyMAinWindow(QMainWindow):
                 shutil.rmtree(folder_path)
                 success_folder_count += 1
                 success_show_names.extend(folder_to_show_names.get(folder_path, []))
-                signal_qt.show_log_text(f" ✅ 已删除文件夹: {folder_path}")
+                signal_qt.show_log_text(f"{tr(" ✅ 已删除文件夹: ")}{folder_path}")
             except FileNotFoundError:
                 success_folder_count += 1
                 success_show_names.extend(folder_to_show_names.get(folder_path, []))
-                signal_qt.show_log_text(f" ✅ 文件夹不存在，按已删除处理: {folder_path}")
+                signal_qt.show_log_text(f"{tr(" ✅ 文件夹不存在，按已删除处理: ")}{folder_path}")
             except Exception as error:
                 reason = self._normalize_delete_error_reason(str(error))
                 failure_details.append((folder_path, reason))
-                signal_qt.show_log_text(f" ❌ 删除文件夹失败: {folder_path}\n    原因: {reason}")
+                signal_qt.show_log_text(f"{tr(" ❌ 删除文件夹失败: ")}{folder_path}{tr("\n    原因: ")}{tr_message(reason)}")
 
         if success_show_names:
             self._remove_deleted_result_items(success_show_names)
 
         fail_count = len(failure_details)
-        signal_qt.show_log_text(f" 🎉 删除文件夹完成：成功 {success_folder_count} 个，失败 {fail_count} 个")
+        signal_qt.show_log_text(f"{tr(" 🎉 删除文件夹完成：成功 ")}{success_folder_count}{tr(" 个，失败 ")}{fail_count}{tr(" 个")}")
         if fail_count:
             self.show_scrape_info(
-                f"💡 文件夹删除完成，成功 {success_folder_count} 个，失败 {fail_count} 个！{get_current_time()}"
+                f"{tr("💡 文件夹删除完成，成功 ")}{success_folder_count}{tr(" 个，失败 ")}{fail_count}{tr(" 个！")}{get_current_time()}"
             )
-            self._show_action_failure_feedback("删除文件夹", success_folder_count, failure_details)
+            self._show_action_failure_feedback(tr("删除文件夹"), success_folder_count, failure_details)
         elif success_folder_count == 1:
-            self.show_scrape_info(f"💡 已删除文件夹！{get_current_time()}")
+            self.show_scrape_info(f"{tr("💡 已删除文件夹！")}{get_current_time()}")
         else:
-            self.show_scrape_info(f"💡 已删除 {success_folder_count} 个文件夹！{get_current_time()}")
+            self.show_scrape_info(f"{tr("💡 已删除 ")}{success_folder_count}{tr(" 个文件夹！")}{get_current_time()}")
 
     def main_make_symlink_click(self):
         """
@@ -2184,15 +2185,15 @@ class MyMAinWindow(QMainWindow):
     def show_scrape_info(self, before_info=""):
         try:
             if Flags.file_mode == FileMode.Single:
-                scrape_info = f"💡 单文件刮削\n💠 {Flags.main_mode_text} · {self.Ui.comboBox_website_all.currentText()}"
+                scrape_info = f"{tr("💡 单文件刮削\n💠 ")}{Flags.main_mode_text} · {self.Ui.comboBox_website_all.currentText()}"
             else:
                 scrape_info = f"💠 {Flags.main_mode_text} · {Flags.scrape_like_text}"
                 if manager.config.scrape_like == "single":
-                    scrape_info = f"💡 {manager.config.website_single} 刮削\n" + scrape_info
+                    scrape_info = f"💡 {manager.config.website_single}{tr(" 刮削\n")}" + scrape_info
             if manager.config.soft_link == 1:
-                scrape_info = "🍯 软链接 · 开\n" + scrape_info
+                scrape_info = tr("🍯 软链接 · 开\n") + scrape_info
             elif manager.config.soft_link == 2:
-                scrape_info = "🍯 硬链接 · 开\n" + scrape_info
+                scrape_info = tr("🍯 硬链接 · 开\n") + scrape_info
             after_info = f"\n{scrape_info}\n🛠 {manager.file}\n🐰 MDCx {self.localversion}"
             self.label_show_version.emit(before_info + after_info + self.new_version)
         except Exception:
@@ -2340,7 +2341,7 @@ class MyMAinWindow(QMainWindow):
             if self.logs_counts >= self.main_log_max_count:
                 self.logs_counts = len(logs)
                 self.main_logs_clear.emit("")
-                self.main_logs_show.emit(add_html(" 🗑️ 日志过多，已清屏！"))
+                self.main_logs_show.emit(add_html(tr(" 🗑️ 日志过多，已清屏！")))
             self.main_logs_show.emit(add_html("\n".join(logs)))
         except Exception:
             signal_qt.show_traceback_log(traceback.format_exc())
@@ -2356,7 +2357,7 @@ class MyMAinWindow(QMainWindow):
             else:
                 self.req_logs_counts = 0
                 self.req_logs_clear.emit("")
-                self.main_req_logs_show.emit(add_html_plain_text(" 🗑️ 日志过多，已清屏！"))
+                self.main_req_logs_show.emit(add_html_plain_text(tr(" 🗑️ 日志过多，已清屏！")))
 
     # 日志页面显示内容
     def show_log_text(self, text):
@@ -2460,15 +2461,15 @@ class MyMAinWindow(QMainWindow):
     def pushButton_start_single_file_clicked(self):  # 点刮削
         Flags.single_file_path = Path(self.Ui.lineEdit_single_file_path.text().strip())
         if not Flags.single_file_path:
-            signal_qt.show_scrape_info("💡 请选择文件！")
+            signal_qt.show_scrape_info(tr("💡 请选择文件！"))
             return
 
         if not os.path.isfile(Flags.single_file_path):
-            signal_qt.show_scrape_info("💡 文件不存在！")  # 主界面左下角显示信息
+            signal_qt.show_scrape_info(tr("💡 文件不存在！"))  # 主界面左下角显示信息
             return
 
         if not self.Ui.lineEdit_appoint_url.text():
-            signal_qt.show_scrape_info("💡 请填写番号网址！")  # 主界面左下角显示信息
+            signal_qt.show_scrape_info(tr("💡 请填写番号网址！"))  # 主界面左下角显示信息
             return
 
         self.pushButton_show_log_clicked()  # 点击刮削按钮后跳转到日志页面
@@ -2478,7 +2479,7 @@ class MyMAinWindow(QMainWindow):
         if website:
             Flags.website_name = website
         else:
-            signal_qt.show_scrape_info(f"💡 不支持的网站！{get_current_time()}")
+            signal_qt.show_scrape_info(f"{tr("💡 不支持的网站！")}{get_current_time()}")
             return
         start_new_scrape(FileMode.Single)
 
@@ -2625,7 +2626,7 @@ class MyMAinWindow(QMainWindow):
             else:
                 self.Ui.lineEdit_config_folder.setText(str(p))
                 self.pushButton_save_config_clicked()
-            signal_qt.show_scrape_info(f"💡 目录已切换！{get_current_time()}")
+            signal_qt.show_scrape_info(f"{tr("💡 目录已切换！")}{get_current_time()}")
 
     # endregion
 
@@ -2664,7 +2665,7 @@ class MyMAinWindow(QMainWindow):
 
     # 设置-刮削网站和字段中的详细说明弹窗
     def pushButton_scrape_note_clicked(self):
-        self._show_tips("""<html>
+        self._show_tips(tr("""<html>
 <head/>
 <body>
   <p><span style=" font-weight:700;">所有可用网站:</span></p>
@@ -2715,7 +2716,7 @@ class MyMAinWindow(QMainWindow):
   <p>· GIGA：giga </p>
   <p>· Kin8：Kin8 </p>
 </body>
-</html>""")
+</html>"""))
 
     def pushButton_field_tips_nfo_clicked(self):
         msg = """
@@ -2922,7 +2923,7 @@ class MyMAinWindow(QMainWindow):
         if new_config_file != manager.file:
             new_config_path = manager.data_folder / new_config_file
             signal_qt.show_log_text(
-                f"\n================================================================================\n切换配置：{new_config_path}"
+                f"{tr("\n================================================================================\n切换配置：")}{new_config_path}"
             )
             manager.path = new_config_path
             temp_dark = self.dark_mode
@@ -2931,7 +2932,7 @@ class MyMAinWindow(QMainWindow):
             if temp_dark != self.dark_mode and temp_window_radius == self.window_radius:
                 self.show_flag = True
                 self._windows_auto_adjust()
-            signal_qt.show_scrape_info(f"💡 配置已切换！{get_current_time()}")
+            signal_qt.show_scrape_info(f"{tr("💡 配置已切换！")}{get_current_time()}")
 
     # 重置配置
     def pushButton_init_config_clicked(self):
@@ -2944,7 +2945,7 @@ class MyMAinWindow(QMainWindow):
             self.show_flag = True
             self._windows_auto_adjust()
         self.Ui.pushButton_init_config.setEnabled(True)
-        signal_qt.show_scrape_info(f"💡 配置已重置！{get_current_time()}")
+        signal_qt.show_scrape_info(f"{tr("💡 配置已重置！")}{get_current_time()}")
 
     # 设置-命名-分集-字母
     def checkBox_cd_part_a_clicked(self):
@@ -2985,7 +2986,7 @@ class MyMAinWindow(QMainWindow):
     def pushButton_save_config_clicked(self):
         self.save_config()
         self.load_config()  # 确保界面显示和实际配置一致
-        signal_qt.show_scrape_info(f"💡 配置已保存！{get_current_time()}")
+        signal_qt.show_scrape_info(f"{tr("💡 配置已保存！")}{get_current_time()}")
 
     # 设置-另存为
     def pushButton_save_new_config_clicked(self):
@@ -3006,7 +3007,7 @@ class MyMAinWindow(QMainWindow):
     # region 检测网络
     def network_check(self):
         try:
-            signal_qt.show_net_info("\n⛑ 开始检测网络...")
+            signal_qt.show_net_info(tr("\n⛑ 开始检测网络..."))
             cancel_event = self.network_check_cancel_event or threading.Event()
             self.network_check_cancel_event = cancel_event
             self.network_check_future = executor.submit(
@@ -3014,7 +3015,7 @@ class MyMAinWindow(QMainWindow):
             )
             self.network_check_future.result()
         except Exception as e:
-            signal_qt.show_net_info(f"\n⛔️ 网络检测出现异常：{e}")
+            signal_qt.show_net_info(f"{tr("\n⛔️ 网络检测出现异常：")}{tr_message(e)}")
             signal_qt.show_net_info(
                 "================================================================================\n"
             )
@@ -3046,7 +3047,7 @@ class MyMAinWindow(QMainWindow):
             self.Ui.pushButton_check_net.setText(tr(" 停止检测 "))
             if self.network_check_cancel_event:
                 self.network_check_cancel_event.set()
-            signal_qt.show_net_info("\n⛔️ 正在停止网络检测...")
+            signal_qt.show_net_info(tr("\n⛔️ 正在停止网络检测..."))
             self.Ui.pushButton_check_net.setStyleSheet(
                 "QPushButton#pushButton_check_net{color: white;background-color:#4C6EFF;}QPushButton:hover#pushButton_check_net{color: white;background-color: rgba(76,110,255,240)}QPushButton:pressed#pushButton_check_net{color: white;background-color:#4C6EE0}"
             )
@@ -3131,7 +3132,7 @@ class MyMAinWindow(QMainWindow):
                         self.set_javdb_cookie.emit("")
                         self.exec_save_config.emit()
         except Exception as e:
-            tips = tr("❌ 连接失败！请检查网络或代理设置！ {error}").format(error=e)
+            tips = tr("❌ 连接失败！请检查网络或代理设置！ {error}").format(error=tr_message(e))
             signal_qt.show_traceback_log(tips)
         if input_cookie:
             self.set_javdb_status.emit(tips)
@@ -3175,7 +3176,7 @@ class MyMAinWindow(QMainWindow):
                     )
                 )
             if response is None:
-                tips = tr("❌ Cookie 检查失败：{error}").format(error=error)
+                tips = tr("❌ Cookie 检查失败：{error}").format(error=tr_message(error))
             elif not response.get("article"):
                 tips = tr("❌ Cookie 检查失败：返回数据异常")
             elif manager.config.fc2ppvdb != input_cookie:
@@ -3209,7 +3210,7 @@ class MyMAinWindow(QMainWindow):
             response, error = get_text_sync(javbus_url, headers=headers)
 
             if response is None:
-                tips = tr("❌ 连接失败！请检查网络或代理设置！ {error}").format(error=error)
+                tips = tr("❌ 连接失败！请检查网络或代理设置！ {error}").format(error=tr_message(error))
             elif "lostpasswd" in response:
                 if input_cookie:
                     tips = tr("❌ Cookie 无效！")
@@ -3220,7 +3221,7 @@ class MyMAinWindow(QMainWindow):
                 tips = tr("✅ 连接正常！Cookie 已保存！  ")
 
         except Exception as e:
-            tips = tr("❌ 连接失败！请检查网络或代理设置！ {error}").format(error=e)
+            tips = tr("❌ 连接失败！请检查网络或代理设置！ {error}").format(error=tr_message(e))
 
         self.show_log_text(tips.replace("❌", " ❌ JavBus").replace("✅", " ✅ JavBus"))
         self.set_javbus_status.emit(tips)
@@ -3360,7 +3361,7 @@ class MyMAinWindow(QMainWindow):
             timed_interval = manager.config.timed_interval
             self.atuo_scrape_count += 1
             signal_qt.show_log_text(
-                f"\n\n 🍔 已启用「循环刮削」！间隔时间：{timed_interval}！即将开始第 {self.atuo_scrape_count} 次循环刮削！"
+                f"{tr("\n\n 🍔 已启用「循环刮削」！间隔时间：")}{timed_interval}{tr("！即将开始第 ")}{self.atuo_scrape_count}{tr(" 次循环刮削！")}"
             )
             if Flags.scrape_start_time:
                 signal_qt.show_log_text(
@@ -3370,7 +3371,7 @@ class MyMAinWindow(QMainWindow):
 
     def auto_start(self):
         if Switch.AUTO_START in manager.config.switch_on:
-            signal_qt.show_log_text("\n\n 🍔 已启用「软件启动后自动刮削」！即将开始自动刮削！")
+            signal_qt.show_log_text(tr("\n\n 🍔 已启用「软件启动后自动刮削」！即将开始自动刮削！"))
             self.pushButton_start_scrape_clicked()
 
     # endregion

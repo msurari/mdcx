@@ -11,6 +11,7 @@ from PIL import Image
 
 from ..consts import IS_MAC, IS_WINDOWS
 from ..signals import signal
+from mdcx.i18n import tr
 
 
 def _build_file_name_index_sync(folder: Path) -> dict[str, Path]:
@@ -175,12 +176,12 @@ def check_pic_sync(p: str):
                 img.load()  # 如果图片不完整，报错OSError: image file is truncated
                 return img.size
         except Exception as e:
-            signal.add_log(f"文件损坏: {p} \n Error: {e}")
+            signal.add_log(f"{tr("文件损坏: ")}{p} \n Error: {e}")
             try:
                 os.remove(p)
-                signal.add_log("删除成功！")
+                signal.add_log(tr("删除成功！"))
             except Exception:
-                signal.add_log("删除失败！")
+                signal.add_log(tr("删除失败！"))
     return False
 
 
@@ -275,10 +276,10 @@ async def check_pic_async(p: str | Path):
             result = await asyncio.to_thread(_check_pic_blocking, p)
             return result
         except Exception as e:
-            signal.add_log(f"文件损坏: {p} \n Error: {e}")
+            signal.add_log(f"{tr("文件损坏: ")}{p} \n Error: {e}")
             try:
                 await aiofiles.os.remove(p)
-                signal.add_log("删除成功！")
+                signal.add_log(tr("删除成功！"))
             except Exception:
-                signal.add_log("删除失败！")
+                signal.add_log(tr("删除失败！"))
     return False

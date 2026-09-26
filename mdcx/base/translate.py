@@ -12,6 +12,7 @@ from ..config.manager import manager
 from ..config.models import Translator
 from ..signals import signal
 from ..utils.language import is_probably_english_for_translation
+from mdcx.i18n import tr
 
 
 @dataclass(slots=True)
@@ -98,12 +99,12 @@ async def _deepl_translate(text: str, source_lang: Literal["JA", "EN"] = "JA") -
     async with manager.acquire_computed() as computed:
         res, error = await computed.async_client.post_json(url, json_data=data, headers=headers)
     if res is None:
-        signal.add_log(f"DeepL API 请求失败: {error}")
+        signal.add_log(f"{tr("DeepL API 请求失败: ")}{error}")
         return None
     if "translations" in res and len(res["translations"]) > 0:
         return res["translations"][0]["text"]
     else:
-        signal.add_log(f"DeepL API 返回数据异常: {res}")
+        signal.add_log(f"{tr("DeepL API 返回数据异常: ")}{res}")
         return None
 
 
@@ -131,12 +132,12 @@ async def _deeplx_translate(text: str, source_lang: Literal["JA", "EN"] = "JA") 
     async with manager.acquire_computed() as computed:
         res, error = await computed.async_client.post_json(url, json_data=data, headers=headers)
     if res is None:
-        signal.add_log(f"DeepLX API 请求失败: {error}")
+        signal.add_log(f"{tr("DeepLX API 请求失败: ")}{error}")
         return None
     if "data" in res:
         return res["data"]  # 直接返回字符串
     else:
-        signal.add_log(f"DeepLX API 返回数据异常: {res}")
+        signal.add_log(f"{tr("DeepLX API 返回数据异常: ")}{res}")
         return None
 
 

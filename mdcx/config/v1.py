@@ -8,6 +8,7 @@ from typing import Any
 from ..consts import LOCAL_VERSION
 from ..manual import ManualConfig
 from .models import Config, Website
+from mdcx.i18n import tr
 
 
 def load_v1(path: str | Path) -> tuple[dict[str, Any], list[str]]:
@@ -26,27 +27,27 @@ def load_v1(path: str | Path) -> tuple[dict[str, Any], list[str]]:
                         d[key] = value
                         continue
                     unknown_fields[key] = value
-                    errors.append(f"未知配置: {key} (位于 {section})")
+                    errors.append(f"{tr("未知配置: ")}{key}{tr(" (位于 ")}{section})")
                     continue
                 expected_type = field_types[key]
                 if expected_type is int:
                     try:
                         d[key] = int(value)
                     except ValueError:
-                        errors.append(f"类型无效: {key} 应为整数, 得到 {value} (位于 {section})")
+                        errors.append(f"{tr("类型无效: ")}{key}{tr(" 应为整数, 得到 ")}{value}{tr(" (位于 ")}{section})")
                 elif expected_type is float:
                     try:
                         d[key] = float(value)
                     except ValueError:
-                        errors.append(f"类型无效: {key} 应为浮点数, 得到 {value} (位于 {section})")
+                        errors.append(f"{tr("类型无效: ")}{key}{tr(" 应为浮点数, 得到 ")}{value}{tr(" (位于 ")}{section})")
                 elif expected_type is bool:
                     d[key] = ini_value_to_bool(value)
                 elif expected_type is str:
                     d[key] = value
                 else:
-                    errors.append(f"内部错误: {key} 具有未知类型 {expected_type} (位于 {section}), 请联系开发者")
+                    errors.append(f"{tr("内部错误: ")}{key}{tr(" 具有未知类型 ")}{expected_type}{tr(" (位于 ")}{section}{tr("), 请联系开发者")}")
             except Exception as e:
-                errors.append(f"读取配置错误: {key} (位于 {section}) {value=}  {str(e)}")
+                errors.append(f"{tr("读取配置错误: ")}{key}{tr(" (位于 ")}{section}) {value=}  {str(e)}")
     d["unknown_fields"] = unknown_fields
     return d, errors
 

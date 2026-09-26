@@ -22,6 +22,7 @@ from ..base.web import (
 )
 from ..config.manager import manager
 from ..models.log_buffer import LogBuffer
+from mdcx.i18n import tr
 
 
 @dataclass(slots=True)
@@ -84,16 +85,16 @@ class MediaResourceContext:
             response, error = await computed.async_client.request("GET", request_url)
         if response is None:
             if error:
-                LogBuffer.log().write(f"\n 🟡 图片读取失败: {error}")
+                LogBuffer.log().write(f"{tr("\n 🟡 图片读取失败: ")}{error}")
             return None
 
         true_url = normalize_media_url(str(response.url), strip_dmm_probe_params=added_probe)
         if self._is_invalid_image_url(normalized_url, true_url):
-            LogBuffer.log().write(f"\n 💡 图片已失效: {true_url}")
+            LogBuffer.log().write(f"{tr("\n 💡 图片已失效: ")}{true_url}")
             return None
 
         if not response.content:
-            LogBuffer.log().write(f"\n 🟡 图片读取失败: empty content {true_url}")
+            LogBuffer.log().write(f"{tr("\n 🟡 图片读取失败: empty content ")}{true_url}")
             return None
 
         image = FetchedImage(true_url, response.content, await self._read_size(response.content))
@@ -155,13 +156,13 @@ class MediaResourceContext:
             response, error = await client.request("GET", request_url, stream=True)
             if response is None:
                 if error:
-                    LogBuffer.log().write(f"\n 🟡 图片尺寸探测失败: {error}")
+                    LogBuffer.log().write(f"{tr("\n 🟡 图片尺寸探测失败: ")}{error}")
                 return 0, 0
 
             true_url = normalize_media_url(str(response.url), strip_dmm_probe_params=added_probe)
             try:
                 if self._is_invalid_image_url(normalized_url, true_url):
-                    LogBuffer.log().write(f"\n 💡 图片已失效: {true_url}")
+                    LogBuffer.log().write(f"{tr("\n 💡 图片已失效: ")}{true_url}")
                     self._image_sizes[cache_key] = (0, 0)
                     return 0, 0
                 if not added_probe and (
@@ -336,7 +337,7 @@ class MediaResourceContext:
                 await f.write(image.content)
             return True
         except Exception as e:
-            LogBuffer.log().write(f"\n 🔴 文件写入失败: {url} {file_path} {str(e)}")
+            LogBuffer.log().write(f"{tr("\n 🔴 文件写入失败: ")}{url} {file_path} {str(e)}")
             return False
 
     @staticmethod
@@ -386,7 +387,7 @@ class MediaResourceContext:
                         converted.close()
             return True
         except Exception as e:
-            LogBuffer.log().write(f"\n 🔴 WebP转换失败: {image.url} {file_path} {str(e)}")
+            LogBuffer.log().write(f"{tr("\n 🔴 WebP转换失败: ")}{image.url} {file_path} {str(e)}")
             return False
 
     @staticmethod
